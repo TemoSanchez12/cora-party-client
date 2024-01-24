@@ -1,4 +1,4 @@
-import BallonColor from '@/interfaces/Ballons/BallonColor'
+import BallonColor from '@/interfaces/ballons/BallonColor'
 
 export const mapResponseToBallonColors = (response: any): BallonColor[] => {
   if (

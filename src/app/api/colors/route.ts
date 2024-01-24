@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import client from '@/apollo-client'
+
 import {
   mapColorsForBallon,
   mapResponseToBallonColors,
@@ -10,28 +11,50 @@ import {
   getColorsForBallonQuery,
 } from '@/constants/queries/ballonQueries'
 
+import BallonColor from '@/interfaces/ballons/BallonColor'
+
+interface BallonColorsResponse {
+  success: boolean
+  data: BallonColor[]
+  message: string
+}
+
+const handleGetAllColors = async () => {
+  const data = await client.query({
+    query: getAllColorsQuery(),
+  })
+  return mapResponseToBallonColors(data)
+}
+
+const handleGetColorsForBallon = async (id: string) => {
+  const data = await client.query({
+    query: getColorsForBallonQuery(parseInt(id)),
+  })
+  return mapColorsForBallon(data)
+}
+
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const id = urlRequest.searchParams.get('ballonId')
+    const ballonId = urlRequest.searchParams.get('ballonId')
 
-    let data
-    let response
+    let response: BallonColor[]
 
-    if (!id) {
-      data = await client.query({
-        query: getAllColorsQuery(),
-      })
-      response = mapResponseToBallonColors(data)
+    if (!ballonId) {
+      response = await handleGetAllColors()
     } else {
-      data = await client.query({
-        query: getColorsForBallonQuery(parseInt(id)),
-      })
-      response = mapColorsForBallon(data)
+      response = await handleGetColorsForBallon(ballonId)
     }
 
-    return NextResponse.json({ success: true, data: response })
+    return NextResponse.json<BallonColorsResponse>({
+      success: true,
+      data: response,
+      message: 'Request successful. Retrieved ballon colors successfully.',
+    })
   } catch (err) {
-    return NextResponse.json({ message: 'paso error' })
+    return NextResponse.json({
+      success: false,
+      message: 'An error occurred while processing the request.',
+    })
   }
 }
