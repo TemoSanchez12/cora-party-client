@@ -30,7 +30,6 @@ const mapResponseBallonImage = (data: any): ImageProduct => {
 }
 
 const mapSingleBalloon = (data: any) => {
-  console.log(data)
   const { id, attributes } = data
   const {
     Nombre,

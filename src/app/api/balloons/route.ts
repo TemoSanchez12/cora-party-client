@@ -42,7 +42,6 @@ export const GET = async (req: NextRequest) => {
 
     if (balloonId) {
       response = [await handleGetBalloonById(balloonId)]
-      console.log(response)
     } else {
       response = await handleGelAllBalloons()
     }
@@ -52,11 +51,10 @@ export const GET = async (req: NextRequest) => {
       data: response,
       message: 'Request successful. Retrieved ballon successfully.',
     })
-  } catch (err) {
-    console.log(err)
+  } catch (err: any) {
     return NextResponse.json({
       success: false,
-      message: 'An error occurred while processing the request.',
+      message: `An error occurred while processing the request. ${err.message}`,
     })
   }
 }
