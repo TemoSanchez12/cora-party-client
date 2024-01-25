@@ -1,9 +1,14 @@
 interface ImageProduct {
   name: string
-  formats: ImageFormats
+  formats: {
+    large?: ImageFormat
+    small?: ImageFormat
+    medium?: ImageFormat
+    thumbnail?: ImageFormat
+  }
 }
 
-interface ImageFormats {
+export interface ImageFormat {
   extension: string
   url: string
   mime: string

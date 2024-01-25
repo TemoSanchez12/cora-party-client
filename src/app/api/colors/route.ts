@@ -4,14 +4,14 @@ import client from '@/apollo-client'
 import {
   mapColorsForBallon,
   mapResponseToBallonColors,
-} from '@/utils/mappers/balllons/colorsMapper'
+} from '@/utils/mappers/balloons/colorsMapper'
 
 import {
   getAllColorsQuery,
   getColorsForBallonQuery,
 } from '@/constants/queries/ballonQueries'
 
-import BallonColor from '@/interfaces/ballons/BallonColor'
+import BallonColor from '@/interfaces/balloons/BalloonColor'
 
 interface BallonColorsResponse {
   success: boolean

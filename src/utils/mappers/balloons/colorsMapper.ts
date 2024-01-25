@@ -1,6 +1,9 @@
-import BallonColor from '@/interfaces/ballons/BallonColor'
+import BallonColor from '@/interfaces/balloons/BalloonColor'
+import { ApolloQueryResult } from '@apollo/client'
 
-export const mapResponseToBallonColors = (response: any): BallonColor[] => {
+export const mapResponseToBallonColors = (
+  response: ApolloQueryResult<any>
+): BallonColor[] => {
   if (
     !response ||
     !response.data ||
@@ -22,7 +25,9 @@ export const mapResponseToBallonColors = (response: any): BallonColor[] => {
   })
 }
 
-export const mapColorsForBallon = (response: any): BallonColor[] => {
+export const mapColorsForBallon = (
+  response: ApolloQueryResult<any>
+): BallonColor[] => {
   const colorsData = response.data.globo.data.attributes.Colores.data
   const ballonColors: BallonColor[] = colorsData.map((color: any) => ({
     id: color.id,
