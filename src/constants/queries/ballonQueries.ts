@@ -14,7 +14,7 @@ export const getAllColorsQuery = () => gql`
   }
 `
 
-export const getColorsForBallonQuery = (balloonId: number) => gql`{
+export const getBalloonColorsQuery = (balloonId: number) => gql`{
   globo (id: ${balloonId}) {
     data {
       attributes {
@@ -33,7 +33,7 @@ export const getColorsForBallonQuery = (balloonId: number) => gql`{
 }
 `
 
-export const getAllBallonsWithoutRelationsQuery = () => gql`
+export const getAllBalloonsQuery = () => gql`
   {
     globos {
       data {
@@ -42,6 +42,9 @@ export const getAllBallonsWithoutRelationsQuery = () => gql`
           Nombre
           Descripcion
           Precio
+          Textos_Requeridos
+          Tiempo_Minimo_Preparacion
+          Tiempo_Minimo_Premium
           Activo
           Destacado
           Slug
@@ -69,7 +72,7 @@ export const getAllBallonsWithoutRelationsQuery = () => gql`
   }
 `
 
-export const getBallonDetailsWithoutRealtionsQuery = (ballonId: number) => gql`
+export const getBalloonByIdQuery = (ballonId: number) => gql`
   {
     globo(id: ${ballonId}) {
       data {

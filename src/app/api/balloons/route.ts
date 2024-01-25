@@ -8,24 +8,27 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 
 //Import queries
 import {
-  getAllBallonsWithoutRelationsQuery,
-  getBallonDetailsWithoutRealtionsQuery,
+  getAllBalloonsQuery,
+  getBalloonByIdQuery,
 } from '@/constants/queries/ballonQueries'
 
 //Import mappers
-import { mapBalloonToDefinition } from '@/utils/mappers/balloons/balloonMapper'
+import {
+  mapBalloonToDefinition,
+  mapAllBalloons,
+} from '@/utils/mappers/balloons/balloonMapper'
 
-const handleGetAllBallonsAvailable = async () => {
+const handleGelAllBalloons = async () => {
   const data = await client.query({
-    query: getAllBallonsWithoutRelationsQuery(),
+    query: getAllBalloonsQuery(),
   })
 
-  return data
+  return mapAllBalloons(data)
 }
 
-const handleGetBallonById = async (id: string) => {
+const handleGetBalloonById = async (id: string) => {
   const data = await client.query({
-    query: getBallonDetailsWithoutRealtionsQuery(parseInt(id)),
+    query: getBalloonByIdQuery(parseInt(id)),
   })
   return mapBalloonToDefinition(data)
 }
@@ -38,9 +41,9 @@ export const GET = async (req: NextRequest) => {
     let response: BalloonProduct[]
 
     if (!balloonId) {
-      response = []
+      response = await handleGelAllBalloons()
     } else {
-      response = [await handleGetBallonById(balloonId)]
+      response = [await handleGetBalloonById(balloonId)]
       console.log(response)
     }
 

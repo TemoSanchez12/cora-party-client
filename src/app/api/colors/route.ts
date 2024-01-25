@@ -1,16 +1,22 @@
+// Import dependecies
 import { NextResponse, NextRequest } from 'next/server'
+
+// Import graphql client
 import client from '@/apollo-client'
 
+// Import mappers
 import {
   mapColorsForBallon,
   mapResponseToBallonColors,
 } from '@/utils/mappers/balloons/colorsMapper'
 
+// Import queries
 import {
   getAllColorsQuery,
-  getColorsForBallonQuery,
+  getBalloonColorsQuery,
 } from '@/constants/queries/ballonQueries'
 
+// Import interfaces
 import BallonColor from '@/interfaces/balloons/BalloonColor'
 
 interface BallonColorsResponse {
@@ -28,7 +34,7 @@ const handleGetAllColors = async () => {
 
 const handleGetColorsForBallon = async (id: string) => {
   const data = await client.query({
-    query: getColorsForBallonQuery(parseInt(id)),
+    query: getBalloonColorsQuery(parseInt(id)),
   })
   return mapColorsForBallon(data)
 }

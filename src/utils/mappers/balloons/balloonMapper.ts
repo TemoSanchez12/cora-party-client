@@ -29,21 +29,9 @@ const mapResponseBallonImage = (data: any): ImageProduct => {
   return imageProduct
 }
 
-// Maps balloon response to BallonProduct
-export const mapBalloonToDefinition = (
-  response: ApolloQueryResult<any>
-): BalloonProduct => {
-  if (
-    !response ||
-    !response.data ||
-    !response.data.globo ||
-    !response.data.globo.data
-  ) {
-    throw new Error(
-      'Error mapping product data: Unable to retrieve required information.'
-    )
-  }
-  const { id, attributes } = response.data.globo.data
+const mapSingleBalloon = (data: any) => {
+  console.log(data)
+  const { id, attributes } = data
   const {
     Nombre,
     Descripcion,
@@ -80,4 +68,38 @@ export const mapBalloonToDefinition = (
   }
 
   return ballonProduct
+}
+
+// Maps balloon response to BallonProduct
+export const mapBalloonToDefinition = (
+  response: ApolloQueryResult<any>
+): BalloonProduct => {
+  if (
+    !response ||
+    !response.data ||
+    !response.data.globo ||
+    !response.data.globo.data
+  ) {
+    throw new Error(
+      'Error mapping product data: Unable to retrieve required information.'
+    )
+  }
+  return mapSingleBalloon(response.data.globo.data)
+}
+
+export const mapAllBalloons = (
+  response: ApolloQueryResult<any>
+): BalloonProduct[] => {
+  if (
+    !response ||
+    !response.data ||
+    !response.data.globos ||
+    !response.data.globos.data
+  ) {
+    throw new Error(
+      'Error mapping product data: Unable to retrieve required information.'
+    )
+  }
+
+  return response.data.globos.data.map((data: any) => mapSingleBalloon(data))
 }
