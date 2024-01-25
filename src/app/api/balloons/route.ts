@@ -40,11 +40,11 @@ export const GET = async (req: NextRequest) => {
 
     let response: BalloonProduct[]
 
-    if (!balloonId) {
-      response = await handleGelAllBalloons()
-    } else {
+    if (balloonId) {
       response = [await handleGetBalloonById(balloonId)]
       console.log(response)
+    } else {
+      response = await handleGelAllBalloons()
     }
 
     return NextResponse.json({
