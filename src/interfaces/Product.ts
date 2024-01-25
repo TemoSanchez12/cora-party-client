@@ -5,7 +5,7 @@ interface Product {
   name: string
   description: string
   price: number
-  image: ImageProduct
+  images: ImageProduct[]
   minimumTime: number
   isActive: boolean
   isFeatured: boolean

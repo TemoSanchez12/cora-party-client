@@ -41,6 +41,7 @@ export const GET = async (req: NextRequest) => {
       response = []
     } else {
       response = [await handleGetBallonById(balloonId)]
+      console.log(response)
     }
 
     return NextResponse.json({

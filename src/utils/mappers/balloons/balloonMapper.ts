@@ -18,10 +18,8 @@ const mapImageFormats = (formats: any) => {
 }
 
 // Map total image response to ImageProduct type
-const mapResponseBallonImage = (
-  images: ApolloQueryResult<any>
-): ImageProduct => {
-  const { name, formats } = images.data[0].attributes
+const mapResponseBallonImage = (data: any): ImageProduct => {
+  const { name, formats } = data.attributes
 
   const imageProduct: ImageProduct = {
     name,
@@ -63,6 +61,10 @@ export const mapBalloonToDefinition = (
     text.trim()
   )
 
+  const images = Imagenes.data.map((image: any) =>
+    mapResponseBallonImage(image)
+  )
+
   const ballonProduct: BalloonProduct = {
     id: id,
     name: Nombre,
@@ -74,7 +76,7 @@ export const mapBalloonToDefinition = (
     isActive: Activo,
     isFeatured: Destacado,
     slug: Slug,
-    image: mapResponseBallonImage(Imagenes),
+    images,
   }
 
   return ballonProduct
