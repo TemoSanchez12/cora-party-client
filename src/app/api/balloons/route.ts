@@ -52,6 +52,7 @@ export const GET = async (req: NextRequest) => {
       message: 'Request successful. Retrieved ballon successfully.',
     })
   } catch (err: any) {
+    console.log(err)
     return NextResponse.json({
       success: false,
       message: `An error occurred while processing the request. ${err.message}`,

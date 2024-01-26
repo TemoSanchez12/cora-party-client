@@ -5,6 +5,7 @@ import { ApolloQueryResult } from '@apollo/client'
 import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 
 // Import Mappers
+import mapResponseImage from '../images/imageMapper'
 
 const mapSingleBalloon = (data: any) => {
   const { id, attributes } = data
@@ -25,9 +26,7 @@ const mapSingleBalloon = (data: any) => {
     text.trim()
   )
 
-  const images = Imagenes.data.map((image: any) =>
-    mapResponseBallonImage(image)
-  )
+  const images = Imagenes.data.map((image: any) => mapResponseImage(image))
 
   const ballonProduct: BalloonProduct = {
     id: id,

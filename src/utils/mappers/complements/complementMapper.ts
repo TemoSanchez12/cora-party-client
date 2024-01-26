@@ -1,31 +1,8 @@
-// Import dependencies
-import { ApolloQueryResult } from '@apollo/client'
-import ImageProduct from '@/interfaces/ImageProduct'
-
 // Import interfaces
 import ComplementProduct from '@/interfaces/ComplementProduct'
 
-const mapImageFormats = (formats: any) => {
-  let mappedFormats: any = {}
-
-  Object.keys(formats).forEach(key => {
-    const value = formats[key]
-    mappedFormats[key] = value
-  })
-
-  return mappedFormats
-}
-
-const mapResponseBallonImage = (data: any): ImageProduct => {
-  const { name, formats } = data.attributes
-
-  const imageProduct: ImageProduct = {
-    name,
-    formats: mapImageFormats(formats),
-  }
-
-  return imageProduct
-}
+// Import mapper
+import mapResponseImage from '../images/imageMapper'
 
 export const mapListComplements = (data: any): ComplementProduct[] => {
   const { data: complements } = data.Complementos
@@ -39,8 +16,19 @@ export const mapListComplements = (data: any): ComplementProduct[] => {
       Fotos: images,
     } = complement.attributes
 
-    const imagesMapped = images.data.map(mapResponseBallonImage)
+    const imagesMapped = images.data.map(mapResponseImage)
 
-    console.log(imagesMapped)
+    const complementProduct: ComplementProduct = {
+      name,
+      description,
+      price,
+      isActive,
+      minimumTime: 0,
+      isFeatured: false,
+      id: '1',
+      images: imagesMapped,
+    }
+
+    return complementProduct
   })
 }

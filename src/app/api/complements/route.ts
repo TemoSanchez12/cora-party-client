@@ -62,11 +62,11 @@ export const GET = async (req: NextRequest) => {
       message:
         'Request successful. Retrieved complements for products successfully.',
     })
-  } catch (err) {
+  } catch (err: any) {
     console.log(err)
     return NextResponse.json<ProductComplementResponse>({
       success: false,
-      message: 'An error occurred while processing the request.',
+      message: 'An error occurred while processing the request.' + err.message,
     })
   }
 }
