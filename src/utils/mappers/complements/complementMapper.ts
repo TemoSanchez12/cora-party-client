@@ -25,7 +25,7 @@ export const mapListComplements = (data: any): ComplementProduct[] => {
       isActive,
       minimumTime: 0,
       isFeatured: false,
-      id: '1',
+      id: complement.id,
       images: imagesMapped,
     }
 

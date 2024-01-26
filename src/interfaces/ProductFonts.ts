@@ -4,7 +4,7 @@ interface ProductFonts {
   sampleFontImage: SampleFontImage
 }
 
-interface SampleFontImage {
+export interface SampleFontImage {
   name: string
   url: string
   widht: number
