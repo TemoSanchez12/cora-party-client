@@ -14,7 +14,7 @@ import {
 import {
   getAllColorsQuery,
   getBalloonColorsQuery,
-} from '@/constants/queries/ballonQueries'
+} from '@/constants/queries/balloonQueries'
 
 // Import interfaces
 import BallonColor from '@/interfaces/balloons/BalloonColor'
@@ -46,10 +46,10 @@ export const GET = async (req: NextRequest) => {
 
     let response: BallonColor[]
 
-    if (!ballonId) {
-      response = await handleGetAllColors()
-    } else {
+    if (ballonId) {
       response = await handleGetColorsForBallon(ballonId)
+    } else {
+      response = await handleGetAllColors()
     }
 
     return NextResponse.json<BallonColorsResponse>({

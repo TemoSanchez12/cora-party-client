@@ -10,7 +10,7 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import {
   getAllBalloonsQuery,
   getBalloonByIdQuery,
-} from '@/constants/queries/ballonQueries'
+} from '@/constants/queries/balloonQueries'
 
 //Import mappers
 import {
