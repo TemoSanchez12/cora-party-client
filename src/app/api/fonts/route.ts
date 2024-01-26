@@ -9,6 +9,7 @@ import ProductFonts from '@/interfaces/ProductFonts'
 import { getFontsQuery } from '@/constants/queries/fontQueries'
 
 // Import mappers
+import { mapFontToDefiniton } from '@/utils/mappers/fonts/fontsMapper'
 
 type typesForFontsTypes = {
   balloon: string
@@ -28,11 +29,11 @@ interface FontProductResponse {
 }
 
 const handleGetFontsById = async (id: string, type: string) => {
-  const data = await client.query({
+  const { data } = await client.query({
     query: getFontsQuery(parseInt(id), type),
   })
 
-  return mapFontToDefinition(data)
+  return mapFontToDefiniton(data[type].data.attributes.Fuentes.data)
 }
 
 export const GET = async (req: NextRequest) => {
@@ -41,7 +42,7 @@ export const GET = async (req: NextRequest) => {
     const type: string = urlRequest.searchParams.get('type') || 'globo'
     const productId = urlRequest.searchParams.get('productId')
 
-    let response: ProductFonts[]
+    let response: ProductFonts[] = []
 
     if (productId) {
       response = await handleGetFontsById(productId ?? '1', typesForFonts[type])
@@ -49,6 +50,7 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json<FontProductResponse>({
       success: true,
+      data: response,
       message: '',
     })
   } catch (err: any) {
