@@ -2,8 +2,9 @@
 import { ApolloQueryResult } from '@apollo/client'
 
 // Import interfaces
-import ImageProduct from '@/interfaces/ImageProduct'
 import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
+
+// Import Mappers
 
 const mapSingleBalloon = (data: any) => {
   const { id, attributes } = data
