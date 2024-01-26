@@ -10,7 +10,7 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import {
   getAllBalloonsQuery,
   getBalloonByIdQuery,
-} from '@/constants/queries/ballonQueries'
+} from '@/constants/queries/balloonQueries'
 
 //Import mappers
 import {
@@ -52,6 +52,7 @@ export const GET = async (req: NextRequest) => {
       message: 'Request successful. Retrieved ballon successfully.',
     })
   } catch (err: any) {
+    console.log(err)
     return NextResponse.json({
       success: false,
       message: `An error occurred while processing the request. ${err.message}`,
