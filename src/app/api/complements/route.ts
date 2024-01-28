@@ -19,15 +19,15 @@ type typesForComplementsTypes = {
   [key: string]: string
 }
 
+const typesForComplements: typesForComplementsTypes = {
+  balloon: 'globo',
+  flower: 'arregloFlores',
+}
+
 interface ProductComplementResponse {
   success: boolean
   data?: ComplementProduct[]
   message: string
-}
-
-const typesForComplements: typesForComplementsTypes = {
-  balloon: 'globo',
-  flower: 'arregloFlores',
 }
 
 const handleGetComplementsById = async (id: string, type: string) => {
@@ -40,7 +40,7 @@ const handleGetComplementsById = async (id: string, type: string) => {
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const type: string = urlRequest.searchParams.get('type') || 'globo'
+    const type: string = urlRequest.searchParams.get('type') || 'balloon'
     const productId = urlRequest.searchParams.get('productId')
 
     let response: ComplementProduct[]
