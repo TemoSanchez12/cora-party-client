@@ -62,7 +62,7 @@ export const mapBalloonToDefinition = (
   return mapSingleBalloon(response.data.globo.data)
 }
 
-export const mapAllBalloons = (
+export const mapAllBalloonsToDefinition = (
   response: ApolloQueryResult<any>
 ): BalloonProduct[] => {
   if (

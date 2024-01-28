@@ -16,7 +16,15 @@ const parameterForCategoryQueryType: typesForCategoriesTypes = {
   flower: 'Categorias_Flores',
 }
 
-export const getCategoriesForProduct = (productId: number, type: string) => {
+const paramForCategoryTypeQuery: typesForCategoriesTypes = {
+  balloon: 'categoriasGlobos',
+  flower: 'categoriasFlores',
+}
+
+export const getCategoriesForProductQuery = (
+  productId: number,
+  type: string
+) => {
   return gql`
   {
     ${typesForCategories[type]}  (id: ${productId}) {
@@ -37,3 +45,17 @@ export const getCategoriesForProduct = (productId: number, type: string) => {
   }
   `
 }
+
+export const getCategoryForTypeQuery = (type: string) => gql`
+  {
+    ${paramForCategoryTypeQuery[type]} {
+      data {
+        id
+        attributes {
+          Nombre
+          Slug
+        }
+      }
+    }
+  }
+`
