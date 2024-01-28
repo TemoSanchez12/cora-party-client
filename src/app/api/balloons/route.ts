@@ -15,7 +15,7 @@ import {
 //Import mappers
 import {
   mapBalloonToDefinition,
-  mapAllBalloons,
+  mapAllBalloonsToDefinition,
 } from '@/utils/mappers/balloons/balloonMapper'
 
 const handleGelAllBalloons = async () => {
@@ -23,7 +23,7 @@ const handleGelAllBalloons = async () => {
     query: getAllBalloonsQuery(),
   })
 
-  return mapAllBalloons(data)
+  return mapAllBalloonsToDefinition(data)
 }
 
 const handleGetBalloonById = async (id: string) => {
