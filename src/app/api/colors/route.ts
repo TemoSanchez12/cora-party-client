@@ -14,7 +14,7 @@ import {
 import {
   getAllColorsQuery,
   getBalloonColorsQuery,
-} from '@/constants/queries/balloonQueries'
+} from '@/queries/balloonQueries'
 
 // Import interfaces
 import BallonColor from '@/interfaces/balloons/BalloonColor'

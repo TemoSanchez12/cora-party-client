@@ -8,7 +8,7 @@ import client from '@/apollo-client'
 import { mapListComplements } from '@/utils/mappers/complements/complementMapper'
 
 // Import queries
-import { getComplementForProduct } from '@/constants/queries/complementQueries'
+import { getComplementForProduct } from '@/queries/complementQueries'
 
 // Import interfaces
 import ComplementProduct from '@/interfaces/ComplementProduct'

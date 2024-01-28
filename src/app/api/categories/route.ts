@@ -10,7 +10,7 @@ import client from '@/apollo-client'
 import {
   getCategoriesForProductQuery,
   getCategoryForTypeQuery,
-} from '@/constants/queries/categoriesQueries'
+} from '@/queries/categoriesQueries'
 
 // Import interfaces
 import ProductCategory from '@/interfaces/ProductCategory'
