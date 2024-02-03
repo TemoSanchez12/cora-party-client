@@ -6,7 +6,7 @@ import client from '@/apollo-client'
 import ProductFonts from '@/interfaces/ProductFonts'
 
 // Import queries
-import { getFontsQuery } from '@/queries/queries/fontQueries'
+import { getFontsQuery } from '@/queries/fontQueries'
 
 // Import mappers
 import { mapFontToDefiniton } from '@/utils/mappers/fonts/fontsMapper'
