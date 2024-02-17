@@ -55,7 +55,6 @@ export const ShoppingCarContextProvider = (children: JSX.Element) => {
     {
       balloons: [],
       flowers: [],
-      shippingCost: 0,
       totalPrice: 0,
     }
   )

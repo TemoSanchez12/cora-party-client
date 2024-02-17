@@ -1,10 +1,10 @@
+import ComplementProduct from './ComplementProduct'
 import Product from './Product'
 
 export interface ShoppingCar {
   balloons: ProductWrapper[]
   flowers: ProductWrapper[]
   totalPrice: number
-  shippingCost: number
 }
 
 export interface ProductWrapper {
@@ -12,4 +12,10 @@ export interface ProductWrapper {
   type: string
   quantity: number
   total: number
+}
+
+export interface ComplementWrapper {
+  complement: ComplementProduct
+  forProductId: string
+  productType: string
 }
