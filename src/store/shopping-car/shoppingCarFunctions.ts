@@ -31,7 +31,6 @@ export const addProduct = (
   state: ShoppingCar,
   payload: ProductWrapper
 ): ShoppingCar => {
-  console.log('Agregando producto')
   const stateUpdated: ShoppingCar = { ...state }
 
   switch (payload.type) {
