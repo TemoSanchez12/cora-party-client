@@ -39,7 +39,10 @@ const shoppingCarFunctions: Record<
 const shoppingCarReducer = (
   state: ShoppingCar,
   action: { type: ShoppingCarAction; payload?: any }
-): ShoppingCar => shoppingCarFunctions[action.type](state, action.payload)
+): ShoppingCar => {
+  console.log('desde reducer')
+  return shoppingCarFunctions[action.type](state, action.payload)
+}
 
 // Create shopping car context
 const ShoppingCarContext = React.createContext({
@@ -52,22 +55,20 @@ const ShoppingCarContext = React.createContext({
 
 // Create shopping car provider
 export const ShoppingCarContextProvider = ({ children }: any) => {
-  const [shoppingCarState, dispatchShoppingCarAction] = useReducer(
-    shoppingCarReducer,
-    {
+  const [shoppingCarStateReducer, dispatchShoppingCarActionReducer] =
+    useReducer(shoppingCarReducer, {
       balloons: [],
       flowers: [],
       totalPrice: 0,
-    }
-  )
-
-  const shoppingCarProviderValue = {
-    shoppingCarState,
-    dispatchShoppingCarAction,
-  }
+    })
 
   return (
-    <ShoppingCarContext.Provider value={shoppingCarProviderValue}>
+    <ShoppingCarContext.Provider
+      value={{
+        shoppingCarState: shoppingCarStateReducer,
+        dispatchShoppingCarAction: dispatchShoppingCarActionReducer,
+      }}
+    >
       {children}
     </ShoppingCarContext.Provider>
   )

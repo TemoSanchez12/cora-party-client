@@ -17,11 +17,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <ShoppingCarContextProvider>
-      <MainLayout>
-        <ShoppingCarTest />
-        <ShoppingCar />
-      </MainLayout>
-    </ShoppingCarContextProvider>
+    <MainLayout>
+      <ShoppingCarContextProvider>
+        <div className='mt-10 mx-auto max-w-2xl'>
+          <ShoppingCar />
+          <ShoppingCarTest />
+        </div>
+      </ShoppingCarContextProvider>
+    </MainLayout>
   )
 }

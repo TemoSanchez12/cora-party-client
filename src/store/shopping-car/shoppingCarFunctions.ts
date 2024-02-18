@@ -1,3 +1,5 @@
+'use client'
+
 import Product from '@/interfaces/Product'
 import { ProductWrapper } from '@/interfaces/ShoppingCar'
 import { ShoppingCar } from '@/interfaces/ShoppingCar'
@@ -27,6 +29,13 @@ const calculateTotal = (shoppingCar: ShoppingCar): number => {
   return total
 }
 
+const checkProductInShoppingCar = (
+  productList: ProductWrapper[],
+  prod: ProductWrapper
+) => {
+  return productList.find(product => product.product.id == prod.product.id)
+}
+
 export const addProduct = (
   state: ShoppingCar,
   payload: ProductWrapper
@@ -35,12 +44,16 @@ export const addProduct = (
 
   switch (payload.type) {
     case 'balloon':
-      payload.total = payload.product.price * payload.quantity
-      stateUpdated.balloons = [...state.balloons, payload]
+      if (!checkProductInShoppingCar(stateUpdated.balloons, payload)) {
+        payload.total = payload.product.price * payload.quantity
+        stateUpdated.balloons = [...state.balloons, payload]
+      }
       break
     case 'flower':
-      payload.total = payload.product.price * payload.quantity
-      stateUpdated.flowers = [...state.flowers, payload]
+      if (!checkProductInShoppingCar(stateUpdated.flowers, payload)) {
+        payload.total = payload.product.price * payload.quantity
+        stateUpdated.flowers = [...state.flowers, payload]
+      }
       break
   }
 
@@ -140,7 +153,11 @@ export const updateQuantityProduct = (
   state: ShoppingCar,
   payload: ProductWrapper
 ): ShoppingCar => {
-  const stateUpdated: ShoppingCar = { ...state }
+  const stateUpdated: ShoppingCar = {
+    balloons: [...state.balloons],
+    flowers: [...state.flowers],
+    totalPrice: state.totalPrice,
+  }
 
   switch (payload.type) {
     case 'balloon':
@@ -149,19 +166,20 @@ export const updateQuantityProduct = (
       )
 
       if (productBalloon) {
-        productBalloon.quantity = payload.quantity
+        productBalloon.quantity += payload.quantity
+
         productBalloon.total =
           productBalloon.quantity * productBalloon.product.price
       }
 
       break
     case 'flower':
-      const productFlower = stateUpdated.balloons.find(
-        balloon => balloon.product.id == payload.product.id
+      const productFlower = stateUpdated.flowers.find(
+        flower => flower.product.id == payload.product.id
       )
 
       if (productFlower) {
-        productFlower.quantity = payload.quantity
+        productFlower.quantity += payload.quantity
         productFlower.total =
           productFlower.quantity * productFlower.product.price
       }
