@@ -1,6 +1,13 @@
+// Imports next
 import type { Metadata } from 'next'
 
+// Import components
 import MainLayout from '../layouts/layout'
+import ShoppingCar from '@/components/ShoppingCar'
+import ShoppingCarTest from '@/components/TestShoppingCar'
+
+// Import context provider
+import { ShoppingCarContextProvider } from '@/store/shopping-car/shopping-car'
 
 export const metadata: Metadata = {
   title: 'Cora Party - Tu Tienda de Globos, Flores y Arreglos Decorativos',
@@ -11,7 +18,12 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <MainLayout>
-      <div className='text-red-400'>hola</div>
+      <ShoppingCarContextProvider>
+        <div className='mt-10 mx-auto max-w-2xl'>
+          <ShoppingCar />
+          <ShoppingCarTest />
+        </div>
+      </ShoppingCarContextProvider>
     </MainLayout>
   )
 }

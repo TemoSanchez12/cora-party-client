@@ -5,6 +5,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import client from '@/apollo-client'
 
 // import mappers
+import { mapCategoryToDefinition } from '@/utils/mappers/categories/categoriesMapper'
 
 // import queries
 import {
@@ -14,7 +15,6 @@ import {
 
 // Import interfaces
 import ProductCategory from '@/interfaces/ProductCategory'
-import { mapCategoryToDefinition } from '@/utils/mappers/categories/categoriesMapper'
 
 type typesForCategoryTypes = {
   balloon: string

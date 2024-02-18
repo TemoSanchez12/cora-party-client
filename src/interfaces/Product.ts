@@ -1,4 +1,5 @@
 import ImageProduct from './ImageProduct'
+import ComplementProduct from './ComplementProduct'
 
 interface Product {
   id: string
@@ -10,6 +11,7 @@ interface Product {
   isActive: boolean
   isFeatured: boolean
   slug?: string
+  complements?: ComplementProduct[]
 }
 
 export default Product

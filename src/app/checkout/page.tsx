@@ -18,6 +18,7 @@ export default function App() {
   useEffect(() => {
     fetch('/api/checkout', {
       method: 'POST',
+      body: JSON.stringify({ hola: 'hola' }),
     })
       .then(res => res.json())
       .then(data => {
