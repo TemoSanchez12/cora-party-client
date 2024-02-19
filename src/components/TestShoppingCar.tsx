@@ -7,6 +7,7 @@ import Complements from './Complement'
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
+import CheckoutButton from './CheckoutButton'
 
 const ShoppingCarTest = () => {
   const shoppingCarContext = useContext(ShoppingCarContext)
@@ -69,6 +70,8 @@ const ShoppingCarTest = () => {
       </ul>
 
       <hr />
+
+      <CheckoutButton />
     </div>
   )
 }

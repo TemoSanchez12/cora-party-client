@@ -16,9 +16,13 @@ export default function App() {
   const [clientSecret, setClientSecret] = useState('')
 
   useEffect(() => {
+    const shoppingCar = localStorage.getItem('shoppingCar')
     fetch('/api/checkout', {
       method: 'POST',
-      body: JSON.stringify({ hola: 'hola' }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(shoppingCar),
     })
       .then(res => res.json())
       .then(data => {
