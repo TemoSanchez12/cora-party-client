@@ -85,7 +85,7 @@ const ShoppingCar = () => {
               {balloon.product.complements &&
                 balloon.product.complements.map(complement => (
                   <li key={balloon.product.id + complement.id}>
-                    {complement.name}
+                    {complement.name} ${complement.price}
                     <button
                       onClick={() =>
                         handleRemoveComplement(complement, balloon.product.id)

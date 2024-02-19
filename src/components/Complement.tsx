@@ -47,7 +47,7 @@ const Complements = ({ product }: ComplementProps) => {
       {complements &&
         complements.map(complement => (
           <li key={product.id + complement.id}>
-            {complement.name}
+            {complement.name} ${complement.price}
             <button
               className='ml-3 p-2 rounded-md bg-red-300'
               onClick={() => handleAddComplement(complement)}

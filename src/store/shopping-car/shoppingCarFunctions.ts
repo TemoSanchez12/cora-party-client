@@ -84,6 +84,10 @@ export const addComplement = (
         product => product.product.id === payload.forProductId
       )
 
+      if (!ballonProduct) {
+        return stateUpdated
+      }
+
       if (!ballonProduct.product.complements) {
         ballonProduct.product.complements = []
       }
@@ -170,7 +174,7 @@ export const removeComplement = (
         flowerProduct.product.complements = updatedComplementsFlowers
       break
   }
-
+  stateUpdated.totalPrice = calculateTotal(stateUpdated)
   return stateUpdated
 }
 
