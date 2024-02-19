@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <MainLayout>
       <ShoppingCarContextProvider>
-        <div className='mt-10 mx-auto max-w-2xl'>
+        <div className='mt-10 mx-auto max-w-4xl'>
           <ShoppingCar />
           <ShoppingCarTest />
         </div>

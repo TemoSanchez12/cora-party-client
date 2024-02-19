@@ -3,9 +3,11 @@
 import Product from '@/interfaces/Product'
 import { ProductWrapper } from '@/interfaces/ShoppingCar'
 import { useState, useEffect, useContext } from 'react'
+import Complements from './Complement'
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
+import CheckoutButton from './CheckoutButton'
 
 const ShoppingCarTest = () => {
   const shoppingCarContext = useContext(ShoppingCarContext)
@@ -41,18 +43,6 @@ const ShoppingCarTest = () => {
     })
   }
 
-  const handleEditQuantityCar = (product: Product, value: number) => {
-    shoppingCarContext.dispatchShoppingCarAction({
-      type: ShoppingCarAction.UPDATE_QUANTITY_PRODUCT,
-      payload: {
-        product,
-        quantity: value,
-        total: 0,
-        type: 'balloon',
-      },
-    })
-  }
-
   return (
     <div className='mt-10 p-5 bg-slate-200 rounded-lg'>
       <p>Prueba de shopping car</p>
@@ -61,10 +51,12 @@ const ShoppingCarTest = () => {
       <ul className='gap-2 flex flex-col mt-10'>
         {products.map(product => (
           <li
-            className='p-2 bg-slate-400 rounded-md gap-2 flex'
+            className='p-2 bg-slate-400 rounded-md gap-2 flex items-center'
             key={product.id}
           >
             {product.name}
+
+            <p>Price: ${product.price}</p>
             <button
               className='bg-red-400 p-2'
               onClick={() => handleAddProductToCar(product)}
@@ -72,24 +64,14 @@ const ShoppingCarTest = () => {
               Agregar
             </button>
 
-            <button
-              className='p-2 bg-yellow-300'
-              onClick={handleEditQuantityCar.bind(null, product, 1)}
-            >
-              +
-            </button>
-
-            <button
-              className='p-2 bg-yellow-300'
-              onClick={handleEditQuantityCar.bind(null, product, -1)}
-            >
-              -
-            </button>
+            <Complements product={product} />
           </li>
         ))}
       </ul>
 
       <hr />
+
+      <CheckoutButton />
     </div>
   )
 }

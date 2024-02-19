@@ -39,10 +39,7 @@ const shoppingCarFunctions: Record<
 const shoppingCarReducer = (
   state: ShoppingCar,
   action: { type: ShoppingCarAction; payload?: any }
-): ShoppingCar => {
-  console.log('desde reducer')
-  return shoppingCarFunctions[action.type](state, action.payload)
-}
+): ShoppingCar => shoppingCarFunctions[action.type](state, action.payload)
 
 // Create shopping car context
 const ShoppingCarContext = React.createContext({
