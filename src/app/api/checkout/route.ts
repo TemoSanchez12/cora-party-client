@@ -1,26 +1,30 @@
 import { ShoppingCar } from '@/interfaces/ShoppingCar'
 import { NextRequest, NextResponse } from 'next/server'
 import { Stripe } from 'stripe'
+import Product from '@/interfaces/Product'
+
+const mapProductForStripe = (product: Product) => ({
+  price_data: {
+    currency: 'MXN',
+    unit_amount: product.price * 100,
+    product_data: {
+      name: product.name,
+      description: product.description,
+      images: product.images.map(
+        image => `${process.env.STRAPI_URL}${image.formats.thumbnail.url}`
+      ),
+    },
+  },
+  quantity: quantity,
+})
 
 export const POST = async (req: NextRequest) => {
   try {
     const shoppingCar: ShoppingCar = JSON.parse(await req.json()) as ShoppingCar
+    const line_items = []
 
-    const line_items = shoppingCar.balloons.map(balloon => {
-      return {
-        price_data: {
-          currency: 'MXN',
-          unit_amount: balloon.product.price * 100,
-          product_data: {
-            name: balloon.product.name,
-            description: balloon.product.description,
-            images: balloon.product.images.map(
-              image => `${process.env.STRAPI_URL}${image.formats.thumbnail.url}`
-            ),
-          },
-        },
-        quantity: balloon.quantity,
-      }
+    shoppingCar.balloons.map(balloon => {
+      line_items.push()
     })
 
     // Create Checkout Sessions from body params.
