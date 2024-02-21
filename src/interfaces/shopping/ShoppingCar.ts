@@ -1,5 +1,5 @@
-import ComplementProduct from './ComplementProduct'
-import Product from './Product'
+import ComplementProduct from '../domain/ComplementProduct'
+import Product from '../domain/Product'
 
 export interface ShoppingCar {
   balloons: ProductWrapper[]

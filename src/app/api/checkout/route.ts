@@ -1,7 +1,10 @@
-import { ShoppingCar } from '@/interfaces/ShoppingCar'
+import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
 import { NextRequest, NextResponse } from 'next/server'
 import { Stripe } from 'stripe'
-import Product from '@/interfaces/Product'
+import Product from '@/interfaces/domain/Product'
+import MailTypes from '@/interfaces/mailing/MailTypes'
+
+import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
 
 const mapProductForStripe = (product: Product, quantity) => ({
   price_data: {
@@ -23,6 +26,40 @@ export const POST = async (req: NextRequest) => {
     const shoppingCar: ShoppingCar = JSON.parse(await req.json()) as ShoppingCar
     const line_items = []
 
+    const mailRequest: MailServieRequest = {
+      type: MailTypes.noticeOrder,
+      payload: {
+        shoppingCar: shoppingCar,
+        clientEmail: 'temosanchez4912@gmail.com',
+        generalInfo: {
+          deliveryTime: '4 de la manana',
+          receiverPhone: '4921443840',
+          recipientName: 'Anaydeli Moreno Rosales',
+          senderPhone: '4921443840',
+        },
+        shippingAddress: {
+          avenue: 'Villas del Monasterio',
+          city: 'Guadalupe',
+          interiorNumber: 135,
+          exteriorNumber: undefined,
+          postalCode: 98613,
+          references: '',
+          street: 'Villas del Monasterio',
+        },
+      },
+    }
+
+    console.log(JSON.stringify(mailRequest))
+    const response = await fetch('http://localhost:3000/api/mail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        body: JSON.stringify(mailRequest),
+      },
+    })
+
+    console.log(response)
+
     shoppingCar.balloons.map(balloon => {
       line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
 
@@ -33,6 +70,7 @@ export const POST = async (req: NextRequest) => {
 
     // Create Checkout Sessions from body params.
     const stripe = new Stripe(process.env.STRIPE_KEY ?? '')
+
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       line_items,
@@ -49,7 +87,6 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
   try {
     const stripe = new Stripe(process.env.STRIPE_KEY ?? '')
-
     const urlRequest = new URL(req.url)
     const session_id = urlRequest.searchParams.get('session_id')
 
@@ -60,6 +97,6 @@ export const GET = async (req: NextRequest) => {
       customer_email: session.customer_details?.email,
     })
   } catch (err: any) {
-    return NextResponse.json(err.message)
+    return NextResponse.json(err)
   }
 }
