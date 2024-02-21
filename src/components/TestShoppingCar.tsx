@@ -16,8 +16,8 @@ const ShoppingCarTest = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/balloons').then(data =>
-          data.ok ? data.json() : Promise.reject()
+        const response = await fetch('/api/balloons', { method: 'GET' }).then(
+          data => (data.ok ? data.json() : Promise.reject())
         )
 
         setProducts(response.data)

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Stripe } from 'stripe'
 import Product from '@/interfaces/Product'
 
-const mapProductForStripe = (product: Product) => ({
+const mapProductForStripe = (product: Product, quantity) => ({
   price_data: {
     currency: 'MXN',
     unit_amount: product.price * 100,
@@ -15,7 +15,7 @@ const mapProductForStripe = (product: Product) => ({
       ),
     },
   },
-  quantity: quantity,
+  quantity,
 })
 
 export const POST = async (req: NextRequest) => {
@@ -24,7 +24,11 @@ export const POST = async (req: NextRequest) => {
     const line_items = []
 
     shoppingCar.balloons.map(balloon => {
-      line_items.push()
+      line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
+
+      balloon.product.complements.map(complement => {
+        line_items.push(mapProductForStripe(complement, 1))
+      })
     })
 
     // Create Checkout Sessions from body params.
