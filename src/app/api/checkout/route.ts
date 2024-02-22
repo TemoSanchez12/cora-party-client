@@ -24,6 +24,7 @@ const mapProductForStripe = (product: Product, quantity) => ({
 export const POST = async (req: NextRequest) => {
   try {
     const shoppingCar: ShoppingCar = JSON.parse(await req.json()) as ShoppingCar
+
     const line_items = []
 
     const mailRequest: MailServieRequest = {
@@ -50,6 +51,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     console.log(JSON.stringify(mailRequest))
+
     const response = await fetch('http://localhost:3000/api/mail', {
       method: 'POST',
       headers: {
@@ -57,8 +59,6 @@ export const POST = async (req: NextRequest) => {
         body: JSON.stringify(mailRequest),
       },
     })
-
-    console.log(response)
 
     shoppingCar.balloons.map(balloon => {
       line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
@@ -97,6 +97,7 @@ export const GET = async (req: NextRequest) => {
       customer_email: session.customer_details?.email,
     })
   } catch (err: any) {
+    console.log(err)
     return NextResponse.json(err)
   }
 }

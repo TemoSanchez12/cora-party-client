@@ -15,7 +15,13 @@ const OrderConfirmationTemplate = ({
 }: OrderConfirmationTemplateProps) => {
   return (
     <div>
-      <p>
+      <p
+        style={{
+          padding: '10px',
+          borderRadius: '10px',
+          backgroundColor: '#ccc',
+        }}
+      >
         Este es un mensaje de confirmacion para la orden de{' '}
         {generalInfo.recipientName}
       </p>

@@ -12,7 +12,10 @@ const resend = new Resend(process.env.RESEND_KEY)
 
 export const POST = async (req: NextRequest) => {
   try {
-    const mailRequest: MailServieRequest = JSON.parse(await req.json())
+    const clonedRequest = req.clone()
+    const mailRequest: MailServieRequest = JSON.parse(
+      await clonedRequest.text()
+    ) as MailServieRequest
 
     if (mailRequest.type == MailTypes.noticeOrder) {
       const emailOptions = noticeOrderBuilder(mailRequest.payload)
@@ -25,7 +28,7 @@ export const POST = async (req: NextRequest) => {
       })
 
       console.log('aqui la data ' + data)
-      console.log('aqui el error ' + error)
+      console.log('aqui el error ' + JSON.stringify(error))
     }
 
     return NextResponse.json<MailServiceResponse>({

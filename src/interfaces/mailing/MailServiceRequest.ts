@@ -4,7 +4,7 @@ import MailTypes from './MailTypes'
 
 interface MailServieRequest {
   type: MailTypes
-  payload: OrderConfirmationRequest | OrderNoticeRequest
+  payload: OrderNoticeRequest
 }
 
 export default MailServieRequest
