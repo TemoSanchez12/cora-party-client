@@ -27,43 +27,10 @@ export const POST = async (req: NextRequest) => {
 
     const line_items = []
 
-    const mailRequest: MailServieRequest = {
-      type: MailTypes.noticeOrder,
-      payload: {
-        shoppingCar: shoppingCar,
-        clientEmail: 'temosanchez4912@gmail.com',
-        generalInfo: {
-          deliveryTime: '4 de la manana',
-          receiverPhone: '4921443840',
-          recipientName: 'Anaydeli Moreno Rosales',
-          senderPhone: '4921443840',
-        },
-        shippingAddress: {
-          avenue: 'Villas del Monasterio',
-          city: 'Guadalupe',
-          interiorNumber: 135,
-          exteriorNumber: undefined,
-          postalCode: 98613,
-          references: '',
-          street: 'Villas del Monasterio',
-        },
-      },
-    }
-
-    console.log(JSON.stringify(mailRequest))
-
-    const response = await fetch('http://localhost:3000/api/mail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        body: JSON.stringify(mailRequest),
-      },
-    })
-
     shoppingCar.balloons.map(balloon => {
       line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
 
-      balloon.product.complements.map(complement => {
+      balloon.product.complements?.map(complement => {
         line_items.push(mapProductForStripe(complement, 1))
       })
     })
@@ -80,6 +47,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({ clientSecret: session.client_secret })
   } catch (err: any) {
+    console.log(err)
     return NextResponse.json({ error: err.message })
   }
 }
