@@ -3,7 +3,7 @@
 import React, { useReducer } from 'react'
 
 // Import interfaces
-import { ShoppingCar } from '../../interfaces/ShoppingCar'
+import { ShoppingCar } from '../../interfaces/shopping/ShoppingCar'
 
 // Import action functions
 import {

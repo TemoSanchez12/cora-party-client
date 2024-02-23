@@ -1,9 +1,9 @@
 'use client'
 
-import Product from '@/interfaces/Product'
-import { ProductWrapper } from '@/interfaces/ShoppingCar'
-import { ShoppingCar } from '@/interfaces/ShoppingCar'
-import { ComplementWrapper } from '@/interfaces/ShoppingCar'
+import Product from '@/interfaces/domain/Product'
+import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
+import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
+import { ComplementWrapper } from '@/interfaces/shopping/ShoppingCar'
 
 const calculateComplementTotalPrices = (product: Product): number => {
   let total = 0

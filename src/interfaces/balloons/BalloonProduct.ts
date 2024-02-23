@@ -1,7 +1,7 @@
-import Product from '../Product'
-import ProductFonts from '../ProductFonts'
+import Product from '../domain/Product'
+import ProductFonts from '../domain/ProductFonts'
 import BalloonColor from './BalloonColor'
-import ProductCategory from '../ProductCategory'
+import ProductCategory from '../domain/ProductCategory'
 
 interface BalloonProduct extends Product {
   requiredTexts: string[]

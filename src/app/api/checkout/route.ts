@@ -1,7 +1,10 @@
-import { ShoppingCar } from '@/interfaces/ShoppingCar'
+import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
 import { NextRequest, NextResponse } from 'next/server'
 import { Stripe } from 'stripe'
-import Product from '@/interfaces/Product'
+import Product from '@/interfaces/domain/Product'
+import MailTypes from '@/interfaces/mailing/MailTypes'
+
+import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
 
 const mapProductForStripe = (product: Product, quantity) => ({
   price_data: {
@@ -21,18 +24,20 @@ const mapProductForStripe = (product: Product, quantity) => ({
 export const POST = async (req: NextRequest) => {
   try {
     const shoppingCar: ShoppingCar = JSON.parse(await req.json()) as ShoppingCar
+
     const line_items = []
 
     shoppingCar.balloons.map(balloon => {
       line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
 
-      balloon.product.complements.map(complement => {
+      balloon.product.complements?.map(complement => {
         line_items.push(mapProductForStripe(complement, 1))
       })
     })
 
     // Create Checkout Sessions from body params.
     const stripe = new Stripe(process.env.STRIPE_KEY ?? '')
+
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       line_items,
@@ -42,6 +47,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({ clientSecret: session.client_secret })
   } catch (err: any) {
+    console.log(err)
     return NextResponse.json({ error: err.message })
   }
 }
@@ -49,7 +55,6 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
   try {
     const stripe = new Stripe(process.env.STRIPE_KEY ?? '')
-
     const urlRequest = new URL(req.url)
     const session_id = urlRequest.searchParams.get('session_id')
 
@@ -60,6 +65,7 @@ export const GET = async (req: NextRequest) => {
       customer_email: session.customer_details?.email,
     })
   } catch (err: any) {
-    return NextResponse.json(err.message)
+    console.log(err)
+    return NextResponse.json(err)
   }
 }
