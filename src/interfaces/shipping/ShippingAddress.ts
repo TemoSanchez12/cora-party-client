@@ -1,11 +1,11 @@
 interface ShippingAddress {
   street: string
-  interiorNumber: number
-  exteriorNumber?: number
+  interiorNumber: string
+  exteriorNumber?: string
   avenue: string
-  postalCode: number
+  postalCode: string
   city: string
-  references: string
+  references?: string
 }
 
 export default ShippingAddress
