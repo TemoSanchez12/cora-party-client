@@ -14,7 +14,7 @@ import {
 } from '@/queries/categoriesQueries'
 
 // Import interfaces
-import ProductCategory from '@/interfaces/ProductCategory'
+import ProductCategory from '@/interfaces/domain/ProductCategory'
 
 type typesForCategoryTypes = {
   balloon: string
