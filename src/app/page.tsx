@@ -22,6 +22,7 @@ export default function Home() {
       <ShoppingCarContextProvider>
         <div className='mt-10 mx-auto max-w-4xl'>
           <ShippingAdressForm />
+          <ShoppingCar />
           <ShoppingCarTest />
         </div>
       </ShoppingCarContextProvider>
