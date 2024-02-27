@@ -16,16 +16,16 @@ interface CategoriesResponse {
 }
 
 const BalloonsPageCategory = async ({ params }: any) => {
-  const response = await fetch('http://localhost:3000/api/balloons', {
-    cache: 'no-cache',
-  }).then(res => (res.ok ? res.json() : Promise.reject()))
-
-  const productFiltered: BalloonProduct[] = []
+  const response: BalloonsResponse = await fetch(
+    'http://localhost:3000/api/balloons',
+    {
+      cache: 'no-cache',
+    }
+  ).then(res => (res.ok ? res.json() : Promise.reject()))
 
   const products = response.data?.filter((product: BalloonProduct) => {
     for (const category of product.categories || []) {
       if (category.slug == params.categorySlug) {
-        productFiltered.push(product)
         return true
       }
     }
@@ -38,9 +38,10 @@ const BalloonsPageCategory = async ({ params }: any) => {
           Se mostraran productos para la categoria de {params.categorySlug}
         </h1>
 
-        {products.map((product: BalloonProduct) => (
-          <li key={product.id}>{product.name}</li>
-        ))}
+        {products &&
+          products.map((product: BalloonProduct) => (
+            <li key={product.id}>{product.name}</li>
+          ))}
       </div>
     </MainLayout>
   )
