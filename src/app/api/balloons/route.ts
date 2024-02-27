@@ -36,7 +36,7 @@ const handleGetBalloonById = async (id: string) => {
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const balloonId = urlRequest.searchParams.get('balloonId')
+    const balloonId = urlRequest.searchParams.get('productId')
 
     let response: BalloonProduct[]
 
