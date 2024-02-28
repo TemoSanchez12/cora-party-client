@@ -6,6 +6,7 @@ interface BalloonProduct extends Product {
   requiredTexts: string[]
   minimumPremiumTime: number
   colors?: BalloonColor[]
+  requiredColors?: string
   fonts?: ProductFonts[]
 }
 

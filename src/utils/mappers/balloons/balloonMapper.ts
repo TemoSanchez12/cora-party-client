@@ -22,9 +22,14 @@ const mapSingleBalloon = (data: any) => {
     Slug,
     Imagenes,
     Categorias_Globo,
+    Colores_Requeridos,
   } = attributes
 
   const requiredTexts = Textos_Requeridos.split(',').map((text: string) =>
+    text.trim()
+  )
+
+  const requiredColors = Colores_Requeridos?.split(',').map((text: string) =>
     text.trim()
   )
 
@@ -43,6 +48,7 @@ const mapSingleBalloon = (data: any) => {
     slug: Slug,
     images,
     categories: mapCategoryToDefinition(Categorias_Globo.data),
+    requiredColors,
   }
 
   return ballonProduct
