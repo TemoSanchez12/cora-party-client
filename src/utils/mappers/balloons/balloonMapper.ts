@@ -50,19 +50,14 @@ const mapSingleBalloon = (data: any) => {
 
 // Maps balloon response to BallonProduct
 export const mapBalloonToDefinition = (
-  response: ApolloQueryResult<any>
+  data: ApolloQueryResult<any>
 ): BalloonProduct => {
-  if (
-    !response ||
-    !response.data ||
-    !response.data.globo ||
-    !response.data.globo.data
-  ) {
+  if (!data) {
     throw new Error(
       'Error mapping product data: Unable to retrieve required information.'
     )
   }
-  return mapSingleBalloon(response.data.globo.data)
+  return mapSingleBalloon(data)
 }
 
 export const mapAllBalloonsToDefinition = (

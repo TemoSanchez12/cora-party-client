@@ -1,4 +1,4 @@
-import ImageProduct from '@/interfaces/ImageProduct'
+import ImageProduct from '@/interfaces/domain/ImageProduct'
 
 // Map image object response to ImageFormat type
 const mapImageFormats = (formats: any) => {
@@ -14,6 +14,7 @@ const mapImageFormats = (formats: any) => {
 
 // Map total image response to ImageProduct type
 const mapResponseImage = (data: any): ImageProduct => {
+  console.log('aqui mero ---->' + JSON.stringify(data))
   const { name, formats } = data.attributes
 
   const imageProduct: ImageProduct = {

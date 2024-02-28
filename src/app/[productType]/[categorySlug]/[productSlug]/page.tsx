@@ -1,8 +1,16 @@
 'use client'
 
+// import dependencies
 import { useEffect, useState } from 'react'
 
+// import interfaces
+import Product from '@/interfaces/domain/Product'
+
+// import layout
 import MainLayout from '@/layouts/MainLayout'
+
+// import componentes
+import BalloonDetail from '@/components/Balloons/BalloonDetail'
 
 type typesForProducts = {
   globos: string
@@ -16,28 +24,24 @@ const productTypes: typesForProducts = {
 }
 
 const ProductDetailPage = ({ params }: any) => {
-  const [product, setProduct] = useState(undefined)
+  const [product, setProduct] = useState<Product | undefined>(undefined)
 
   useEffect(() => {
     const fetchProduct = async () => {
       const productResponse = await fetch(
         `/api/${productTypes[params.productType]}?slug=${params.productSlug}`
       ).then(res => (res.ok ? res.json() : Promise.reject()))
-      console.log('aqui mero')
-      console.log(productResponse)
+
+      const product: Product = productResponse.data[0]
+      setProduct(product)
     }
 
     fetchProduct()
-  }, [])
+  }, [params.productSlug, params.productType])
 
   return (
     <MainLayout>
-      <div>
-        <p>
-          Hola desde pagina de detalle imprimiendo product slug{' '}
-          {params.productSlug}
-        </p>
-      </div>
+      {product ? <BalloonDetail product={product} /> : <div>Loading...</div>}
     </MainLayout>
   )
 }

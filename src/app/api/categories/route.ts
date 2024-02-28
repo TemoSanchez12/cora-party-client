@@ -60,8 +60,9 @@ const handleGetCategoryForType = async (type: string) => {
   const { data } = await client.query({
     query: getCategoryForTypeQuery(type),
   })
-  const categoryType = responseCategoryTypeMap[type]
 
+  const categoryType = responseCategoryTypeMap[type]
+  console.log(JSON.stringify(data))
   return mapCategoryToDefinition(data[categoryType].data)
 }
 
