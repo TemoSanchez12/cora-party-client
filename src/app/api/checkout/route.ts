@@ -6,7 +6,7 @@ import MailTypes from '@/interfaces/mailing/MailTypes'
 
 import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
 
-const mapProductForStripe = (product: Product, quantity) => ({
+const mapProductForStripe = (product: Product, quantity: number) => ({
   price_data: {
     currency: 'MXN',
     unit_amount: product.price * 100,
@@ -14,7 +14,7 @@ const mapProductForStripe = (product: Product, quantity) => ({
       name: product.name,
       description: product.description,
       images: product.images.map(
-        image => `${process.env.STRAPI_URL}${image.formats.thumbnail.url}`
+        image => `${process.env.STRAPI_URL}${image.formats.thumbnail?.url}`
       ),
     },
   },
@@ -25,7 +25,7 @@ export const POST = async (req: NextRequest) => {
   try {
     const shoppingCar: ShoppingCar = JSON.parse(await req.json()) as ShoppingCar
 
-    const line_items = []
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
     shoppingCar.balloons.map(balloon => {
       line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
