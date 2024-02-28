@@ -6,6 +6,7 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 
 // Import Mappers
 import mapResponseImage from '../images/imageMapper'
+import { mapCategoryToDefinition } from '../categories/categoriesMapper'
 
 const mapSingleBalloon = (data: any) => {
   const { id, attributes } = data
@@ -20,9 +21,15 @@ const mapSingleBalloon = (data: any) => {
     Destacado,
     Slug,
     Imagenes,
+    Categorias_Globo,
+    Colores_Requeridos,
   } = attributes
 
   const requiredTexts = Textos_Requeridos.split(',').map((text: string) =>
+    text.trim()
+  )
+
+  const requiredColors = Colores_Requeridos?.split(',').map((text: string) =>
     text.trim()
   )
 
@@ -40,6 +47,8 @@ const mapSingleBalloon = (data: any) => {
     isFeatured: Destacado,
     slug: Slug,
     images,
+    categories: mapCategoryToDefinition(Categorias_Globo.data),
+    requiredColors,
   }
 
   return ballonProduct
@@ -47,19 +56,14 @@ const mapSingleBalloon = (data: any) => {
 
 // Maps balloon response to BallonProduct
 export const mapBalloonToDefinition = (
-  response: ApolloQueryResult<any>
+  data: ApolloQueryResult<any>
 ): BalloonProduct => {
-  if (
-    !response ||
-    !response.data ||
-    !response.data.globo ||
-    !response.data.globo.data
-  ) {
+  if (!data) {
     throw new Error(
       'Error mapping product data: Unable to retrieve required information.'
     )
   }
-  return mapSingleBalloon(response.data.globo.data)
+  return mapSingleBalloon(data)
 }
 
 export const mapAllBalloonsToDefinition = (

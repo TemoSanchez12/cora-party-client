@@ -1,4 +1,4 @@
-import ImageProduct from '@/interfaces/ImageProduct'
+import ImageProduct from '@/interfaces/domain/ImageProduct'
 
 // Map image object response to ImageFormat type
 const mapImageFormats = (formats: any) => {

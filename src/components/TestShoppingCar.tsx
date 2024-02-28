@@ -1,7 +1,7 @@
 'use client'
 
-import Product from '@/interfaces/Product'
-import { ProductWrapper } from '@/interfaces/ShoppingCar'
+import Product from '@/interfaces/domain/Product'
+import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
 import { useState, useEffect, useContext } from 'react'
 import Complements from './Complement'
 import ShoppingCarContext, {
@@ -19,7 +19,6 @@ const ShoppingCarTest = () => {
         const response = await fetch('/api/balloons', { method: 'GET' }).then(
           data => (data.ok ? data.json() : Promise.reject())
         )
-
         setProducts(response.data)
       } catch (error) {
         console.error('Error fetching data:', error)

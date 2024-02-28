@@ -10,6 +10,7 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import {
   getAllBalloonsQuery,
   getBalloonByIdQuery,
+  getBalloonBySlugQuery,
 } from '@/queries/balloonQueries'
 
 //Import mappers
@@ -26,22 +27,34 @@ const handleGelAllBalloons = async () => {
   return mapAllBalloonsToDefinition(data)
 }
 
+const handleGetBalloonBySlug = async (slug: string) => {
+  const data = await client.query({
+    query: getBalloonBySlugQuery(slug),
+  })
+
+  return mapBalloonToDefinition(data.data.globos.data[0])
+}
+
 const handleGetBalloonById = async (id: string) => {
   const data = await client.query({
     query: getBalloonByIdQuery(parseInt(id)),
   })
-  return mapBalloonToDefinition(data)
+
+  return mapBalloonToDefinition(data.data.globo.data)
 }
 
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const balloonId = urlRequest.searchParams.get('balloonId')
+    const balloonId = urlRequest.searchParams.get('productId')
+    const balloonSlug = urlRequest.searchParams.get('slug')
 
     let response: BalloonProduct[]
 
     if (balloonId) {
       response = [await handleGetBalloonById(balloonId)]
+    } else if (balloonSlug) {
+      response = [await handleGetBalloonBySlug(balloonSlug)]
     } else {
       response = await handleGelAllBalloons()
     }

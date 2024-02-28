@@ -36,6 +36,16 @@ export const getCategoriesForProductQuery = (
               attributes {
                 Nombre
                 Slug
+                Destacado
+                Cover {
+                  data {
+                    id
+                    attributes {
+                      name
+                      formats
+                    }
+                  }
+                }
               }
             }
           }
@@ -54,6 +64,16 @@ export const getCategoryForTypeQuery = (type: string) => gql`
         attributes {
           Nombre
           Slug
+          Destacado
+          Cover {
+            data {
+              id
+              attributes {
+                name
+                formats
+              }
+            }
+          }
         }
       }
     }

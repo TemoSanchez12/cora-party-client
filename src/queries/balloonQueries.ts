@@ -63,6 +63,16 @@ export const getAllBalloonsQuery = () => gql`
               attributes {
                 Nombre
                 Slug
+                Destacado
+                Cover {
+                  data {
+                    id
+                    attributes {
+                      name
+                      formats
+                    }
+                  }
+                }
               }
             }
           }
@@ -86,6 +96,7 @@ export const getBalloonByIdQuery = (ballonId: number) => gql`
           Tiempo_Minimo_Premium
           Activo
           Destacado
+          Colores_Requeridos
           Slug
           Imagenes {
             data {
@@ -102,6 +113,16 @@ export const getBalloonByIdQuery = (ballonId: number) => gql`
               attributes {
                 Nombre
                 Slug
+                Destacado
+                Cover {
+                  data {
+                    id
+                    attributes {
+                      name
+                      formats
+                    }
+                  }
+                }
               }
             }
           }
@@ -110,3 +131,52 @@ export const getBalloonByIdQuery = (ballonId: number) => gql`
     }
   }
 `
+
+export const getBalloonBySlugQuery = (balloonSlug: string) => gql`
+{
+  globos(filters: {Slug: {eq: "${balloonSlug}"}}) {
+    data {
+      id
+      attributes {
+        Nombre
+        Descripcion
+        Precio
+        Textos_Requeridos
+        Colores_Requeridos
+        Tiempo_Minimo_Preparacion
+        Tiempo_Minimo_Premium
+        Activo
+        Destacado
+        Slug
+        Imagenes {
+          data {
+            id
+            attributes {
+              name
+              formats
+            }
+          }
+        }
+        Categorias_Globo {
+          data {
+            id
+            attributes {
+              Nombre
+              Slug
+              Destacado
+              Cover {
+                data {
+                  id
+                  attributes {
+                    name
+                    formats
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`

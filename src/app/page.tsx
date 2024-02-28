@@ -2,7 +2,7 @@
 import type { Metadata } from 'next'
 
 // Import components
-import MainLayout from '../layouts/layout'
+import MainLayout from '../layouts/MainLayout'
 import ShoppingCar from '@/components/ShoppingCar'
 import ShoppingCarTest from '@/components/TestShoppingCar'
 import ShippingAdressForm from '@/components/Shipping/ShippingAddressForm'
@@ -22,6 +22,7 @@ export default function Home() {
       <ShoppingCarContextProvider>
         <div className='mt-10 mx-auto max-w-4xl'>
           <ShippingAdressForm />
+          <ShoppingCar />
           <ShoppingCarTest />
         </div>
       </ShoppingCarContextProvider>

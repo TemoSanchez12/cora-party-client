@@ -14,7 +14,7 @@ import {
 } from '@/queries/categoriesQueries'
 
 // Import interfaces
-import ProductCategory from '@/interfaces/ProductCategory'
+import ProductCategory from '@/interfaces/domain/ProductCategory'
 
 type typesForCategoryTypes = {
   balloon: string
@@ -60,6 +60,7 @@ const handleGetCategoryForType = async (type: string) => {
   const { data } = await client.query({
     query: getCategoryForTypeQuery(type),
   })
+
   const categoryType = responseCategoryTypeMap[type]
 
   return mapCategoryToDefinition(data[categoryType].data)
