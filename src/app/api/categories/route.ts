@@ -62,7 +62,7 @@ const handleGetCategoryForType = async (type: string) => {
   })
 
   const categoryType = responseCategoryTypeMap[type]
-  console.log(JSON.stringify(data))
+
   return mapCategoryToDefinition(data[categoryType].data)
 }
 
