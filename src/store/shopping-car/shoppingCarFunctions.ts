@@ -62,20 +62,22 @@ export const addComplement = (
     totalPrice: state.totalPrice,
   }
 
-  const product = state.products.find(
+  const productWrapper = state.products.find(
     product => product.product.id === payload.forProductId
   )
 
-  if (!product) {
+  if (!productWrapper) {
     return stateUpdated
   }
 
-  if (!product.product.complements) {
-    product.product.complements = []
+  if (!productWrapper.product.complements) {
+    productWrapper.product.complements = []
   }
 
-  if (!checkComplementInProduct(product.product, payload.complement.id)) {
-    product?.product.complements.push(payload.complement)
+  if (
+    !checkComplementInProduct(productWrapper.product, payload.complement.id)
+  ) {
+    productWrapper?.product.complements.push(payload.complement)
   }
 
   stateUpdated.totalPrice = calculateTotal(state)
@@ -93,7 +95,7 @@ export const removeProduct = (
   }
 
   stateUpdated.products = state.products.filter(
-    balloon => balloon.product.id != payload.product.id
+    productWrapper => productWrapper.product.id != payload.product.id
   )
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
@@ -109,15 +111,16 @@ export const removeComplement = (
     totalPrice: state.totalPrice,
   }
 
-  const product = stateUpdated.products.find(
+  const productWrapper = stateUpdated.products.find(
     product => product.product.id === payload.forProductId
   )
 
-  const updatedComplementsBalloons = product?.product.complements?.filter(
+  const updatedComplementsProduct = productWrapper?.product.complements?.filter(
     complement => complement.id !== payload.complement.id
   )
 
-  if (product) product.product.complements = updatedComplementsBalloons
+  if (productWrapper)
+    productWrapper.product.complements = updatedComplementsProduct
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
   return stateUpdated
@@ -136,14 +139,14 @@ export const updateQuantityProduct = (
     return removeProduct(stateUpdated, payload)
   }
 
-  const product = stateUpdated.products.find(
+  const productWrapper = stateUpdated.products.find(
     balloon => balloon.product.id == payload.product.id
   )
 
-  if (product) {
-    product.quantity = payload.quantity
-
-    product.total = product.quantity * product.product.price
+  if (productWrapper) {
+    productWrapper.quantity = payload.quantity
+    productWrapper.total =
+      productWrapper.quantity * productWrapper.product.price
   }
 
   stateUpdated.totalPrice = calculateTotal(state)
