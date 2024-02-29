@@ -55,37 +55,39 @@ const ShoppingCar = () => {
         {shoppingCarContext.shoppingCarState.products.map(productWrapper => (
           <li
             key={productWrapper.product.id}
-            className='flex gap-2 items-center'
+            className='flex gap-2 items-center flex-col'
           >
-            {productWrapper.product.name}
-            cantidad {productWrapper.quantity}
-            <button
-              className='p-2 bg-yellow-300'
-              onClick={handleEditQuantityCar.bind(
-                null,
-                productWrapper.product,
-                productWrapper.quantity + 1
-              )}
-            >
-              +
-            </button>
-            <button
-              className='p-2 bg-yellow-300'
-              onClick={handleEditQuantityCar.bind(
-                null,
-                productWrapper.product,
-                productWrapper.quantity - 1
-              )}
-            >
-              -
-            </button>
-            <p>${productWrapper.total}</p>
-            <button
-              className='px-2 py-1 rounded-md bg-red-400'
-              onClick={handleRemoveProduct.bind(null, productWrapper)}
-            >
-              Remover
-            </button>
+            <div>
+              {productWrapper.product.name}
+              cantidad {productWrapper.quantity}
+              <button
+                className='p-2 bg-yellow-300'
+                onClick={handleEditQuantityCar.bind(
+                  null,
+                  productWrapper.product,
+                  productWrapper.quantity + 1
+                )}
+              >
+                +
+              </button>
+              <button
+                className='p-2 bg-yellow-300'
+                onClick={handleEditQuantityCar.bind(
+                  null,
+                  productWrapper.product,
+                  productWrapper.quantity - 1
+                )}
+              >
+                -
+              </button>
+              <p>${productWrapper.total}</p>
+              <button
+                className='px-2 py-1 rounded-md bg-red-400'
+                onClick={handleRemoveProduct.bind(null, productWrapper)}
+              >
+                Remover
+              </button>
+            </div>
             <ul className='ml-5 rounded-lg bg-pink-100 p-4 gap-2 flex-col flex'>
               <div className='p-2 rounded-md bg-blue-200'>Complements:</div>
               {productWrapper.product.complements &&

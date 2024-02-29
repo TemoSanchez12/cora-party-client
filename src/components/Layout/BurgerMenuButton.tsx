@@ -14,7 +14,10 @@ const BurgerMenuButton = ({
   }
 
   return (
-    <div className='flex flex-col gap-3' onClick={handleBurgerMenuClick}>
+    <div
+      className='md:hidden flex flex-col gap-3 cursor-pointer'
+      onClick={handleBurgerMenuClick}
+    >
       <div
         className={`h-1 w-8 rounded-full bg-dark-blue transition duration-500 ease-in-out ${
           isMenuOpen ? 'rotate-45 translate-y-2' : ''
