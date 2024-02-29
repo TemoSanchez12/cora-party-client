@@ -36,7 +36,7 @@ const mapSingleBalloon = (data: any) => {
   const images = Imagenes.data.map((image: any) => mapResponseImage(image))
 
   const ballonProduct: BalloonProduct = {
-    id: id,
+    id: 'balloon-' + id,
     name: Nombre,
     description: Descripcion,
     price: Precio,

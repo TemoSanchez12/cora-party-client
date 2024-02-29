@@ -1,5 +1,5 @@
 // Import interfaces
-import ComplementProduct from '@/interfaces/ComplementProduct'
+import ComplementProduct from '@/interfaces/domain/ComplementProduct'
 
 // Import mapper
 import mapResponseImage from '../images/imageMapper'
@@ -19,13 +19,13 @@ export const mapListComplements = (data: any): ComplementProduct[] => {
     const imagesMapped = images.data.map(mapResponseImage)
 
     const complementProduct: ComplementProduct = {
+      id: 'complement-' + complement.id,
       name,
       description,
       price,
       isActive,
       minimumTime: 0,
       isFeatured: false,
-      id: complement.id,
       images: imagesMapped,
     }
 

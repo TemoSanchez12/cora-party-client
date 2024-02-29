@@ -33,7 +33,6 @@ const ShoppingCarTest = () => {
       product,
       quantity: 1,
       total: 0,
-      type: 'balloon',
     }
 
     shoppingCarContext.dispatchShoppingCarAction({

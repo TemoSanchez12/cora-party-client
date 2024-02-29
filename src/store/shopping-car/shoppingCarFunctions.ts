@@ -18,12 +18,8 @@ const calculateComplementTotalPrices = (product: Product): number => {
 const calculateTotal = (shoppingCar: ShoppingCar): number => {
   let total = 0
 
-  shoppingCar.balloons.forEach(balloon => {
-    total += balloon.total + calculateComplementTotalPrices(balloon.product)
-  })
-
-  shoppingCar.flowers.forEach(flower => {
-    total += flower.total + calculateComplementTotalPrices(flower.product)
+  shoppingCar.products.forEach(product => {
+    total += product.total + calculateComplementTotalPrices(product.product)
   })
 
   return total
@@ -44,24 +40,13 @@ export const addProduct = (
   payload: ProductWrapper
 ): ShoppingCar => {
   const stateUpdated: ShoppingCar = {
-    balloons: [...state.balloons],
-    flowers: [...state.flowers],
+    products: [...state.products],
     totalPrice: state.totalPrice,
   }
 
-  switch (payload.type) {
-    case 'balloon':
-      if (!checkProductInShoppingCar(stateUpdated.balloons, payload)) {
-        payload.total = payload.product.price * payload.quantity
-        stateUpdated.balloons = [...state.balloons, payload]
-      }
-      break
-    case 'flower':
-      if (!checkProductInShoppingCar(stateUpdated.flowers, payload)) {
-        payload.total = payload.product.price * payload.quantity
-        stateUpdated.flowers = [...state.flowers, payload]
-      }
-      break
+  if (!checkProductInShoppingCar(stateUpdated.products, payload)) {
+    payload.total = payload.product.price * payload.quantity
+    stateUpdated.products = [...state.products, payload]
   }
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
@@ -73,37 +58,26 @@ export const addComplement = (
   payload: ComplementWrapper
 ): ShoppingCar => {
   const stateUpdated: ShoppingCar = {
-    balloons: [...state.balloons],
-    flowers: [...state.flowers],
+    products: [...state.products],
     totalPrice: state.totalPrice,
   }
 
-  switch (payload.productType) {
-    case 'balloon':
-      const ballonProduct = state.balloons.find(
-        product => product.product.id === payload.forProductId
-      )
+  const productWrapper = state.products.find(
+    product => product.product.id === payload.forProductId
+  )
 
-      if (!ballonProduct) {
-        return stateUpdated
-      }
+  if (!productWrapper) {
+    return stateUpdated
+  }
 
-      if (!ballonProduct.product.complements) {
-        ballonProduct.product.complements = []
-      }
+  if (!productWrapper.product.complements) {
+    productWrapper.product.complements = []
+  }
 
-      if (
-        !checkComplementInProduct(ballonProduct.product, payload.complement.id)
-      ) {
-        ballonProduct?.product.complements.push(payload.complement)
-      }
-      break
-    case 'flower':
-      const flowerProduct = state.balloons.find(
-        product => product.product.id === payload.forProductId
-      )
-      flowerProduct?.product.complements?.push(payload.complement)
-      break
+  if (
+    !checkComplementInProduct(productWrapper.product, payload.complement.id)
+  ) {
+    productWrapper?.product.complements.push(payload.complement)
   }
 
   stateUpdated.totalPrice = calculateTotal(state)
@@ -116,24 +90,13 @@ export const removeProduct = (
   payload: ProductWrapper
 ): ShoppingCar => {
   const stateUpdated: ShoppingCar = {
-    balloons: [...state.balloons],
-    flowers: [...state.flowers],
+    products: [...state.products],
     totalPrice: state.totalPrice,
   }
 
-  switch (payload.type) {
-    case 'balloon':
-      stateUpdated.balloons = state.balloons.filter(
-        balloon => balloon.product.id != payload.product.id
-      )
-
-      break
-    case 'flower':
-      stateUpdated.flowers = state.balloons.filter(
-        flower => flower.product.id != payload.product.id
-      )
-      break
-  }
+  stateUpdated.products = state.products.filter(
+    productWrapper => productWrapper.product.id != payload.product.id
+  )
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
   return stateUpdated
@@ -143,37 +106,22 @@ export const removeComplement = (
   state: ShoppingCar,
   payload: ComplementWrapper
 ): ShoppingCar => {
-  const stateUpdated = { ...state }
-
-  switch (payload.productType) {
-    case 'balloon':
-      const ballonProduct = stateUpdated.balloons.find(
-        product => product.product.id === payload.forProductId
-      )
-
-      const updatedComplementsBalloons =
-        ballonProduct?.product.complements?.filter(
-          complement => complement.id !== payload.complement.id
-        )
-
-      if (ballonProduct)
-        ballonProduct.product.complements = updatedComplementsBalloons
-
-      break
-    case 'flower':
-      const flowerProduct = stateUpdated.balloons.find(
-        product => product.product.id === payload.forProductId
-      )
-
-      const updatedComplementsFlowers =
-        flowerProduct?.product.complements?.filter(
-          complement => complement.id !== payload.complement.id
-        )
-
-      if (flowerProduct)
-        flowerProduct.product.complements = updatedComplementsFlowers
-      break
+  const stateUpdated: ShoppingCar = {
+    products: [...state.products],
+    totalPrice: state.totalPrice,
   }
+
+  const productWrapper = stateUpdated.products.find(
+    product => product.product.id === payload.forProductId
+  )
+
+  const updatedComplementsProduct = productWrapper?.product.complements?.filter(
+    complement => complement.id !== payload.complement.id
+  )
+
+  if (productWrapper)
+    productWrapper.product.complements = updatedComplementsProduct
+
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
   return stateUpdated
 }
@@ -183,8 +131,7 @@ export const updateQuantityProduct = (
   payload: ProductWrapper
 ): ShoppingCar => {
   const stateUpdated: ShoppingCar = {
-    balloons: [...state.balloons],
-    flowers: [...state.flowers],
+    products: [...state.products],
     totalPrice: state.totalPrice,
   }
 
@@ -192,31 +139,14 @@ export const updateQuantityProduct = (
     return removeProduct(stateUpdated, payload)
   }
 
-  switch (payload.type) {
-    case 'balloon':
-      const productBalloon = stateUpdated.balloons.find(
-        balloon => balloon.product.id == payload.product.id
-      )
+  const productWrapper = stateUpdated.products.find(
+    balloon => balloon.product.id == payload.product.id
+  )
 
-      if (productBalloon) {
-        productBalloon.quantity = payload.quantity
-
-        productBalloon.total =
-          productBalloon.quantity * productBalloon.product.price
-      }
-
-      break
-    case 'flower':
-      const productFlower = stateUpdated.flowers.find(
-        flower => flower.product.id == payload.product.id
-      )
-
-      if (productFlower) {
-        productFlower.quantity = payload.quantity
-        productFlower.total =
-          productFlower.quantity * productFlower.product.price
-      }
-      break
+  if (productWrapper) {
+    productWrapper.quantity = payload.quantity
+    productWrapper.total =
+      productWrapper.quantity * productWrapper.product.price
   }
 
   stateUpdated.totalPrice = calculateTotal(state)

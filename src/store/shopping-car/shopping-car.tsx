@@ -54,8 +54,7 @@ const ShoppingCarContext = React.createContext({
 export const ShoppingCarContextProvider = ({ children }: any) => {
   const [shoppingCarStateReducer, dispatchShoppingCarActionReducer] =
     useReducer(shoppingCarReducer, {
-      balloons: [],
-      flowers: [],
+      products: [],
       totalPrice: 0,
     })
 
