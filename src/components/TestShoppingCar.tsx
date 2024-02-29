@@ -49,7 +49,7 @@ const ShoppingCarTest = () => {
       <ul className='gap-2 flex flex-col mt-10'>
         {products.map(product => (
           <li
-            className='p-2 bg-slate-400 rounded-md gap-2 flex items-center'
+            className='p-2 bg-slate-400 rounded-md gap-2 flex items-center flex-col'
             key={product.id}
           >
             {product.name}

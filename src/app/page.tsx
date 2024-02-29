@@ -7,9 +7,6 @@ import ShoppingCar from '@/components/ShoppingCar'
 import ShoppingCarTest from '@/components/TestShoppingCar'
 import ShippingAdressForm from '@/components/Shipping/ShippingAddressForm'
 
-// Import context provider
-import { ShoppingCarContextProvider } from '@/store/shopping-car/shopping-car'
-
 export const metadata: Metadata = {
   title: 'Cora Party - Tu Tienda de Globos, Flores y Arreglos Decorativos',
   description:
@@ -19,13 +16,13 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <MainLayout>
-      <ShoppingCarContextProvider>
-        <div className='mt-10 mx-auto max-w-4xl'>
-          <ShippingAdressForm />
-          <ShoppingCar />
-          <ShoppingCarTest />
-        </div>
-      </ShoppingCarContextProvider>
+      {/* <ShoppingCarContextProvider> */}
+      <div className='mt-10 mx-auto max-w-4xl'>
+        {/* <ShippingAdressForm /> */}
+        <ShoppingCar />
+        <ShoppingCarTest />
+      </div>
+      {/* </ShoppingCarContextProvider> */}
     </MainLayout>
   )
 }

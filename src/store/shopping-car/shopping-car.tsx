@@ -56,6 +56,7 @@ export const ShoppingCarContextProvider = ({ children }: any) => {
     useReducer(shoppingCarReducer, {
       products: [],
       totalPrice: 0,
+      totalProducts: 0,
     })
 
   return (

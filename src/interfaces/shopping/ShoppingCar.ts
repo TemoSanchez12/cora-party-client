@@ -4,6 +4,7 @@ import Product from '../domain/Product'
 export interface ShoppingCar {
   products: ProductWrapper[]
   totalPrice: number
+  totalProducts: number
 }
 
 export interface ProductWrapper {

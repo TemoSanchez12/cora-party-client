@@ -8,7 +8,15 @@ const config: Config = {
     './src/layouts/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        'global-container': 'min(90%, 1200px)',
+      },
+      colors: {
+        'light-blue': '#a1d4e0',
+        'dark-blue': '#5287c3',
+      },
+    },
   },
   plugins: [],
 }
