@@ -1,11 +1,15 @@
 'use client'
 
-import Product from '@/interfaces/Product'
+import Product from '@/interfaces/domain/Product'
 import { useContext } from 'react'
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
-import { ComplementWrapper, ProductWrapper } from '@/interfaces/ShoppingCar'
+import {
+  ComplementWrapper,
+  ProductWrapper,
+} from '@/interfaces/shopping/ShoppingCar'
+import ComplementProduct from '@/interfaces/domain/ComplementProduct'
 
 const ShoppingCar = () => {
   const shoppingCarContext = useContext(ShoppingCarContext)
@@ -28,11 +32,13 @@ const ShoppingCar = () => {
     })
   }
 
-  const handleRemoveComplement = (complement, productId) => {
+  const handleRemoveComplement = (
+    complement: ComplementProduct,
+    productId: string
+  ) => {
     const wrapper: ComplementWrapper = {
       complement,
       forProductId: productId,
-      productType: 'balloon',
     }
 
     shoppingCarContext.dispatchShoppingCarAction({
@@ -46,19 +52,19 @@ const ShoppingCar = () => {
       <div>Lista de compras</div>
 
       <div>
-        {shoppingCarContext.shoppingCarState.balloons.map(balloon => (
+        {shoppingCarContext.shoppingCarState.products.map(productWrapper => (
           <li
-            key={balloon.product.id + balloon.type}
+            key={productWrapper.product.id}
             className='flex gap-2 items-center'
           >
-            {balloon.product.name}
-            cantidad {balloon.quantity}
+            {productWrapper.product.name}
+            cantidad {productWrapper.quantity}
             <button
               className='p-2 bg-yellow-300'
               onClick={handleEditQuantityCar.bind(
                 null,
-                balloon.product,
-                balloon.quantity + 1
+                productWrapper.product,
+                productWrapper.quantity + 1
               )}
             >
               +
@@ -67,28 +73,31 @@ const ShoppingCar = () => {
               className='p-2 bg-yellow-300'
               onClick={handleEditQuantityCar.bind(
                 null,
-                balloon.product,
-                balloon.quantity - 1
+                productWrapper.product,
+                productWrapper.quantity - 1
               )}
             >
               -
             </button>
-            <p>${balloon.total}</p>
+            <p>${productWrapper.total}</p>
             <button
               className='px-2 py-1 rounded-md bg-red-400'
-              onClick={handleRemoveProduct.bind(null, balloon)}
+              onClick={handleRemoveProduct.bind(null, productWrapper)}
             >
               Remover
             </button>
             <ul className='ml-5 rounded-lg bg-pink-100 p-4 gap-2 flex-col flex'>
               <div className='p-2 rounded-md bg-blue-200'>Complements:</div>
-              {balloon.product.complements &&
-                balloon.product.complements.map(complement => (
-                  <li key={balloon.product.id + complement.id}>
+              {productWrapper.product.complements &&
+                productWrapper.product.complements.map(complement => (
+                  <li key={productWrapper.product.id + complement.id}>
                     {complement.name} ${complement.price}
                     <button
                       onClick={() =>
-                        handleRemoveComplement(complement, balloon.product.id)
+                        handleRemoveComplement(
+                          complement,
+                          productWrapper.product.id
+                        )
                       }
                       className='bg-red-200 p-2 ml-2 rounded-lg'
                     >

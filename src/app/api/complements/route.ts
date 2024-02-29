@@ -11,7 +11,7 @@ import { mapListComplements } from '@/utils/mappers/complements/complementMapper
 import { getComplementForProduct } from '@/queries/complementQueries'
 
 // Import interfaces
-import ComplementProduct from '@/interfaces/ComplementProduct'
+import ComplementProduct from '@/interfaces/domain/ComplementProduct'
 
 type typesForComplementsTypes = {
   balloon: string

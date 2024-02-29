@@ -1,11 +1,10 @@
-import ComplementProduct from '@/interfaces/ComplementProduct'
-import Product from '@/interfaces/Product'
+import ComplementProduct from '@/interfaces/domain/ComplementProduct'
+import Product from '@/interfaces/domain/Product'
 import { useState, useEffect } from 'react'
 import { useContext } from 'react'
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
-import { ComplementWrapper } from '@/interfaces/ShoppingCar'
 
 interface ComplementProps {
   product: Product
@@ -18,8 +17,10 @@ const Complements = ({ product }: ComplementProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const [type, strapiId] = product.id.split('-')
+
         const response = await fetch(
-          `/api/complements?productId=${product.id}&type=balloon`
+          `/api/complements?productId=${strapiId}&type=balloon`
         ).then(data => (data.ok ? data.json() : Promise.reject()))
         setComplements(response.data)
       } catch (error) {
@@ -36,7 +37,6 @@ const Complements = ({ product }: ComplementProps) => {
       payload: {
         complement,
         forProductId: product.id,
-        productType: 'balloon',
       },
     })
   }
