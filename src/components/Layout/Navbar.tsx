@@ -50,7 +50,7 @@ const Navbar = () => {
         </div>
       </div>
       <NavigationLinks isMenuOpen={isMenuOpen} isMobile={true} />
-      <ShoppingCar />
+      <ShoppingCar isOpenShoppingCar={isShoppingCarOpen} />
     </div>
   )
 }

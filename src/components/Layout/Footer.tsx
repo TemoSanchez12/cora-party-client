@@ -24,7 +24,7 @@ const Footer = () => {
   return (
     <>
       <footer className='bg-black py-12 px-12'>
-        <div className='flex md:flex-row flex-col-reverse items-center gap-9 justify-between'>
+        <div className='flex md:flex-row flex-col-reverse items-center gap-9 justify-between w-global-container mx-auto'>
           <div className='max-w-40 w-full'>
             <Image
               src={isotipo}
