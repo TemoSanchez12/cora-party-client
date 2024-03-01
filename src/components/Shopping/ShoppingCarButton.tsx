@@ -1,7 +1,13 @@
 'use client'
 
 // import dependencies
-import { useContext, useEffect, useState } from 'react'
+import {
+  useContext,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 
 // import context
 import ShoppingCarContext from '@/store/shopping-car/shopping-car'
@@ -9,12 +15,19 @@ import ShoppingCarContext from '@/store/shopping-car/shopping-car'
 // import components
 import ShoppingCarIcon from '../Icons/ShoppingCar'
 
-const ShoppingCarButton = () => {
+interface ShoppingCarButtonProps {
+  isShoppingCarOpen: boolean
+  setIsShoppingCarOpen: Dispatch<SetStateAction<boolean>>
+}
+
+const ShoppingCarButton = ({
+  isShoppingCarOpen,
+  setIsShoppingCarOpen,
+}: ShoppingCarButtonProps) => {
   const [animateNumber, setAnimateNumber] = useState(false)
   const { shoppingCarState } = useContext(ShoppingCarContext)
 
   useEffect(() => {
-    console.log('entro')
     // Activa la animación cuando cambie el número de productos
     setAnimateNumber(true)
 
@@ -27,7 +40,14 @@ const ShoppingCarButton = () => {
   }, [shoppingCarState.totalProducts])
 
   return (
-    <div className='relative'>
+    <div
+      onClick={() => setIsShoppingCarOpen(prev => !prev)}
+      className='relative'
+    >
+      {isShoppingCarOpen && (
+        <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-slate-400 opacity-40'></div>
+      )}
+
       <div
         className={`w-5 h-5 bg-red-600 rounded-full flex justify-center items-center absolute -top-3 -right-3 duration-300 ease-in-out ${
           shoppingCarState.totalProducts <= 0 && 'translate-y-3 opacity-0'

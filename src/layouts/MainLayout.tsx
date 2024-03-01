@@ -1,5 +1,7 @@
-import Navbar from '@/components/Layout/Navbar'
 import '../styles/globals.css'
+import Navbar from '@/components/Layout/Navbar'
+import Footer from '@/components/Layout/Footer'
+
 // Import context provider
 import { ShoppingCarContextProvider } from '@/store/shopping-car/shopping-car'
 
@@ -14,6 +16,7 @@ export default function RootLayout({
         <ShoppingCarContextProvider>
           <Navbar />
           {children}
+          <Footer />
         </ShoppingCarContextProvider>
       </body>
     </html>

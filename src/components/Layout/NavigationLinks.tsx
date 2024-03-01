@@ -1,14 +1,11 @@
-// import dependencies
-import Link from 'next/link'
-
 // import font
 import { Montserrat } from 'next/font/google'
 
 // import contants
-import Routes from '@/constans/routes'
+import { NavbarRoutes } from '@/constans/routes'
 import NavigationLink from './NavigationLink'
 
-const montserrat = Montserrat({ weight: ['400', '600'], subsets: ['cyrillic'] })
+const montserrat = Montserrat({ weight: ['400', '600'], subsets: ['latin'] })
 
 interface NavigationLinksProps {
   isMenuOpen: boolean
@@ -18,13 +15,13 @@ interface NavigationLinksProps {
 const NavigationLinks = ({ isMenuOpen, isMobile }: NavigationLinksProps) => {
   const links = []
 
-  for (const key in Routes) {
+  for (const key in NavbarRoutes) {
     links.push(
       <NavigationLink
-        key={Routes[key].route}
+        key={NavbarRoutes[key].route}
         isMobile={isMobile}
-        nameRoute={Routes[key].name}
-        route={Routes[key].route}
+        nameRoute={NavbarRoutes[key].name}
+        route={NavbarRoutes[key].route}
       />
     )
   }

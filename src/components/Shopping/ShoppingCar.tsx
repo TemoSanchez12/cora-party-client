@@ -1,15 +1,20 @@
 'use client'
 
-import Product from '@/interfaces/domain/Product'
+// import dependencies
 import { useContext } from 'react'
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
+
+// import interfaces
 import {
   ComplementWrapper,
   ProductWrapper,
 } from '@/interfaces/shopping/ShoppingCar'
 import ComplementProduct from '@/interfaces/domain/ComplementProduct'
+
+// import components
+import Product from '@/interfaces/domain/Product'
 
 const ShoppingCar = () => {
   const shoppingCarContext = useContext(ShoppingCarContext)
@@ -48,9 +53,7 @@ const ShoppingCar = () => {
   }
 
   return (
-    <div className='px-6 py-2 rounded-lg bg-slate-300'>
-      <div>Lista de compras</div>
-
+    <div className='px-6 py-2 rounded-lg bg-slate-300 absolute h-shopping-car-heigh w-full'>
       <div>
         {shoppingCarContext.shoppingCarState.products.map(productWrapper => (
           <li
@@ -116,4 +119,4 @@ const ShoppingCar = () => {
   )
 }
 
-// export default ShoppingCar
+export default ShoppingCar

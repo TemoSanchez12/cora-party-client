@@ -3,7 +3,7 @@ interface contentRoute {
   route: string
 }
 
-type routeTypes = {
+type navbarRouteTypes = {
   home: contentRoute
   about: contentRoute
   contact: contentRoute
@@ -12,7 +12,14 @@ type routeTypes = {
   [key: string]: contentRoute
 }
 
-const Routes: routeTypes = {
+type footerInfoRouteTypes = {
+  privacityNotice: contentRoute
+  usagePolicies: contentRoute
+  about: contentRoute
+  [key: string]: contentRoute
+}
+
+export const NavbarRoutes: navbarRouteTypes = {
   home: { name: 'Home', route: '/' },
   about: { name: 'Nosotros', route: '/nosotros' },
   balloons: { name: 'Globos', route: '/globos' },
@@ -20,4 +27,8 @@ const Routes: routeTypes = {
   contact: { name: 'Contacto', route: '/contacto' },
 }
 
-export default Routes
+export const InfoFooterRoutes: footerInfoRouteTypes = {
+  privacityNotice: { name: 'Aviso de privacidad', route: '/aviso-privacidad' },
+  usagePolicies: { name: 'Politicas de uso', route: '/politicas-uso' },
+  about: { name: 'Nosotros', route: '/nosotros' },
+}

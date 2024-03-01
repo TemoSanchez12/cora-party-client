@@ -9,11 +9,13 @@ import logo from '../../../public/images/domain/logotipo-cora-party.png'
 import FacebookIcon from '../Icons/FacebookIcon'
 import InstagramIcon from '../Icons/InstagramIcon'
 import BurgerMenuButton from './BurgerMenuButton'
-import ShoppingCarButton from './ShoppingCarButton'
+import ShoppingCarButton from '../Shopping/ShoppingCarButton'
 import NavigationLinks from './NavigationLinks'
+import ShoppingCar from '../Shopping/ShoppingCar'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isShoppingCarOpen, setShoppingCarOpen] = useState(false)
 
   return (
     <div className='bg-white w-full fixed top-0 z-10'>
@@ -36,7 +38,10 @@ const Navbar = () => {
 
           <div className='flex items-center gap-6'>
             <NavigationLinks isMenuOpen={isMenuOpen} isMobile={false} />
-            <ShoppingCarButton />
+            <ShoppingCarButton
+              isShoppingCarOpen={isShoppingCarOpen}
+              setIsShoppingCarOpen={setShoppingCarOpen}
+            />
             <BurgerMenuButton
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -45,6 +50,7 @@ const Navbar = () => {
         </div>
       </div>
       <NavigationLinks isMenuOpen={isMenuOpen} isMobile={true} />
+      <ShoppingCar />
     </div>
   )
 }
