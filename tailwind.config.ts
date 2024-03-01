@@ -17,6 +17,9 @@ const config: Config = {
         'light-blue': '#a1d4e0',
         'dark-blue': '#5287c3',
       },
+      boxShadow: {
+        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
+      },
     },
   },
   plugins: [],
