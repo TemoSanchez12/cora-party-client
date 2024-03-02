@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import FooterNavLink from './FooterNavLink'
-import isotipo from '../../../public/images/domain/logotipo-cora-isotipo.png'
+import isotipo from '../../../../public/images/domain/logotipo-cora-isotipo.png'
 import { Inter } from 'next/font/google'
 
 import { InfoFooterRoutes } from '@/constans/routes'

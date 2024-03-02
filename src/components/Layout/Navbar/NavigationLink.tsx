@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import ArrowTopRightIcon from '../Icons/ArrowToprRightIcon'
+import ArrowTopRightIcon from '../../Icons/ArrowToprRightIcon'
 
 interface NavigationLinkProps {
   route: string

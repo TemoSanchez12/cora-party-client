@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['cora-party.adminpadrisima.com'],
+    remotePatterns: [
+      {
+        hostname: 'cora-party.adminpadrisima.com',
+        protocol: 'https',
+      },
+    ],
   },
 }
 

@@ -5,13 +5,13 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 // Import componets
-import logo from '../../../public/images/domain/logotipo-cora-party.png'
-import FacebookIcon from '../Icons/FacebookIcon'
-import InstagramIcon from '../Icons/InstagramIcon'
+import logo from '../../../../public/images/domain/logotipo-cora-party.png'
+import FacebookIcon from '../../Icons/FacebookIcon'
+import InstagramIcon from '../../Icons/InstagramIcon'
 import BurgerMenuButton from './BurgerMenuButton'
-import ShoppingCarButton from '../Shopping/ShoppingCarButton'
+import ShoppingCarButton from '../../Shopping/ShoppingCarButton'
 import NavigationLinks from './NavigationLinks'
-import ShoppingCar from '../Shopping/ShoppingCar'
+import ShoppingCar from '../../Shopping/ShoppingCar'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

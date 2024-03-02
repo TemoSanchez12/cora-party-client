@@ -3,9 +3,8 @@ import type { Metadata } from 'next'
 
 // Import components
 import MainLayout from '../layouts/MainLayout'
-// import ShoppingCar from '@/components/ShoppingCar'
 import ShoppingCarTest from '@/components/TestShoppingCar'
-import ShippingAdressForm from '@/components/Shipping/ShippingAddressForm'
+import Hero from '@/components/Layout/Hero/Hero'
 
 export const metadata: Metadata = {
   title: 'Cora Party - Tu Tienda de Globos, Flores y Arreglos Decorativos',
@@ -16,13 +15,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <MainLayout>
-      {/* <ShoppingCarContextProvider> */}
+      <Hero />
       <div className='mt-10 mx-auto max-w-4xl'>
-        {/* <ShippingAdressForm /> */}
-        {/* <ShoppingCar /> */}
         <ShoppingCarTest />
       </div>
-      {/* </ShoppingCarContextProvider> */}
     </MainLayout>
   )
 }
