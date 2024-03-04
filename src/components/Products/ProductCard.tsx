@@ -112,10 +112,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
       >
         <p>{product.name}</p>
         <button
-          className='text-dark-blue mt-1 text-left'
+          className={`text-dark-blue mt-1 text-left ${
+            productAdded && 'text-slate-500 italic'
+          }`}
           onClick={() => handleAddProductToCar(product)}
         >
-          {!productAdded ? 'Agregar al carrito' : 'Producto agregado'}
+          {productAdded ? 'Producto agregado' : 'Agregar al carrito'}
         </button>
       </div>
     </div>

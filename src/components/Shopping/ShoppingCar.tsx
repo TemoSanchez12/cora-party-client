@@ -1,16 +1,34 @@
 'use client'
 
 // import dependencies
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ShoppingCarContext from '@/store/shopping-car/shopping-car'
 import ShoppingCarItem from './ShoppingCarItem'
+
+import { Poppins } from 'next/font/google'
+import Link from 'next/link'
+
+const poppins = Poppins({ weight: ['400', '600'], subsets: ['latin'] })
 
 interface ShoppingCarProps {
   isOpenShoppingCar: boolean
 }
 
 const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
+  const [shippingPrice, setShippingPrice] = useState(0)
   const { shoppingCarState } = useContext(ShoppingCarContext)
+
+  useEffect(() => {
+    const fetchShippingPrice = async () => {
+      const response = await fetch('/api/shipping-price').then(res =>
+        res.ok ? res.json() : Promise.reject()
+      )
+
+      setShippingPrice(response.data)
+    }
+
+    fetchShippingPrice()
+  }, [])
 
   return (
     <div
@@ -19,15 +37,15 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
       }`}
     >
       <div
-        className={`${
+        className={`flex flex-col h-full ${
           shoppingCarState.products.length > 0
-            ? ''
-            : 'flex flex-col justify-center h-full'
+            ? 'justify-between'
+            : 'justify-center'
         }`}
       >
         {shoppingCarState.products.length > 0 ? (
           <>
-            <ul className='flex flex-col gap-6 py-10 border-t-2 border-slate-500'>
+            <ul className='flex flex-col gap-6 py-10 border-t-2 border-slate-500 overflow-y-scroll no-scrollbar'>
               {shoppingCarState.products.map(productWrapper => (
                 <ShoppingCarItem
                   key={productWrapper.product.id}
@@ -35,14 +53,49 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
                 />
               ))}
             </ul>
-            <div>Total: {shoppingCarState.totalPrice}</div>
+            <div>
+              <div className={`${poppins.className} flex flex-col gap-4`}>
+                <p className='flex justify-between text-slate-500 text-sm border-b border-slate-400 p-2 border-t'>
+                  Subtotal:{' '}
+                  <span className='text-slate-700'>
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN',
+                    }).format(shoppingCarState.totalPrice)}
+                  </span>
+                </p>
+                <p className='flex justify-between text-slate-500 text-sm border-b border-slate-400 p-2 pt-0'>
+                  Costo de envio:{' '}
+                  <span className='text-slate-700'>
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN',
+                    }).format(shippingPrice)}
+                  </span>
+                </p>
+                <p className='flex justify-between text-slate-500 text-sm border-b border-slate-400 p-2 pt-0'>
+                  Total:{' '}
+                  <span className='text-slate-700'>
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN',
+                    }).format(shoppingCarState.totalPrice + shippingPrice)}
+                  </span>
+                </p>
+              </div>
+
+              <Link
+                href='/checkout'
+                className={`bg-slate-500 p-2 mt-2 w-full text-center text-white rounded-lg flex justify-center ${poppins.className}`}
+              >
+                Proceder al pago
+              </Link>
+            </div>
           </>
         ) : (
-          <>
-            <p className='text-center text-xl text-slate-600'>
-              No hay productos agregados en el carrito
-            </p>
-          </>
+          <p className='text-center text-xl text-slate-600'>
+            No hay productos agregados en el carrito
+          </p>
         )}
       </div>
     </div>
