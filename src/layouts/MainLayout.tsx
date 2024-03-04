@@ -12,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className='bg-slate-500 pt-[120px]'>
+      <body className='pt-[120px]'>
         <ShoppingCarContextProvider>
           <Navbar />
           {children}
