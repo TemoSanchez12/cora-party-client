@@ -5,7 +5,9 @@ const mapImageFormats = (formats: any) => {
   let mappedFormats: any = {}
 
   Object.keys(formats).forEach(key => {
-    const value = formats[key]
+    const value = { ...formats[key] }
+    value.url = process.env.STRAPI_URL + value.url
+
     mappedFormats[key] = value
   })
 

@@ -5,6 +5,17 @@ import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
 import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
 import { ComplementWrapper } from '@/interfaces/shopping/ShoppingCar'
 
+const calculateTotalProducts = (shoppingCar: ShoppingCar): number => {
+  let totalProducts = 0
+
+  for (const productWrapper of shoppingCar.products) {
+    totalProducts += productWrapper.quantity
+    totalProducts += productWrapper.product.complements?.length || 0
+  }
+
+  return totalProducts
+}
+
 const calculateComplementTotalPrices = (product: Product): number => {
   let total = 0
 
@@ -42,6 +53,7 @@ export const addProduct = (
   const stateUpdated: ShoppingCar = {
     products: [...state.products],
     totalPrice: state.totalPrice,
+    totalProducts: state.totalProducts,
   }
 
   if (!checkProductInShoppingCar(stateUpdated.products, payload)) {
@@ -50,6 +62,8 @@ export const addProduct = (
   }
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
+  stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
+
   return stateUpdated
 }
 
@@ -60,6 +74,7 @@ export const addComplement = (
   const stateUpdated: ShoppingCar = {
     products: [...state.products],
     totalPrice: state.totalPrice,
+    totalProducts: state.totalProducts,
   }
 
   const productWrapper = state.products.find(
@@ -81,7 +96,7 @@ export const addComplement = (
   }
 
   stateUpdated.totalPrice = calculateTotal(state)
-
+  stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
   return stateUpdated
 }
 
@@ -92,6 +107,7 @@ export const removeProduct = (
   const stateUpdated: ShoppingCar = {
     products: [...state.products],
     totalPrice: state.totalPrice,
+    totalProducts: state.totalProducts,
   }
 
   stateUpdated.products = state.products.filter(
@@ -99,6 +115,8 @@ export const removeProduct = (
   )
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
+  stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
+
   return stateUpdated
 }
 
@@ -109,6 +127,7 @@ export const removeComplement = (
   const stateUpdated: ShoppingCar = {
     products: [...state.products],
     totalPrice: state.totalPrice,
+    totalProducts: state.totalProducts,
   }
 
   const productWrapper = stateUpdated.products.find(
@@ -123,6 +142,7 @@ export const removeComplement = (
     productWrapper.product.complements = updatedComplementsProduct
 
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
+  stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
   return stateUpdated
 }
 
@@ -133,6 +153,7 @@ export const updateQuantityProduct = (
   const stateUpdated: ShoppingCar = {
     products: [...state.products],
     totalPrice: state.totalPrice,
+    totalProducts: state.totalProducts,
   }
 
   if (payload.quantity <= 0) {
@@ -150,5 +171,6 @@ export const updateQuantityProduct = (
   }
 
   stateUpdated.totalPrice = calculateTotal(state)
+  stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
   return stateUpdated
 }

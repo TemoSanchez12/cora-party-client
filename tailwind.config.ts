@@ -8,7 +8,20 @@ const config: Config = {
     './src/layouts/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        'global-container': 'min(90%, 1200px)',
+        'shopping-car-heigh': 'calc(100vh - 120px)',
+        '18': '74px',
+      },
+      colors: {
+        'light-blue': '#a1d4e0',
+        'dark-blue': '#5287c3',
+      },
+      boxShadow: {
+        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
+      },
+    },
   },
   plugins: [],
 }

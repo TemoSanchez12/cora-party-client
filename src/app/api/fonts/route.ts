@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Import graphql client
 import client from '@/apollo-client'
-import ProductFonts from '@/interfaces/ProductFonts'
+import ProductFonts from '@/interfaces/domain/ProductFonts'
 
 // Import queries
 import { getFontsQuery } from '@/queries/fontQueries'
@@ -57,7 +57,7 @@ export const GET = async (req: NextRequest) => {
     console.log(err)
     return NextResponse.json<FontProductResponse>({
       success: false,
-      message: '',
+      message: 'An error occurred while processing the request.' + err.message,
     })
   }
 }
