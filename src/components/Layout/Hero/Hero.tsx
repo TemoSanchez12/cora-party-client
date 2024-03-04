@@ -4,19 +4,24 @@ import HeroBanner from '@/interfaces/domain/HeroBanner'
 
 const Hero = async () => {
   const response = await fetch(process.env.BASE_URL + '/api/heroBanner').then(
-    res => (res.ok ? res.json() : Promise.reject())
+    res => {
+      return res.ok ? res.json() : Promise.reject()
+    }
   )
 
   const heroBanner: HeroBanner = response.data
 
   return (
-    <header className='aspect-video relative'>
+    <header className=''>
       <Link href={heroBanner.link}>
         <Image
           src={heroBanner.image.formats.large?.url || ''}
           alt=''
-          fill={true}
-          className='object-cover'
+          className='object-cover w-full'
+          quality={100}
+          width={1600}
+          height={569}
+          priority={true}
         />
       </Link>
     </header>

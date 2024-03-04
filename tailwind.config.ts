@@ -12,6 +12,7 @@ const config: Config = {
       spacing: {
         'global-container': 'min(90%, 1200px)',
         'shopping-car-heigh': 'calc(100vh - 120px)',
+        '18': '74px',
       },
       colors: {
         'light-blue': '#a1d4e0',

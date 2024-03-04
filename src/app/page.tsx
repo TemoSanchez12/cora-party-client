@@ -1,6 +1,9 @@
 // Imports next
 import type { Metadata } from 'next'
 
+// import dependencies
+import Link from 'next/link'
+
 // import fonts
 import { Montserrat } from 'next/font/google'
 
@@ -8,9 +11,9 @@ import { Montserrat } from 'next/font/google'
 import MainLayout from '../layouts/MainLayout'
 import Hero from '@/components/Layout/Hero/Hero'
 import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
-import ProductCard from '@/components/Products/ProductCard'
+import SimpleProductList from '@/components/Products/ProductList'
 
-const montserrat = Montserrat({ weight: ['400'], subsets: ['latin'] })
+const montserrat = Montserrat({ weight: ['500'], subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Cora Party - Tu Tienda de Globos, Flores y Arreglos Decorativos',
@@ -22,27 +25,52 @@ export default async function Home() {
   const response = await fetch(process.env.BASE_URL + '/api/balloons').then(
     res => (res.ok ? res.json() : Promise.reject())
   )
+
   const balloonsFeatured: BalloonProduct[] = response.data.filter(
-    (balloon: BalloonProduct) => balloon.isFeatured
+    (balloon: BalloonProduct) => balloon.isFeatured && balloon.isActive
   )
 
   return (
     <MainLayout>
       <Hero />
-      <div
-        className={`${montserrat.className} flex flex-col items-center my-10`}
-      >
-        <h4 className='text-3xl'>wow happens here</h4>
-        <div>
-          <ul>
-            {balloonsFeatured.map(balloon => (
-              <li key={balloon.id}>
-                <ProductCard />
-              </li>
-            ))}
-          </ul>
+      <section className='w-global-container mx-auto'>
+        <div
+          className={`${montserrat.className} flex flex-col items-center mt-32 mb-20 `}
+        >
+          <h4 className='text-3xl text-slate-600 font-medium w-full text-center'>
+            Nuestros productos{' '}
+            <span className='text-dark-blue'>destacados</span>
+          </h4>
+
+          <div className='mt-20'>
+            <div className='flex justify-end mb-10'>
+              <Link
+                href='/globos'
+                className={`${montserrat.className} border-b-2 border-dark-blue text-slate-600`}
+              >
+                Ver todos los globos
+              </Link>
+            </div>
+            <SimpleProductList products={balloonsFeatured} />
+          </div>
         </div>
-      </div>
+
+        <div
+          className={`${montserrat.className} flex flex-col items-center mb-32`}
+        >
+          <div className=''>
+            <div className='flex justify-end mb-10'>
+              <Link
+                href='/flores'
+                className={`${montserrat.className} border-b-2 border-dark-blue text-slate-600`}
+              >
+                Ver todas las flores
+              </Link>
+            </div>
+            <SimpleProductList products={balloonsFeatured} />
+          </div>
+        </div>
+      </section>
     </MainLayout>
   )
 }

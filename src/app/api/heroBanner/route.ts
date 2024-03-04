@@ -1,5 +1,5 @@
 // import dependencies
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 // import graphql client
 import client from '@/apollo-client'
@@ -24,10 +24,12 @@ const handleGetBannerImage = async () => {
     query: getHeroBannerQuery(),
   })
 
+  console.log(data)
+
   return mapBannerHeroMapper(data)
 }
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   try {
     const response = await handleGetBannerImage()
     return NextResponse.json<HeroBannerResponse>({

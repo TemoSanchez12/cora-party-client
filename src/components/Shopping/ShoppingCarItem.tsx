@@ -187,7 +187,6 @@ const ShoppingCarItem = ({ productWrapper }: ShoppingCarItemProps) => {
             )}
         </div>
       </div>
-      <span>{productWrapper.total}</span>
     </li>
   )
 }

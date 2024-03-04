@@ -19,7 +19,7 @@ export const mapListComplements = (data: any): ComplementProduct[] => {
     const imagesMapped = images.data.map(mapResponseImage)
 
     const complementProduct: ComplementProduct = {
-      id: 'complement-' + complement.id,
+      id: 'complementos-' + complement.id,
       name,
       description,
       price,
