@@ -1,6 +1,6 @@
 // Import dependencies
 import Image from 'next/image'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 // import interfaces
 import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
@@ -14,18 +14,20 @@ import ShoppingCarContext, {
 } from '@/store/shopping-car/shopping-car'
 
 // import font
-import { Montserrat } from 'next/font/google'
+import { Montserrat, Poppins } from 'next/font/google'
 
 // import components
 import TrashEmptyIcon from '../Icons/TrashEmptyIcon'
 
 const montserrat = Montserrat({ weight: ['400', '600'], subsets: ['latin'] })
+const poppins = Poppins({ weight: ['400', '600'], subsets: ['latin'] })
 
 interface ShoppingCarItemProps {
   productWrapper: ProductWrapper
 }
 
 const ShoppingCarItem = ({ productWrapper }: ShoppingCarItemProps) => {
+  const [complementsTotal, setComplementsTotal] = useState(0)
   const { dispatchShoppingCarAction } = useContext(ShoppingCarContext)
 
   const handleEditQuantityCar = (product: Product, value: number) => {
@@ -62,130 +64,159 @@ const ShoppingCarItem = ({ productWrapper }: ShoppingCarItemProps) => {
     })
   }
 
+  useEffect(() => {
+    let totalComplement = 0
+    productWrapper.product.complements?.forEach(complement => {
+      totalComplement += complement.price
+    })
+    setComplementsTotal(totalComplement)
+  }, [
+    productWrapper.product.complements,
+    productWrapper.product.complements?.length,
+  ])
+
   return (
     <li
       key={productWrapper.product.id}
-      className='flex gap-2 shadow-xl p-2 rounded-xl justify-between border border-gray-100'
+      className='flex flex-col gap-2 shadow-xl p-2 rounded-xl justify-between border border-gray-100'
     >
-      <div className='h-44 w-1/3 rounded-lg overflow-hidden'>
-        <Image
-          className='object-cover w-full h-full'
-          src={productWrapper.product.images[0].formats.thumbnail?.url || ''}
-          width={200}
-          height={300}
-          alt={productWrapper.product.name}
-        />
-      </div>
-
-      <div className='w-2/3 h-full py-2'>
-        <div className='flex items-center justify-between border-b-2 border-slate-400 mb-2 pb-2'>
-          <p className={`${montserrat.className} text-md`}>
-            {productWrapper.product.name}
-          </p>
-          <span className={`${montserrat.className} font-semibold ml-2`}>
-            {new Intl.NumberFormat('es-MX', {
-              style: 'currency',
-              currency: 'MXN',
-            }).format(productWrapper.total)}
-          </span>
+      <div className='flex gap-2'>
+        <div className='h-44 w-1/3 rounded-lg overflow-hidden'>
+          <Image
+            className='object-cover w-full h-full'
+            src={productWrapper.product.images[0].formats.thumbnail?.url || ''}
+            width={200}
+            height={300}
+            alt={productWrapper.product.name}
+          />
         </div>
 
-        <div className='flex gap-8 mb-2 items-center mt-4'>
-          <div className=' border border-gray-400 rounded-md shadow-sm'>
-            <button
-              className={`${montserrat.className} py-1 px-2 border-r border-gray-400`}
-              onClick={handleEditQuantityCar.bind(
-                null,
-                productWrapper.product,
-                productWrapper.quantity - 1
-              )}
+        <div className='w-2/3 h-full py-2'>
+          <div className='flex items-center justify-between border-b-2 border-slate-400 mb-2 pb-2'>
+            <p className={`${montserrat.className} text-md`}>
+              {productWrapper.product.name}
+            </p>
+            <span
+              className={`${montserrat.className} font-semibold ml-2 text-sm`}
             >
-              -
-            </button>
-            <span className={`${montserrat.className} py-1 px-2`}>
-              {productWrapper.quantity}
+              {new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+              }).format(productWrapper.total)}
             </span>
+          </div>
+
+          <div className='flex gap-8 mb-2 items-center mt-4'>
+            <div className=' border border-gray-400 rounded-md shadow-sm'>
+              <button
+                className={`${montserrat.className} py-1 px-2 border-r border-gray-400`}
+                onClick={handleEditQuantityCar.bind(
+                  null,
+                  productWrapper.product,
+                  productWrapper.quantity - 1
+                )}
+              >
+                -
+              </button>
+              <span className={`${montserrat.className} py-1 px-2`}>
+                {productWrapper.quantity}
+              </span>
+              <button
+                className={`${montserrat.className} py-1 px-2 border-l border-gray-400`}
+                onClick={handleEditQuantityCar.bind(
+                  null,
+                  productWrapper.product,
+                  productWrapper.quantity + 1
+                )}
+              >
+                +
+              </button>
+            </div>
+
             <button
-              className={`${montserrat.className} py-1 px-2 border-l border-gray-400`}
-              onClick={handleEditQuantityCar.bind(
-                null,
-                productWrapper.product,
-                productWrapper.quantity + 1
-              )}
+              className='flex text-gray-400 gap-1'
+              onClick={handleRemoveProduct.bind(null, productWrapper)}
             >
-              +
+              <TrashEmptyIcon color='rgb(156 163 175 / var(--tw-text-opacity))' />{' '}
+              Remove
             </button>
           </div>
 
-          <button
-            className='flex text-gray-400 gap-1'
-            onClick={handleRemoveProduct.bind(null, productWrapper)}
-          >
-            <TrashEmptyIcon color='rgb(156 163 175 / var(--tw-text-opacity))' />{' '}
-            Remove
-          </button>
-        </div>
-
-        <div className=''>
-          <p
-            className={`ml-2 mt-2 text-gray-600 font-semibold ${montserrat.className}`}
-          >
+          <div className=''>
+            <p
+              className={`ml-2 mt-2 text-gray-600 font-semibold ${montserrat.className}`}
+            >
+              {productWrapper.product.complements &&
+              productWrapper.product.complements.length > 0
+                ? 'Complementos :'
+                : 'Sin complementos'}
+            </p>
             {productWrapper.product.complements &&
-            productWrapper.product.complements.length > 0
-              ? 'Complementos :'
-              : 'Sin complementos'}
-          </p>
-          {productWrapper.product.complements &&
-            productWrapper.product.complements.length > 0 && (
-              <ul
-                className={`rounded-lg ml-2 gap-2 flex-col flex ${montserrat.className}`}
-              >
-                {productWrapper.product.complements &&
-                  productWrapper.product.complements.map(complement => (
-                    <li
-                      key={productWrapper.product.id + complement.id}
-                      className='flex gap-2 '
-                    >
-                      <div className='h-12 w-10'>
-                        <Image
-                          className='object-cover w-full h-full'
-                          src={
-                            complement.images[0].formats.thumbnail?.url || ''
-                          }
-                          width={40}
-                          height={60}
-                          alt={complement.name}
-                        />
-                      </div>
-                      <div className='w-full'>
-                        <div className='text-xs text-gray-500 flex items-center justify-between gap-1 w-full'>
-                          <span>{complement.name}</span>
-                          <button
-                            onClick={() =>
-                              handleRemoveComplement(
-                                complement,
-                                productWrapper.product.id
-                              )
+              productWrapper.product.complements.length > 0 && (
+                <ul
+                  className={`rounded-lg ml-2 gap-2 flex-col flex ${montserrat.className}`}
+                >
+                  {productWrapper.product.complements &&
+                    productWrapper.product.complements.map(complement => (
+                      <li
+                        key={productWrapper.product.id + complement.id}
+                        className='flex gap-2 '
+                      >
+                        <div className='h-12 w-10'>
+                          <Image
+                            className='object-cover w-full h-full'
+                            src={
+                              complement.images[0].formats.thumbnail?.url || ''
                             }
-                          >
-                            <TrashEmptyIcon color='rgb(248, 113, 113)' />
-                          </button>
+                            width={40}
+                            height={60}
+                            alt={complement.name}
+                          />
                         </div>
+                        <div className='w-full'>
+                          <div className='text-xs text-gray-500 flex items-center justify-between gap-1 w-full'>
+                            <span>{complement.name}</span>
+                            <button
+                              onClick={() =>
+                                handleRemoveComplement(
+                                  complement,
+                                  productWrapper.product.id
+                                )
+                              }
+                            >
+                              <TrashEmptyIcon color='rgb(248, 113, 113)' />
+                            </button>
+                          </div>
 
-                        <div>
-                          <span className='text-black text-sm font-semibold'>
-                            {new Intl.NumberFormat('es-MX', {
-                              style: 'currency',
-                              currency: 'MXN',
-                            }).format(complement.price)}
-                          </span>
+                          <div>
+                            <span className='text-black text-sm font-semibold'>
+                              {new Intl.NumberFormat('es-MX', {
+                                style: 'currency',
+                                currency: 'MXN',
+                              }).format(complement.price)}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            )}
+                      </li>
+                    ))}
+                </ul>
+              )}
+          </div>
         </div>
+      </div>
+
+      <div className='flex justify-end'>
+        <p
+          className={`text-slate-600 ${poppins.className} border border-slate-500 rounded-xl py-1 px-4`}
+        >
+          Total:{' '}
+          <span className='text-slate-900 font-medium'>
+            {new Intl.NumberFormat('es-MX', {
+              style: 'currency',
+              currency: 'MXN',
+            }).format(productWrapper.total + complementsTotal)}
+          </span>
+        </p>
       </div>
     </li>
   )

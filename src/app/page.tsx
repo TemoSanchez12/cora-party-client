@@ -12,6 +12,7 @@ import MainLayout from '../layouts/MainLayout'
 import Hero from '@/components/Layout/Hero/Hero'
 import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import SimpleProductList from '@/components/Products/ProductList'
+import ShoppingCarTest from '@/components/TestShoppingCar'
 
 const montserrat = Montserrat({ weight: ['500'], subsets: ['latin'] })
 
