@@ -2,11 +2,14 @@
 
 // import dependencies
 import { useContext, useEffect, useState } from 'react'
-import ShoppingCarContext from '@/store/shopping-car/shopping-car'
+import ShoppingCarContext, {
+  ShoppingCarAction,
+} from '@/store/shopping-car/shopping-car'
 import ShoppingCarItem from './ShoppingCarItem'
 
 import { Poppins } from 'next/font/google'
 import Link from 'next/link'
+import { ShoppingCar as ShoppingCarInterface } from '@/interfaces/shopping/ShoppingCar'
 
 const poppins = Poppins({ weight: ['400', '600'], subsets: ['latin'] })
 
@@ -16,7 +19,8 @@ interface ShoppingCarProps {
 
 const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
   const [shippingPrice, setShippingPrice] = useState(0)
-  const { shoppingCarState } = useContext(ShoppingCarContext)
+  const { shoppingCarState, dispatchShoppingCarAction } =
+    useContext(ShoppingCarContext)
 
   useEffect(() => {
     const fetchShippingPrice = async () => {
@@ -29,6 +33,25 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
 
     fetchShippingPrice()
   }, [])
+
+  // Save shopping car state to local storage when it changes
+  useEffect(() => {
+    const savedShoppingCarState = localStorage.getItem('shopping-car')
+
+    if (!savedShoppingCarState || shoppingCarState.products.length != 0) {
+      localStorage.setItem('shopping-car', JSON.stringify(shoppingCarState))
+    }
+  }, [shoppingCarState])
+
+  useEffect(() => {
+    const savedShoppingCarState = localStorage.getItem('shopping-car')
+    if (savedShoppingCarState) {
+      dispatchShoppingCarAction({
+        type: ShoppingCarAction.SET_SHOPPING_CAR,
+        payload: JSON.parse(savedShoppingCarState),
+      })
+    }
+  }, [dispatchShoppingCarAction])
 
   return (
     <div

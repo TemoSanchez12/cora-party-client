@@ -12,6 +12,7 @@ import {
   removeProduct,
   removeComplement,
   updateQuantityProduct,
+  setShoppingCar,
 } from './shoppingCarFunctions'
 
 // Shopping car actions
@@ -21,6 +22,7 @@ export enum ShoppingCarAction {
   REMOVE_PRODUCT = 'REMOVE_PRODUCT',
   REMOVE_COMPLEMENT = 'REMOVE_COMPLEMENT',
   UPDATE_QUANTITY_PRODUCT = 'UPDATE_QUANTITY_PRODUCT',
+  SET_SHOPPING_CAR = 'SET_SHOPPING_CAR',
 }
 
 // Shopping car functions dictionary
@@ -33,6 +35,7 @@ const shoppingCarFunctions: Record<
   [ShoppingCarAction.REMOVE_PRODUCT]: removeProduct,
   [ShoppingCarAction.REMOVE_COMPLEMENT]: removeComplement,
   [ShoppingCarAction.UPDATE_QUANTITY_PRODUCT]: updateQuantityProduct,
+  [ShoppingCarAction.SET_SHOPPING_CAR]: setShoppingCar,
 }
 
 // Function reducer
