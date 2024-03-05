@@ -24,8 +24,8 @@ const OrderConfirmationTemplate = ({
       >
         Este es un mensaje de confirmacion para la orden de{' '}
         {generalInfo.recipientName}
-        {shoppingCar.balloons.map(balloon => (
-          <li key={balloon.product.id}>{balloon.product.name}</li>
+        {shoppingCar.products.map(product => (
+          <li key={product.product.id}>{product.product.name}</li>
         ))}
       </p>
     </div>

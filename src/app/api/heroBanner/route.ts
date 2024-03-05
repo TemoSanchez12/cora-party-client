@@ -24,8 +24,6 @@ const handleGetBannerImage = async () => {
     query: getHeroBannerQuery(),
   })
 
-  console.log(data)
-
   return mapBannerHeroMapper(data)
 }
 

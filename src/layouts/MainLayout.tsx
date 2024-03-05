@@ -11,14 +11,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en'>
-      <body className='pt-[120px]'>
-        <ShoppingCarContextProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </ShoppingCarContextProvider>
-      </body>
-    </html>
+    <ShoppingCarContextProvider>
+      <Navbar />
+      {children}
+      <Footer />
+    </ShoppingCarContextProvider>
   )
 }

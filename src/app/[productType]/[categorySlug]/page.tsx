@@ -66,28 +66,28 @@ const CategoryPage = async ({ params }: any) => {
   )
 }
 
-export async function generateStaticParams() {
-  const balloonResponse: CategoriesResponse = await fetch(
-    process.env.BASE_URL + '/api/categories?balloons',
-    { cache: 'no-cache' }
-  ).then(res => res.json())
+// export async function generateStaticParams() {
+//   const balloonResponse: CategoriesResponse = await fetch(
+//     process.env.BASE_URL + '/api/categories?balloons',
+//     { cache: 'no-cache' }
+//   ).then(res => res.json())
 
-  const flowerResponse: CategoriesResponse = await fetch(
-    process.env.BASE_URL + '/api/categories?balloons',
-    { cache: 'no-cache' }
-  ).then(res => res.json())
+//   const flowerResponse: CategoriesResponse = await fetch(
+//     process.env.BASE_URL + '/api/categories?balloons',
+//     { cache: 'no-cache' }
+//   ).then(res => res.json())
 
-  const mappedSlug: string[] = []
+//   const mappedSlug: string[] = []
 
-  for (const balloon of balloonResponse.data || []) {
-    mappedSlug.push(balloon.slug)
-  }
+//   for (const balloon of balloonResponse.data || []) {
+//     mappedSlug.push(balloon.slug)
+//   }
 
-  for (const flower of flowerResponse.data || []) {
-    mappedSlug.push(flower.slug)
-  }
+//   for (const flower of flowerResponse.data || []) {
+//     mappedSlug.push(flower.slug)
+//   }
 
-  return mappedSlug
-}
+//   return mappedSlug
+// }
 
 export default CategoryPage

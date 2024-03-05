@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
       const emailOptions = noticeOrderBuilder(mailRequest.payload)
 
       const { data, error } = await resend.emails.send({
-        from: process.env.EMAIL_NOTIFICATION_SENDER,
+        from: process.env.EMAIL_NOTIFICATION_SENDER || '',
         to: emailOptions.receivers,
         subject: emailOptions.subject,
         react: emailOptions.react,
