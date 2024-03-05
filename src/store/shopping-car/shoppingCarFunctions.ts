@@ -114,6 +114,11 @@ export const removeProduct = (
     productWrapper => productWrapper.product.id != payload.product.id
   )
 
+  if (stateUpdated.products.length == 0) {
+    console.log('paso por aqui')
+    localStorage.removeItem('shopping-car')
+  }
+
   stateUpdated.totalPrice = calculateTotal(stateUpdated)
   stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
 
@@ -173,4 +178,8 @@ export const updateQuantityProduct = (
   stateUpdated.totalPrice = calculateTotal(state)
   stateUpdated.totalProducts = calculateTotalProducts(stateUpdated)
   return stateUpdated
+}
+
+export const setShoppingCar = (state: ShoppingCar, payload: ShoppingCar) => {
+  return payload
 }
