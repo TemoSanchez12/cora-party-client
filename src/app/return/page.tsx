@@ -39,7 +39,7 @@ export default function Return() {
 
   useEffect(() => {
     const shoppingCar: ShoppingCar = JSON.parse(
-      localStorage.getItem('shoppingCar')
+      localStorage.getItem('shoppingCar') || ''
     )
 
     const mailRequest: MailServieRequest = {
@@ -56,9 +56,9 @@ export default function Return() {
         shippingAddress: {
           avenue: 'Villas del Monasterio',
           city: 'Guadalupe',
-          interiorNumber: 135,
+          interiorNumber: '135',
           exteriorNumber: undefined,
-          postalCode: 98613,
+          postalCode: '98613',
           references: '',
           street: 'Villas del Monasterio',
         },

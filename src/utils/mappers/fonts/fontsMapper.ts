@@ -1,5 +1,5 @@
 // Import interface
-import ProductFonts, { SampleFontImage } from '@/interfaces/ProductFonts'
+import ProductFonts, { SampleFontImage } from '@/interfaces/domain/ProductFonts'
 
 const mapSampleImageFont = (font: any): SampleFontImage => ({
   url: font.url,

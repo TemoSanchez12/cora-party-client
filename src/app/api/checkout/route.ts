@@ -27,10 +27,10 @@ export const POST = async (req: NextRequest) => {
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
-    shoppingCar.balloons.map(balloon => {
-      line_items.push(mapProductForStripe(balloon.product, balloon.quantity))
+    shoppingCar.products.map(product => {
+      line_items.push(mapProductForStripe(product.product, product.quantity))
 
-      balloon.product.complements?.map(complement => {
+      product.product.complements?.map(complement => {
         line_items.push(mapProductForStripe(complement, 1))
       })
     })
