@@ -11,6 +11,7 @@ export const getHeroBannerQuery = () => gql`
               attributes {
                 name
                 formats
+                url
               }
             }
           }

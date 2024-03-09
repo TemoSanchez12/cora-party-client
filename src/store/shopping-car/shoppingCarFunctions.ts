@@ -115,7 +115,6 @@ export const removeProduct = (
   )
 
   if (stateUpdated.products.length == 0) {
-    console.log('paso por aqui')
     localStorage.removeItem('shopping-car')
   }
 

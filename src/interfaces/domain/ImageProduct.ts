@@ -6,6 +6,7 @@ interface ImageProduct {
     medium?: ImageFormat
     thumbnail?: ImageFormat
   }
+  url: string
 }
 
 export interface ImageFormat {

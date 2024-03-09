@@ -1,7 +1,13 @@
-import Link from 'next/link'
+'use client'
+
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 import Product from '@/interfaces/domain/Product'
 import ProductCategory from '@/interfaces/domain/ProductCategory'
+import SimpleProductList from '@/components/Products/ProductList'
+
+import { Montserrat } from 'next/font/google'
 
 import MainLayout from '@/layouts/MainLayout'
 
@@ -11,7 +17,7 @@ interface ProductResponse {
   message: string
 }
 
-interface CategoriesResponse {
+interface CategoryResponse {
   success: boolean
   data?: ProductCategory[]
   message: string
@@ -25,69 +31,87 @@ type typesForProducts = {
 
 const productTypes: typesForProducts = {
   globos: 'balloons',
+  flores: 'flowers',
+}
+
+const categoryType: typesForProducts = {
+  globos: 'balloon',
   flores: 'flower',
 }
 
-const CategoryPage = async ({ params }: any) => {
-  const response: ProductResponse = await fetch(
-    process.env.BASE_URL + '/api/' + productTypes[params.productType],
-    {
-      cache: 'no-cache',
-    }
-  ).then(res => (res.ok ? res.json() : Promise.reject()))
+const montserrat = Montserrat({ weight: ['500'], subsets: ['latin'] })
 
-  const products = response.data?.filter((product: Product) => {
-    for (const category of product.categories || []) {
-      if (category.slug == params.categorySlug) {
-        return true
-      }
+const CategoryPage = ({ params }: any) => {
+  const { productType, categorySlug } = params
+
+  const [products, setProducts] = useState<Product[]>([])
+  const [category, setCategory] = useState<ProductCategory>()
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response: ProductResponse = await fetch(
+        '/api/' + productTypes[productType],
+        {
+          cache: 'no-cache',
+        }
+      ).then(res => (res.ok ? res.json() : Promise.reject()))
+
+      const products = response.data?.filter((product: Product) => {
+        for (const category of product.categories || []) {
+          if (category.slug == categorySlug) {
+            return true
+          }
+        }
+      })
+
+      setProducts(products ?? [])
     }
-  })
+
+    fetchProducts()
+  }, [productType, categorySlug])
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const response: CategoryResponse = await fetch(
+        `/api/categories?type=${categoryType[productType]}&slug=${categorySlug}`
+      ).then(res => (res.ok ? res.json() : Promise.reject()))
+
+      const category: ProductCategory = response.data
+        ? response.data[0]
+        : ({} as ProductCategory)
+
+      console.log(category)
+      setCategory(category)
+    }
+
+    fetchCategory()
+  }, [categorySlug, productType])
 
   return (
     <MainLayout>
+      <div className='w-full h-96'>
+        <Image
+          className='w-full h-full object-cover'
+          src={category?.cover.formats.medium?.url ?? ''}
+          alt={category?.name ?? ''}
+          width={1920}
+          height={1080}
+        />
+      </div>
       <div>
-        <h1 className='bg-red-500 '>
-          Se mostraran productos para la categoria de {params.categorySlug}
+        <h1 className='text-3xl text-slate-600 font-medium w-full text-center mt-36'>
+          Los mejores {productType} para {category && category.name}
+          <span className='text-dark-blue'>{}</span>
         </h1>
 
-        {products &&
-          products.map((product: Product) => (
-            <li key={product.id}>
-              <Link
-                href={`/${params.productType}/${params.categorySlug}/${product.slug}?id=balloon-1`}
-              >
-                {product.name}
-              </Link>
-            </li>
-          ))}
+        <div
+          className={`${montserrat.className} flex flex-col items-center mb-32 w-global-container mx-auto mt-16`}
+        >
+          <SimpleProductList products={products} />
+        </div>
       </div>
     </MainLayout>
   )
 }
-
-// export async function generateStaticParams() {
-//   const balloonResponse: CategoriesResponse = await fetch(
-//     process.env.BASE_URL + '/api/categories?balloons',
-//     { cache: 'no-cache' }
-//   ).then(res => res.json())
-
-//   const flowerResponse: CategoriesResponse = await fetch(
-//     process.env.BASE_URL + '/api/categories?balloons',
-//     { cache: 'no-cache' }
-//   ).then(res => res.json())
-
-//   const mappedSlug: string[] = []
-
-//   for (const balloon of balloonResponse.data || []) {
-//     mappedSlug.push(balloon.slug)
-//   }
-
-//   for (const flower of flowerResponse.data || []) {
-//     mappedSlug.push(flower.slug)
-//   }
-
-//   return mappedSlug
-// }
 
 export default CategoryPage
