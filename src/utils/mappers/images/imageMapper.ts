@@ -16,11 +16,12 @@ const mapImageFormats = (formats: any) => {
 
 // Map total image response to ImageProduct type
 const mapResponseImage = (data: any): ImageProduct => {
-  const { name, formats } = data.attributes
+  const { name, formats, url } = data.attributes
 
   const imageProduct: ImageProduct = {
     name,
     formats: mapImageFormats(formats),
+    url: process.env.STRAPI_URL + url,
   }
 
   return imageProduct

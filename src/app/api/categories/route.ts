@@ -5,12 +5,16 @@ import { NextResponse, NextRequest } from 'next/server'
 import client from '@/apollo-client'
 
 // import mappers
-import { mapCategoryToDefinition } from '@/utils/mappers/categories/categoriesMapper'
+import {
+  mapCategoriesToDefinition,
+  mapCategoryToDefinition,
+} from '@/utils/mappers/categories/categoriesMapper'
 
 // import queries
 import {
   getCategoriesForProductQuery,
   getCategoryForTypeQuery,
+  getCategoryBySlug,
 } from '@/queries/categoriesQueries'
 
 // Import interfaces
@@ -51,7 +55,7 @@ const handleGetCategoryForProduct = async (id: string, type: string) => {
   const categoryType = typesForCategoryTypes[type]
   const categoryTypeName = queryCategoryMap[type]
 
-  return mapCategoryToDefinition(
+  return mapCategoriesToDefinition(
     data[categoryType].data.attributes[categoryTypeName].data
   )
 }
@@ -63,7 +67,17 @@ const handleGetCategoryForType = async (type: string) => {
 
   const categoryType = responseCategoryTypeMap[type]
 
-  return mapCategoryToDefinition(data[categoryType].data)
+  return mapCategoriesToDefinition(data[categoryType].data)
+}
+
+const handleGetCategoryBySlug = async (type: string, slug: string) => {
+  const { data } = await client.query({
+    query: getCategoryBySlug(type, slug),
+  })
+
+  const categoryType = responseCategoryTypeMap[type]
+
+  return mapCategoryToDefinition(data[categoryType].data[0])
 }
 
 export const GET = async (req: NextRequest) => {
@@ -71,11 +85,14 @@ export const GET = async (req: NextRequest) => {
     const urlRequest = new URL(req.url)
     const type: string = urlRequest.searchParams.get('type') || 'balloon'
     const productId = urlRequest.searchParams.get('productId')
+    const slug = urlRequest.searchParams.get('slug')
 
     let response: ProductCategory[] = []
 
     if (productId) {
       response = await handleGetCategoryForProduct(productId, type)
+    } else if (slug) {
+      response = [await handleGetCategoryBySlug(type, slug)]
     } else {
       response = await handleGetCategoryForType(type)
     }

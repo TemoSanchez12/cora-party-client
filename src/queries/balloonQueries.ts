@@ -54,6 +54,7 @@ export const getAllBalloonsQuery = () => gql`
               attributes {
                 name
                 formats
+                url
               }
             }
           }
@@ -70,6 +71,7 @@ export const getAllBalloonsQuery = () => gql`
                     attributes {
                       name
                       formats
+                      url
                     }
                   }
                 }
@@ -104,6 +106,7 @@ export const getBalloonByIdQuery = (ballonId: number) => gql`
               attributes {
                 name
                 formats
+                url
               }
             }
           }
@@ -120,6 +123,7 @@ export const getBalloonByIdQuery = (ballonId: number) => gql`
                     attributes {
                       name
                       formats
+                      url
                     }
                   }
                 }
@@ -154,6 +158,7 @@ export const getBalloonBySlugQuery = (balloonSlug: string) => gql`
             attributes {
               name
               formats
+              url
             }
           }
         }
@@ -170,6 +175,7 @@ export const getBalloonBySlugQuery = (balloonSlug: string) => gql`
                   attributes {
                     name
                     formats
+                    url
                   }
                 }
               }

@@ -19,6 +19,7 @@ export const getComplementForProduct = (productId: number, type: string) => gql`
                     attributes {
                       name
                       formats
+                      url
                     }
                   }
                 }

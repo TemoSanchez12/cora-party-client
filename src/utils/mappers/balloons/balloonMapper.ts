@@ -6,7 +6,7 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 
 // Import Mappers
 import mapResponseImage from '../images/imageMapper'
-import { mapCategoryToDefinition } from '../categories/categoriesMapper'
+import { mapCategoriesToDefinition } from '../categories/categoriesMapper'
 
 const mapSingleBalloon = (data: any) => {
   const { id, attributes } = data
@@ -47,7 +47,7 @@ const mapSingleBalloon = (data: any) => {
     isFeatured: Destacado,
     slug: Slug,
     images,
-    categories: mapCategoryToDefinition(Categorias_Globo.data),
+    categories: mapCategoriesToDefinition(Categorias_Globo.data),
     requiredColors,
   }
 

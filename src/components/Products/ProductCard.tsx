@@ -39,6 +39,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [productAdded, setProductAdded] = useState(false)
   const shoppingCarContext = useContext(ShoppingCarContext)
 
+  console.log(product)
+
   const handleAddProductToCar = (product: Product) => {
     const productWrapper: ProductWrapper = {
       product,
@@ -66,7 +68,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div>
         <div className='w-36 h-52 relative md:w-44 md:h-64'>
           <Image
-            src={product.images[0].formats.medium?.url || ''}
+            src={product.images[0].url || ''}
             alt={product.name}
             width={140}
             height={200}

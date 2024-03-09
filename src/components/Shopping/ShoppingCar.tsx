@@ -9,7 +9,6 @@ import ShoppingCarItem from './ShoppingCarItem'
 
 import { Poppins } from 'next/font/google'
 import Link from 'next/link'
-import { ShoppingCar as ShoppingCarInterface } from '@/interfaces/shopping/ShoppingCar'
 
 const poppins = Poppins({ weight: ['400', '600'], subsets: ['latin'] })
 

@@ -15,6 +15,7 @@ export const getFontsQuery = (productId: number, type: string) => gql`
                     attributes {
                       name
                       formats
+                      url
                     }
                   }
                 }
