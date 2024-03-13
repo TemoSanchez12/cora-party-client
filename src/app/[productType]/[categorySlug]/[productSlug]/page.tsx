@@ -10,7 +10,7 @@ import Product from '@/interfaces/domain/Product'
 import MainLayout from '@/layouts/MainLayout'
 
 // import componentes
-import BalloonDetail from '@/components/Balloons/BalloonDetail'
+import ProductDetail from '@/components/Products/ProductDetail'
 
 type typesForProducts = {
   globos: string
@@ -41,7 +41,7 @@ const ProductDetailPage = ({ params }: any) => {
 
   return (
     <MainLayout>
-      {product ? <BalloonDetail product={product} /> : <div>Loading...</div>}
+      {product ? <ProductDetail product={product} /> : <div>Loading...</div>}
     </MainLayout>
   )
 }

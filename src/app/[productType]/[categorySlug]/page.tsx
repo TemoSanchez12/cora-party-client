@@ -80,7 +80,6 @@ const CategoryPage = ({ params }: any) => {
         ? response.data[0]
         : ({} as ProductCategory)
 
-      console.log(category)
       setCategory(category)
     }
 
@@ -96,6 +95,7 @@ const CategoryPage = ({ params }: any) => {
           alt={category?.name ?? ''}
           width={1920}
           height={1080}
+          priority={true}
         />
       </div>
       <div>

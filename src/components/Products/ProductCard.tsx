@@ -39,8 +39,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [productAdded, setProductAdded] = useState(false)
   const shoppingCarContext = useContext(ShoppingCarContext)
 
-  console.log(product)
-
   const handleAddProductToCar = (product: Product) => {
     const productWrapper: ProductWrapper = {
       product,
