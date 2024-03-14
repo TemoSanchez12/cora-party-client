@@ -11,6 +11,7 @@ import ShippingDatePicker from './ShippingDatePicker'
 import { Montserrat } from 'next/font/google'
 import ComplementProductsPicker from './ComplementProducts'
 import Link from 'next/link'
+import BalloonDetail from '../Balloons/BalloonDetail'
 
 const montserrat = Montserrat({
   weight: ['800', '400', '500'],
@@ -104,6 +105,8 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           <ComplementProductsPicker product={product} />
         </div>
       </div>
+
+      <div>{type == 'globos' && <BalloonDetail product={product} />}</div>
     </section>
   )
 }
