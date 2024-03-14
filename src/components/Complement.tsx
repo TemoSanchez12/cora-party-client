@@ -14,23 +14,6 @@ const Complements = ({ product }: ComplementProps) => {
   const [complements, setComplements] = useState<ComplementProduct[]>()
   const shoppingCar = useContext(ShoppingCarContext)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [type, strapiId] = product.id.split('-')
-
-        const response = await fetch(
-          `/api/complements?productId=${strapiId}&type=balloon`
-        ).then(data => (data.ok ? data.json() : Promise.reject()))
-        setComplements(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [product.id])
-
   const handleAddComplement = (complement: ComplementProduct) => {
     shoppingCar.dispatchShoppingCarAction({
       type: ShoppingCarAction.ADD_COMPLEMENT,

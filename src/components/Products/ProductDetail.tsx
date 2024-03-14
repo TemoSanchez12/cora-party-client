@@ -1,10 +1,19 @@
 import Product from '@/interfaces/domain/Product'
 import ProductDetailImages from './ProductDetailImages'
+import React, { useState, useContext, useEffect } from 'react'
+import ShoppingCarContext, {
+  ShoppingCarAction,
+} from '@/store/shopping-car/shopping-car'
+import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
+
+import ShippingDatePicker from './ShippingDatePicker'
 
 import { Montserrat } from 'next/font/google'
+import ComplementProductsPicker from './ComplementProducts'
+import Link from 'next/link'
 
 const montserrat = Montserrat({
-  weight: ['800', '400'],
+  weight: ['800', '400', '500'],
   subsets: ['latin'],
 })
 
@@ -13,24 +22,86 @@ interface ProductDetailProps {
 }
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
+  const [type, id] = product.id.split('-')
+
+  const { dispatchShoppingCarAction, shoppingCarState } =
+    useContext(ShoppingCarContext)
+
+  const [selectedDate, setSelectedDate] = useState<Date>()
+  const [productAdded, setProductAdded] = useState(false)
+
+  const handleAddProductToCar = (product: Product) => {
+    const productWrapper: ProductWrapper = {
+      product,
+      quantity: 1,
+      total: 0,
+    }
+
+    dispatchShoppingCarAction({
+      type: ShoppingCarAction.ADD_PRODUCT,
+      payload: productWrapper,
+    })
+  }
+
+  useEffect(() => {
+    const productInShoppingcar: ProductWrapper | undefined =
+      shoppingCarState.products.find(
+        (prod: ProductWrapper) => product.id === prod.product.id
+      )
+
+    setProductAdded(!!productInShoppingcar)
+  }, [shoppingCarState.products, product.id])
+
   return (
-    <section className='w-global-container mx-auto my-12'>
-      <div>
+    <section
+      className={`${montserrat.className} w-global-container mx-auto my-12`}
+    >
+      <ul className='mb-4 flex gap-4'>
+        {product.categories &&
+          product.categories.map(category => (
+            <li
+              key={category.slug}
+              className='text-slate-600 border-b border-slate-500'
+            >
+              <Link href={`/${type}/${category.slug}`}>{category.name}</Link>
+            </li>
+          ))}
+      </ul>
+
+      <div className='md:flex md:gap-4 lg:gap-10'>
         <ProductDetailImages product={product} />
+        <div className='md:w-1/2'>
+          <div className='mt-4 flex items-center border-b-2 border-slate-400 pb-2 justify-between'>
+            <h2 className={`${montserrat.className} font-bold text-slate-700`}>
+              {product.name}
+            </h2>
 
-        <div className='mt-4 flex items-center'>
-          <h2 className={`${montserrat.className} font-bold text-slate-700`}>
-            {product.name}
-          </h2>
+            <span
+              className={`${montserrat.className} font-bold ml-2 text-lg text-slate-600`}
+            >
+              {new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+              }).format(product.price)}
+            </span>
+          </div>
 
-          <span
-            className={`${montserrat.className} font-bold ml-2 text-lg text-slate-600`}
-          >
-            {new Intl.NumberFormat('es-MX', {
-              style: 'currency',
-              currency: 'MXN',
-            }).format(product.price)}
-          </span>
+          <div className='w-full text-center mt-2 mb-8'>
+            <button
+              className='bg-slate-700 text-white py-3 px-2 rounded-lg w-full font-medium flex justify-center'
+              disabled={productAdded}
+              onClick={() => handleAddProductToCar(product)}
+            >
+              {productAdded ? 'Producto agregado' : 'Agregar producto'}
+            </button>
+          </div>
+
+          <ShippingDatePicker
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+
+          <ComplementProductsPicker product={product} />
         </div>
       </div>
     </section>

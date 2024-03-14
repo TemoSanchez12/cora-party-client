@@ -11,27 +11,28 @@ const ProductDetailImages = ({ product }: ProductDetailImagesProps) => {
   const [activeImage, setActiveImage] = useState(product.images[0])
 
   return (
-    <div className='flex gap-2 h-96'>
+    <div className='flex gap-2 md:w-1/2 justify-center h-96 md:h-128'>
       <div className='w-2/12 h-full'>
-        <ul className='h-96 overflow-scroll w-full flex flex-col gap-2'>
+        <ul className='overflow-y-scroll w-full h-full no-scrollbar'>
           {product.images.map(image => (
             <li
               key={image.url}
-              className='list-none w-full h-20'
+              className='list-none w-full h-28 aspect-product-image mb-2'
               onClick={() => setActiveImage(image)}
             >
               <Image
+                className='object-cover cursor-pointer w-full h-full'
                 src={image.url}
                 alt={image.name}
                 width={80}
                 height={160}
-                className='h-full w-full object-cover'
               />
             </li>
           ))}
         </ul>
       </div>
-      <div className='w-10/12 h-full'>
+
+      <div className='w-10/12 aspect-product-image h-full'>
         <Image
           className='w-full h-full object-cover'
           src={activeImage.url}
