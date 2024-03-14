@@ -65,7 +65,7 @@ const ComplementProductsPicker = ({
         Complementa tu pedido (opcional)
       </h3>
 
-      <ul className='flex gap-2'>
+      <ul className='flex gap-4'>
         {complements &&
           complements.map(complement => (
             <li key={complement.id}>

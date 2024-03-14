@@ -12,14 +12,14 @@ import { getFontsQuery } from '@/queries/fontQueries'
 import { mapFontToDefiniton } from '@/utils/mappers/fonts/fontsMapper'
 
 type typesForFontsTypes = {
-  balloon: string
-  flower: string
+  globos: string
+  flores: string
   [key: string]: string
 }
 
 const typesForFonts: typesForFontsTypes = {
-  balloon: 'globo',
-  flower: 'arregloFlores',
+  globos: 'globo',
+  flores: 'arregloFlores',
 }
 
 interface FontProductResponse {
@@ -39,7 +39,7 @@ const handleGetFontsById = async (id: string, type: string) => {
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const type: string = urlRequest.searchParams.get('type') || 'globo'
+    const type: string = urlRequest.searchParams.get('type') || 'globos'
     const productId = urlRequest.searchParams.get('productId')
 
     let response: ProductFonts[] = []

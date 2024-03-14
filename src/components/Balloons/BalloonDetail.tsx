@@ -4,6 +4,8 @@ import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import Product from '@/interfaces/domain/Product'
 import { useState, useEffect } from 'react'
 import ProductColorsPicker from '../Products/ProductColorsPicker'
+import RequiredTextsPicker from '../Products/ProductRequiredTexts'
+import ProductFontPicker from '../Products/ProductFontPicker'
 
 interface BalloonDetailProps {
   product: Product
@@ -27,9 +29,22 @@ const BalloonDetail = ({ product }: BalloonDetailProps) => {
   }, [id])
 
   return (
-    <div>
-      {balloon?.requiredColors && <ProductColorsPicker product={balloon} />}
-      <div></div>
+    <div className='flex flex-col sm:flex-row sm:justify-center mt-16 sm:flex-wrap gap-10'>
+      <div>
+        {balloon?.requiredColors && <ProductColorsPicker product={balloon} />}
+      </div>
+
+      <div>
+        {balloon?.requiredTexts && (
+          <RequiredTextsPicker requiredTexts={balloon.requiredTexts} />
+        )}
+      </div>
+
+      <div>{<ProductFontPicker product={product} />}</div>
+
+      <div>
+        <p>{product.description}</p>
+      </div>
     </div>
   )
 }

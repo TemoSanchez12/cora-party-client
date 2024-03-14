@@ -41,16 +41,16 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
   }
 
   return (
-    <div className={`${montserrat.className} mt-10`}>
-      <p className='text-sm text-slate-600 font-bold'>
+    <div className={`${montserrat.className}`}>
+      <p className='text-sm text-slate-600 font-bold mb-4'>
         Seleccione los colores para
       </p>
-      <ul className='pl-2 mt-2'>
+      <ul className='pl-2'>
         {product.requiredColors &&
           product.requiredColors.map(requiredColor => (
             <li key={requiredColor} className=''>
               <div className='mb-2 mt-4'>
-                <p className='font-semibold text-slate-600 text-sm'>
+                <p className='font-semibold text-slate-600 text-sm capitalize'>
                   {requiredColor} : {selectedColors[requiredColor]}
                 </p>
               </div>
