@@ -29,16 +29,18 @@ const BalloonDetail = ({ product }: BalloonDetailProps) => {
   }, [id])
 
   return (
-    <div className='flex flex-col sm:flex-row sm:justify-center mt-16 sm:flex-wrap gap-10'>
-      <div>
-        {balloon?.requiredColors && <ProductColorsPicker product={balloon} />}
-      </div>
+    <div className='flex flex-col sm:flex-row sm:justify-center mt-16 sm:flex-wrap gap-20'>
+      {balloon?.requiredColors && (
+        <div>
+          && <ProductColorsPicker product={balloon} />
+        </div>
+      )}
 
-      <div>
-        {balloon?.requiredTexts && (
+      {balloon?.requiredTexts && (
+        <div>
           <RequiredTextsPicker requiredTexts={balloon.requiredTexts} />
-        )}
-      </div>
+        </div>
+      )}
 
       <div>{<ProductFontPicker product={product} />}</div>
 

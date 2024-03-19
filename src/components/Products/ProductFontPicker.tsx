@@ -27,7 +27,6 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
 
   const handleFontSelect = (fontId: string) => {
     setSelectedFont(fontId)
-    console.log(selectedFont)
   }
 
   return (

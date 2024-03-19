@@ -82,33 +82,7 @@ export const getCategoryForTypeQuery = (type: string) => gql`
   }
 `
 
-export const getCategoryBySlug = (type: string, slug: string) => {
-  console.log(`
-  {
-    ${paramForCategoryTypeQuery[type]} (filters: {Slug: {eq: "${slug}"}}) {
-      data {
-        id
-        attributes {
-          Nombre
-          Slug
-          Destacado
-          Cover {
-            data {
-              id
-              attributes {
-                name
-                formats
-                url
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  `)
-
-  return gql`
+export const getCategoryBySlug = (type: string, slug: string) => gql`
   {
     ${paramForCategoryTypeQuery[type]} (filters: {Slug: {eq: "${slug}"}}) {
       data {
@@ -132,4 +106,3 @@ export const getCategoryBySlug = (type: string, slug: string) => {
     }
   }
   `
-}

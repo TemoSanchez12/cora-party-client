@@ -2,9 +2,15 @@
 
 // import dependencies
 import { useContext, useEffect, useState } from 'react'
+
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
+
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
+
 import ShoppingCarItem from './ShoppingCarItem'
 
 import { Poppins } from 'next/font/google'
@@ -20,6 +26,9 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
   const [shippingPrice, setShippingPrice] = useState(0)
   const { shoppingCarState, dispatchShoppingCarAction } =
     useContext(ShoppingCarContext)
+
+  const { orderSpecsState, dispatchOrderSpecsAction } =
+    useContext(OrderSpecsContext)
 
   useEffect(() => {
     const fetchShippingPrice = async () => {
@@ -51,6 +60,24 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
       })
     }
   }, [dispatchShoppingCarAction])
+
+  useEffect(() => {
+    const savedOrderSpecsState = localStorage.getItem('order-specs')
+
+    if (!savedOrderSpecsState || orderSpecsState.productSpecs.length != 0) {
+      localStorage.setItem('order-specs', JSON.stringify(orderSpecsState))
+    }
+  }, [orderSpecsState])
+
+  useEffect(() => {
+    const savedOrderSpecsState = localStorage.getItem('order-specs')
+    if (savedOrderSpecsState) {
+      dispatchOrderSpecsAction({
+        type: OrderSpecsAction.SET_ORDER_SPECS,
+        payload: JSON.parse(savedOrderSpecsState),
+      })
+    }
+  }, [dispatchOrderSpecsAction])
 
   return (
     <div

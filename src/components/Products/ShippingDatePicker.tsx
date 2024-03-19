@@ -58,13 +58,11 @@ const ShippingDatePicker = ({
 
     for (let i = 0; i < productionHours; i++) {
       if (hour >= endHour && hour <= midnight) {
-        console.log('entro antes', hour)
         hour = addDays(hour, 1)
         hour = addHours(hour, differenceInHours(hour, startHour))
       }
 
       if (hour >= midnight && hour <= startHour) {
-        console.log('entro despues' + hour)
         hour = addHours(hour, differenceInHours(hour, startHour))
       }
 

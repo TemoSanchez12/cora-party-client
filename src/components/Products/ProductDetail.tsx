@@ -4,6 +4,13 @@ import React, { useState, useContext, useEffect } from 'react'
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
+
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
+
+import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
+
 import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
 
 import ShippingDatePicker from './ShippingDatePicker'
@@ -28,6 +35,8 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
   const { dispatchShoppingCarAction, shoppingCarState } =
     useContext(ShoppingCarContext)
 
+  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+
   const [selectedDate, setSelectedDate] = useState<Date>()
   const [productAdded, setProductAdded] = useState(false)
 
@@ -41,6 +50,17 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
     dispatchShoppingCarAction({
       type: ShoppingCarAction.ADD_PRODUCT,
       payload: productWrapper,
+    })
+
+    const productSpecs: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [],
+    }
+
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.ADD_PRODUCT_SPECS,
+      payload: productSpecs,
     })
   }
 
