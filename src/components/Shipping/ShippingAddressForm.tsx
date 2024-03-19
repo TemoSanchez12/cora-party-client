@@ -19,7 +19,8 @@ const shippingAddressSchema = Yup.object().shape({
   ),
   avenue: Yup.string()
     .min(2, 'El nombre de la colonia es demasiado corto')
-    .max(100, 'El nombre de la colonia es demasiado largo'),
+    .max(100, 'El nombre de la colonia es demasiado largo')
+    .required('El nombre de la colonia es requerido'),
   postalCode: Yup.string()
     .matches(/^\d{5}$/, 'El código postal debe ser un número de 5 dígitos.')
     .required('El código postal es obligatorio.'),
@@ -30,14 +31,44 @@ const shippingAddressSchema = Yup.object().shape({
   refernces: Yup.string().max(200, 'Numero de caracteres maximo alcanzado'),
 })
 
+const CustomInput = ({
+  label,
+  name,
+  className,
+  fieldProps,
+  error,
+  touched,
+}: any) => {
+  return (
+    <div
+      className={`rounded-lg bg-gray-100 p-4 shadow-lg text-xs ${className}`}
+    >
+      <div className='flex gap-1 w-full flex-col'>
+        <label className='text-slate-500' htmlFor={name}>
+          {label}
+        </label>
+        <Field
+          as={`${fieldProps.textArea ? 'textarea' : 'input'}`}
+          className='px-2 py-1 focus:outline-none  w-full bg-transparent border-b-2 border-slate-400'
+          name={name}
+          {...fieldProps}
+        />
+      </div>
+      {error && touched && <div className='text-red-400 mt-1'>{error}</div>}
+    </div>
+  )
+}
+
 const ShippingAddressForm = () => {
   const handleSubmitShippingAddressForm = (values: ShippingAddress) => {
     localStorage.setItem('shipping-address', JSON.stringify(values))
   }
 
   return (
-    <div>
-      <h1>Formulario para direccion de envio</h1>
+    <div className='w-global-container mx-auto py-10 rounded-xl shadow-xl my-10'>
+      <h1 className='text-slate-600 text-lg text-center mb-4'>
+        Formulario para dirección de envío
+      </h1>
 
       <Formik
         initialValues={{
@@ -53,51 +84,73 @@ const ShippingAddressForm = () => {
         onSubmit={handleSubmitShippingAddressForm}
       >
         {({ errors, touched }) => (
-          <Form className='flex-col gap-3'>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Calle
-              <Field name='street' />
-              {errors.street && touched.street && <div>{errors.street}</div>}
+          <Form className='flex flex-col gap-4 w-global-container mx-auto'>
+            <CustomInput
+              label='Calle'
+              name='street'
+              className='w-full'
+              fieldProps={{}}
+              error={errors.street}
+              touched={touched.street}
+            />
+            <div className='flex gap-4'>
+              <CustomInput
+                label='Numero interior'
+                name='interiorNumber'
+                className='w-full'
+                fieldProps={{}}
+                error={errors.interiorNumber}
+                touched={touched.interiorNumber}
+              />
+              <CustomInput
+                label='Numero exterior'
+                name='exteriorNumber'
+                className='w-full'
+                fieldProps={{}}
+                error={errors.exteriorNumber}
+                touched={touched.exteriorNumber}
+              />
             </div>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Numero interior
-              <Field name='interiorNumber' />
-              {errors.interiorNumber && touched.interiorNumber && (
-                <div>{errors.interiorNumber}</div>
-              )}
+            <CustomInput
+              label='Colonia o avenida'
+              name='avenue'
+              className='w-full'
+              fieldProps={{}}
+              error={errors.avenue}
+              touched={touched.avenue}
+            />
+            <div className='flex gap-4'>
+              <CustomInput
+                label='Codigo Postal'
+                name='postalCode'
+                className='w-full'
+                fieldProps={{}}
+                error={errors.postalCode}
+                touched={touched.postalCode}
+              />
+              <CustomInput
+                label='Ciudad'
+                name='city'
+                className='w-full'
+                fieldProps={{}}
+                error={errors.city}
+                touched={touched.city}
+              />
             </div>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Numero exterior
-              <Field name='exteriorNumber' />
-              {errors.exteriorNumber && touched.exteriorNumber && (
-                <div>{errors.exteriorNumber}</div>
-              )}
-            </div>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Colonia o avenida
-              <Field name='avenue' />
-              {errors.avenue && touched.avenue && <div>{errors.avenue}</div>}
-            </div>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Codigo Postal
-              <Field name='postalCode' />
-              {errors.postalCode && touched.postalCode && (
-                <div>{errors.postalCode}</div>
-              )}
-            </div>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Ciudad
-              <Field name='city' />
-              {errors.city && touched.city && <div>{errors.city}</div>}
-            </div>
-            <div className='p-10 rounded-md bg-slate-200'>
-              Referencias
-              <Field name='references' />
-              {errors.references && touched.references && (
-                <div>{errors.references}</div>
-              )}
-            </div>
-            <button type='submit'>Submit</button>
+            <CustomInput
+              label='Referencias'
+              name='references'
+              className='w-full'
+              fieldProps={{ textArea: true }}
+              error={errors.references}
+              touched={touched.references}
+            />
+            <button
+              type='submit'
+              className='bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition-colors duration-300 text-xs'
+            >
+              Confirmar dirección de envío
+            </button>
           </Form>
         )}
       </Formik>
