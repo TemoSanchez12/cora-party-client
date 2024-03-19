@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
+import MailServiceRequest from '@/interfaces/mailing/MailServiceRequest'
 import MailTypes from '@/interfaces/mailing/MailTypes'
 import noticeOrderBuilder from '@/utils/emailBuilders/noticeOrderBuilder'
 
@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
   try {
     const clonedRequest = req.clone()
 
-    const mailRequest: MailServieRequest = JSON.parse(
+    const mailRequest: MailServiceRequest = JSON.parse(
       await clonedRequest.text()
     )
 

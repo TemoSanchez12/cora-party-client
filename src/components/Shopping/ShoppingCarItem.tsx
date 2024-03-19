@@ -13,11 +13,16 @@ import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
 
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
+
 // import font
 import { Montserrat, Poppins } from 'next/font/google'
 
 // import components
 import TrashEmptyIcon from '../Icons/TrashEmptyIcon'
+import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
 
 const montserrat = Montserrat({ weight: ['400', '600'], subsets: ['latin'] })
 const poppins = Poppins({ weight: ['400', '600'], subsets: ['latin'] })
@@ -29,6 +34,20 @@ interface ShoppingCarItemProps {
 const ShoppingCarItem = ({ productWrapper }: ShoppingCarItemProps) => {
   const [complementsTotal, setComplementsTotal] = useState(0)
   const { dispatchShoppingCarAction } = useContext(ShoppingCarContext)
+  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+
+  const removeProductSpec = (product: Product) => {
+    const productSpecs: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [],
+    }
+
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.REMOVE_PRODUCT_SPECS,
+      payload: productSpecs,
+    })
+  }
 
   const handleEditQuantityCar = (product: Product, value: number) => {
     dispatchShoppingCarAction({
@@ -40,13 +59,19 @@ const ShoppingCarItem = ({ productWrapper }: ShoppingCarItemProps) => {
         type: 'balloon',
       },
     })
+
+    if (value <= 0) {
+      removeProductSpec(product)
+    }
   }
 
-  const handleRemoveProduct = (product: ProductWrapper) => {
+  const handleRemoveProduct = (productWrapper: ProductWrapper) => {
     dispatchShoppingCarAction({
       type: ShoppingCarAction.REMOVE_PRODUCT,
-      payload: product,
+      payload: productWrapper,
     })
+
+    removeProductSpec(productWrapper.product)
   }
 
   const handleRemoveComplement = (

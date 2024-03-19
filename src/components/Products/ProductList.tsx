@@ -8,9 +8,9 @@ interface SimpleProductListProps {
 
 const SimpleProductList = ({ products }: SimpleProductListProps) => {
   return (
-    <ul className='flex flex-wrap gap-5 gap-y-10 w-full md:gap-20 lg:gap-32'>
+    <ul className='flex flex-wrap gap-20 gap-y-10 w-full mx-auto justify-center'>
       {products.map(product => (
-        <li key={product.id} className='mx-auto'>
+        <li key={product.id}>
           <ProductCard product={product} />
         </li>
       ))}

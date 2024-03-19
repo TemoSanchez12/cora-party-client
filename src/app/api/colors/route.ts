@@ -17,11 +17,11 @@ import {
 } from '@/queries/balloonQueries'
 
 // Import interfaces
-import BallonColor from '@/interfaces/balloons/BalloonColor'
+import ProductColor from '@/interfaces/domain/ProductColor'
 
 interface BallonColorsResponse {
   success: boolean
-  data: BallonColor[]
+  data: ProductColor[]
   message: string
 }
 
@@ -42,12 +42,12 @@ const handleGetColorsForBallon = async (id: string) => {
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const ballonId = urlRequest.searchParams.get('ballonId')
+    const productId = urlRequest.searchParams.get('productId')
 
-    let response: BallonColor[]
+    let response: ProductColor[]
 
-    if (ballonId) {
-      response = await handleGetColorsForBallon(ballonId)
+    if (productId) {
+      response = await handleGetColorsForBallon(productId)
     } else {
       response = await handleGetAllColors()
     }

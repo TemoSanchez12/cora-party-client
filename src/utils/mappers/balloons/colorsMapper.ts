@@ -1,4 +1,4 @@
-import BallonColor from '@/interfaces/balloons/BalloonColor'
+import BallonColor from '@/interfaces/domain/ProductColor'
 import { ApolloQueryResult } from '@apollo/client'
 
 export const mapResponseToBallonColors = (

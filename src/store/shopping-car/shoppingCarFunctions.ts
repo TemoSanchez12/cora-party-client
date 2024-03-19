@@ -5,6 +5,9 @@ import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
 import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
 import { ComplementWrapper } from '@/interfaces/shopping/ShoppingCar'
 
+import { useContext } from 'react'
+import OrderSpecsContext, { OrderSpecsAction } from '../order-specs/order-specs'
+
 const calculateTotalProducts = (shoppingCar: ShoppingCar): number => {
   let totalProducts = 0
 

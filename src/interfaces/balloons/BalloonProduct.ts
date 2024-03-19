@@ -1,12 +1,12 @@
 import Product from '../domain/Product'
 import ProductFonts from '../domain/ProductFonts'
-import BalloonColor from './BalloonColor'
+import ProductColor from '../domain/ProductColor'
 
 interface BalloonProduct extends Product {
   requiredTexts: string[]
   minimumPremiumTime: number
-  colors?: BalloonColor[]
-  requiredColors?: string
+  colors?: ProductColor[]
+  requiredColors?: string[]
   fonts?: ProductFonts[]
 }
 

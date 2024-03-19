@@ -6,11 +6,17 @@ import Image from 'next/image'
 import Product from '@/interfaces/domain/Product'
 import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
 
-import { ShoppingCarAction } from '@/store/shopping-car/shopping-car'
-import ShoppingCarContext from '@/store/shopping-car/shopping-car'
+import ShoppingCarContext, {
+  ShoppingCarAction,
+} from '@/store/shopping-car/shopping-car'
+
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
 
 import { Montserrat, Poppins } from 'next/font/google'
 import Link from 'next/link'
+import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
 
 const montserrat = Montserrat({
   weight: ['900', '300', '400'],
@@ -38,8 +44,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [type, id] = product.id.split('-')
   const [productAdded, setProductAdded] = useState(false)
   const shoppingCarContext = useContext(ShoppingCarContext)
-
-  console.log(product)
+  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
 
   const handleAddProductToCar = (product: Product) => {
     const productWrapper: ProductWrapper = {
@@ -51,6 +56,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
     shoppingCarContext.dispatchShoppingCarAction({
       type: ShoppingCarAction.ADD_PRODUCT,
       payload: productWrapper,
+    })
+
+    const productSpecs: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [],
+    }
+
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.ADD_PRODUCT_SPECS,
+      payload: productSpecs,
     })
   }
 
