@@ -1,6 +1,7 @@
 import Product from '@/interfaces/domain/Product'
 import ProductDetailImages from './ProductDetailImages'
 import React, { useState, useContext, useEffect } from 'react'
+
 import ShoppingCarContext, {
   ShoppingCarAction,
 } from '@/store/shopping-car/shopping-car'
@@ -39,6 +40,20 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
 
   const [selectedDate, setSelectedDate] = useState<Date>()
   const [productAdded, setProductAdded] = useState(false)
+
+  useEffect(() => {
+    const productSpec: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [
+        { name: 'Fecha de entrega', value: selectedDate?.toDateString() || '' },
+      ],
+    }
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.UPDATE_PRODUCT_SPECS,
+      payload: productSpec,
+    })
+  }, [selectedDate, dispatchOrderSpecsAction, product.id, product.name])
 
   const handleAddProductToCar = (product: Product) => {
     const productWrapper: ProductWrapper = {

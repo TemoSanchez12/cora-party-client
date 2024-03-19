@@ -1,6 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { Montserrat } from 'next/font/google'
+
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
+import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
+import ProductCard from './ProductCard'
+import Product from '@/interfaces/domain/Product'
 
 const montserrat = Montserrat({
   weight: ['400', '800', '600'],
@@ -9,9 +16,15 @@ const montserrat = Montserrat({
 
 interface RequiredTextsPickerProps {
   requiredTexts: string[]
+  product: Product
 }
 
-const RequiredTextsPicker = ({ requiredTexts }: RequiredTextsPickerProps) => {
+const RequiredTextsPicker = ({
+  requiredTexts,
+  product,
+}: RequiredTextsPickerProps) => {
+  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+
   const [textInputs, setTextInputs] = useState<{ [key: string]: string }>({})
 
   const handleTextChange = (requiredText: string, newText: string) => {
@@ -19,6 +32,17 @@ const RequiredTextsPicker = ({ requiredTexts }: RequiredTextsPickerProps) => {
       ...prevState,
       [requiredText]: newText,
     }))
+
+    const productSpec: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [{ name: requiredText, value: newText }],
+    }
+
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.UPDATE_PRODUCT_SPECS,
+      payload: productSpec,
+    })
   }
 
   return (

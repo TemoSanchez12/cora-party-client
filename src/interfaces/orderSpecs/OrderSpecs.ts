@@ -5,7 +5,7 @@ interface OrderSpecs {
 export interface ProductSpecs {
   id: string
   name: string
-  specs: { string: string }[]
+  specs: { name: string; value: string }[]
 }
 
 export default OrderSpecs

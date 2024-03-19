@@ -1,6 +1,11 @@
 import Product from '@/interfaces/domain/Product'
 import ProductFonts from '@/interfaces/domain/ProductFonts'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
+import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
 
 interface ProductFontPickerProps {
   product: Product
@@ -9,6 +14,7 @@ interface ProductFontPickerProps {
 const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
   const [type, id] = product.id.split('-')
   const [fonts, setFonts] = useState<ProductFonts[]>()
+  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
   const [selectedFont, setSelectedFont] = useState<string>('')
 
   useEffect(() => {
@@ -26,7 +32,26 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
   }, [id, type])
 
   const handleFontSelect = (fontId: string) => {
-    setSelectedFont(fontId)
+    const fontSelected = fonts?.find(font => font.id == fontId)
+
+    if (!fontSelected) return
+    setSelectedFont(fontSelected.name)
+
+    const productSpec: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [
+        {
+          name: 'Fuente para textos',
+          value: fontSelected.name || 'Esta roto',
+        },
+      ],
+    }
+
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.UPDATE_PRODUCT_SPECS,
+      payload: productSpec,
+    })
   }
 
   return (
@@ -44,7 +69,7 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
                 name='font'
                 value={font.name}
                 checked={selectedFont === font.name}
-                onChange={() => handleFontSelect(font.name)}
+                onChange={() => handleFontSelect(font.id)}
                 className='mr-2 cursor-pointer'
               />
               <label htmlFor={font.id} className='cursor-pointer'>

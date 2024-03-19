@@ -32,13 +32,16 @@ const BalloonDetail = ({ product }: BalloonDetailProps) => {
     <div className='flex flex-col sm:flex-row sm:justify-center mt-16 sm:flex-wrap gap-20'>
       {balloon?.requiredColors && (
         <div>
-          && <ProductColorsPicker product={balloon} />
+          <ProductColorsPicker product={balloon} />
         </div>
       )}
 
       {balloon?.requiredTexts && (
         <div>
-          <RequiredTextsPicker requiredTexts={balloon.requiredTexts} />
+          <RequiredTextsPicker
+            product={product}
+            requiredTexts={balloon.requiredTexts}
+          />
         </div>
       )}
 

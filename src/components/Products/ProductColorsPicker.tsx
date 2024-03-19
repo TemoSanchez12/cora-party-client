@@ -3,6 +3,12 @@ import ProductColor from '@/interfaces/domain/ProductColor'
 import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import { Montserrat } from 'next/font/google'
 
+import OrderSpecsContext, {
+  OrderSpecsAction,
+} from '@/store/order-specs/order-specs'
+import { useContext } from 'react'
+import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
+
 const montserrat = Montserrat({
   weight: ['400', '800', '600'],
   subsets: ['latin'],
@@ -13,6 +19,8 @@ interface BalloonColorsPickerProps {
 }
 
 const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
+  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+
   const id = product.id.split('-')[1]
   const [colors, setColors] = useState<ProductColor[]>([])
   const [selectedColors, setSelectedColors] = useState<{
@@ -38,6 +46,15 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
       ...prevState,
       [requiredColor]: colorValue,
     }))
+    const productSpec: ProductSpecs = {
+      id: product.id,
+      name: product.name,
+      specs: [{ name: requiredColor, value: colorValue }],
+    }
+    dispatchOrderSpecsAction({
+      type: OrderSpecsAction.UPDATE_PRODUCT_SPECS,
+      payload: productSpec,
+    })
   }
 
   return (

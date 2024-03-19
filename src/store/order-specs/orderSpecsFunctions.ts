@@ -27,7 +27,25 @@ export const updateProductSpecs = (
   state: OrderSpecs,
   payload: ProductSpecs
 ) => {
-  return state
+  const stateUpdated = { productSpecs: [...state.productSpecs] }
+
+  const productSpecsToAdd = stateUpdated.productSpecs.find(
+    prodSpec => prodSpec.id == payload.id
+  )
+
+  if (!productSpecsToAdd) return stateUpdated
+
+  const specToModify = productSpecsToAdd.specs.find(
+    spec => spec.name == payload.specs[0].name
+  )
+
+  if (specToModify) {
+    specToModify.value = payload.specs[0].value
+  } else {
+    productSpecsToAdd.specs.push(payload.specs[0])
+  }
+
+  return stateUpdated
 }
 
 export const removeProductSpecs = (
