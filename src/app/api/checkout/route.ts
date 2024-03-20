@@ -13,9 +13,7 @@ const mapProductForStripe = (product: Product, quantity: number) => ({
     product_data: {
       name: product.name,
       description: product.description,
-      images: product.images.map(
-        image => `${process.env.STRAPI_URL}${image.formats.thumbnail?.url}`
-      ),
+      images: product.images.map(image => image.url),
     },
   },
   quantity,
@@ -23,7 +21,10 @@ const mapProductForStripe = (product: Product, quantity: number) => ({
 
 export const POST = async (req: NextRequest) => {
   try {
-    const shoppingCar: ShoppingCar = JSON.parse(await req.json()) as ShoppingCar
+    const clonedRequest = req.clone()
+    const shoppingCar: ShoppingCar = JSON.parse(
+      await clonedRequest.json()
+    ) as ShoppingCar
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
