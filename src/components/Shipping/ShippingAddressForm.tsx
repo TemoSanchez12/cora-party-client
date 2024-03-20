@@ -1,14 +1,15 @@
 'use client'
 
 import ShippingAddress from '@/interfaces/shipping/ShippingAddress'
+import { useRouter } from 'next/navigation'
 
 import { Formik, Form, Field } from 'formik'
 import Image from 'next/image'
-import Link from 'next/link'
 import * as Yup from 'yup'
 import boxesImage from '../../../public/images/domain/boxes.jpg'
 
 import { Montserrat } from 'next/font/google'
+import GeneralInfo from '@/interfaces/shipping/GeneralInfo'
 
 const montserrat = Montserrat({ weight: ['400', '600'], subsets: ['latin'] })
 
@@ -36,6 +37,20 @@ const shippingAddressSchema = Yup.object().shape({
     .max(100, 'El nombre de la ciudad es demasiado largo')
     .required('El nombre de la ciudad es requerido'),
   refernces: Yup.string().max(200, 'Numero de caracteres maximo alcanzado'),
+  recipientName: Yup.string()
+    .min(3, 'El nombre del destinatario es demasiado corto')
+    .max(100, 'El nombre del destinatario es demasiado largo')
+    .required('El nombre del destinatario es requerido'),
+  senderPhone: Yup.string()
+    .matches(/^[0-9]+$/, 'El número de teléfono debe contener solo números')
+    .min(7, 'El número de teléfono es demasiado corto')
+    .max(15, 'El número de teléfono es demasiado largo')
+    .required('El número de teléfono es requerido'),
+  receiverPhone: Yup.string()
+    .matches(/^[0-9]+$/, 'El número de teléfono debe contener solo números')
+    .min(7, 'El número de teléfono es demasiado corto')
+    .max(15, 'El número de teléfono es demasiado largo')
+    .required('El número de teléfono es requerido'),
 })
 
 const CustomInput = ({
@@ -68,8 +83,29 @@ const CustomInput = ({
 }
 
 const ShippingAddressForm = () => {
-  const handleSubmitShippingAddressForm = (values: ShippingAddress) => {
-    localStorage.setItem('shipping-address', JSON.stringify(values))
+  const router = useRouter()
+
+  const handleSubmitShippingAddressForm = (values: any) => {
+    const shippingAddress: ShippingAddress = {
+      avenue: values.avenue,
+      city: values.city,
+      interiorNumber: values.interiorNumber,
+      postalCode: values.postalCode,
+      street: values.street,
+      exteriorNumber: values.exteriorNumber,
+      references: values.references,
+    }
+
+    const generalInfo: GeneralInfo = {
+      receiverPhone: values.receiverPhone,
+      recipientName: values.recipientName,
+      senderPhone: values.senderPhone,
+    }
+
+    localStorage.setItem('general-info', JSON.stringify(generalInfo))
+    localStorage.setItem('shipping-address', JSON.stringify(shippingAddress))
+
+    router.push('/checkout')
   }
 
   return (
@@ -101,6 +137,9 @@ const ShippingAddressForm = () => {
             postalCode: '',
             city: '',
             references: '',
+            recipientName: '',
+            senderPhone: '',
+            receiverPhone: '',
           }}
           validationSchema={shippingAddressSchema}
           onSubmit={handleSubmitShippingAddressForm}
@@ -168,11 +207,42 @@ const ShippingAddressForm = () => {
                 error={errors.references}
                 touched={touched.references}
               />
+
+              <h2 className='text-center text-slate-600'>
+                Información general
+              </h2>
+
+              <div className='flex gap-4'>
+                <CustomInput
+                  label='Tu telefono'
+                  name='senderPhone'
+                  className='w-full'
+                  fieldProps={{}}
+                  error={errors.senderPhone}
+                  touched={touched.senderPhone}
+                />
+                <CustomInput
+                  label='Telefono de quien recibe'
+                  name='receiverPhone'
+                  className='w-full'
+                  fieldProps={{}}
+                  error={errors.receiverPhone}
+                  touched={touched.receiverPhone}
+                />
+              </div>
+              <CustomInput
+                label='Nombre de quien recibe'
+                name='recipientName'
+                className='w-full'
+                fieldProps={{}}
+                error={errors.recipientName}
+                touched={touched.recipientName}
+              />
               <button
                 type='submit'
                 className='bg-slate-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-300'
               >
-                <Link href='/checkout'>Confirmar dirección de envío</Link>
+                Confirmar dirección de envío
               </button>
             </Form>
           )}

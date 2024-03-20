@@ -18,7 +18,6 @@ export default function App() {
 
   useEffect(() => {
     const shoppingCar = localStorage.getItem('shopping-car')
-    localStorage.removeItem('shopping-car')
 
     fetch('/api/checkout', {
       method: 'POST',

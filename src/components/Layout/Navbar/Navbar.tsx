@@ -12,6 +12,7 @@ import BurgerMenuButton from './BurgerMenuButton'
 import ShoppingCarButton from '../../Shopping/ShoppingCarButton'
 import NavigationLinks from './NavigationLinks'
 import ShoppingCar from '../../Shopping/ShoppingCar'
+import Link from 'next/link'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -30,10 +31,12 @@ const Navbar = () => {
 
         <div className='w-global-container mx-auto h-20 flex items-center justify-between'>
           <div className='w-24'>
-            <Image
-              src={logo}
-              alt='Cora Party - Especialistas en decoraciones y regalos'
-            />
+            <Link href='/'>
+              <Image
+                src={logo}
+                alt='Cora Party - Especialistas en decoraciones y regalos'
+              />
+            </Link>
           </div>
 
           <div className='flex items-center gap-6'>
