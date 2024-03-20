@@ -15,6 +15,7 @@ import ShoppingCarItem from './ShoppingCarItem'
 
 import { Poppins } from 'next/font/google'
 import Link from 'next/link'
+import OrderSpecs from '@/interfaces/orderSpecs/OrderSpecs'
 
 const poppins = Poppins({ weight: ['400', '600'], subsets: ['latin'] })
 
@@ -62,12 +63,14 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
   }, [dispatchShoppingCarAction])
 
   useEffect(() => {
-    const savedOrderSpecsState = localStorage.getItem('order-specs')
+    const savedOrderSpecsState: OrderSpecs = JSON.parse(
+      localStorage.getItem('order-specs') || '{}'
+    )
 
     if (!savedOrderSpecsState || orderSpecsState.productSpecs.length != 0) {
       localStorage.setItem('order-specs', JSON.stringify(orderSpecsState))
     }
-  }, [orderSpecsState])
+  }, [orderSpecsState, shoppingCarState])
 
   useEffect(() => {
     const savedOrderSpecsState = localStorage.getItem('order-specs')

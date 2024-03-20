@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import MainLayout from '@/layouts/MainLayout'
 import { loadStripe } from '@stripe/stripe-js'
 import {
   EmbeddedCheckoutProvider,
@@ -16,7 +17,8 @@ export default function App() {
   const [clientSecret, setClientSecret] = useState('')
 
   useEffect(() => {
-    const shoppingCar = localStorage.getItem('shoppingCar')
+    const shoppingCar = localStorage.getItem('shopping-car')
+
     fetch('/api/checkout', {
       method: 'POST',
       headers: {
@@ -31,15 +33,17 @@ export default function App() {
   }, [])
 
   return (
-    <div id='checkout'>
-      {clientSecret && (
-        <EmbeddedCheckoutProvider
-          stripe={stripePromise}
-          options={{ clientSecret }}
-        >
-          <EmbeddedCheckout />
-        </EmbeddedCheckoutProvider>
-      )}
-    </div>
+    <MainLayout>
+      <div id='checkout' className='my-28'>
+        {clientSecret && (
+          <EmbeddedCheckoutProvider
+            stripe={stripePromise}
+            options={{ clientSecret }}
+          >
+            <EmbeddedCheckout />
+          </EmbeddedCheckoutProvider>
+        )}
+      </div>
+    </MainLayout>
   )
 }
