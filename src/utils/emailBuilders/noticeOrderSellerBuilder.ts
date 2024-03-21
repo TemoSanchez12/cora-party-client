@@ -1,7 +1,7 @@
 import OrderConfirmationTemplate from '@/components/EmailTemplates/OrderConfirmationTemplate'
 import OrderNoticeRequest from '@/interfaces/mailing/OrderNoticeRequest'
 
-const noticeOrderBuilder = (request: OrderNoticeRequest): any => {
+const noticeOrderSellerBuilder = (request: OrderNoticeRequest): any => {
   return {
     receivers: [request.clientEmail],
     subject: 'Confirmacion de pedido CoraParty',
@@ -9,8 +9,10 @@ const noticeOrderBuilder = (request: OrderNoticeRequest): any => {
       shoppingCar: request.shoppingCar,
       generalInfo: request.generalInfo,
       shippingAddress: request.shippingAddress,
+      orderSpecs: request.orderSpecs,
+      senderEmail: request.clientEmail,
     }),
   }
 }
 
-export default noticeOrderBuilder
+export default noticeOrderSellerBuilder

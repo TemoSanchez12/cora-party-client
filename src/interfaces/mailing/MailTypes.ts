@@ -1,5 +1,4 @@
 enum EmailTypes {
-  orderConfirmation,
   noticeOrder,
 }
 

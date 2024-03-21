@@ -41,6 +41,10 @@ const shippingAddressSchema = Yup.object().shape({
     .min(3, 'El nombre del destinatario es demasiado corto')
     .max(100, 'El nombre del destinatario es demasiado largo')
     .required('El nombre del destinatario es requerido'),
+  senderName: Yup.string()
+    .min(3, 'Nombre es demasiado corto')
+    .max(100, 'Nombre es demasiado largo')
+    .required('Nombre es requerido'),
   senderPhone: Yup.string()
     .matches(/^[0-9]+$/, 'El número de teléfono debe contener solo números')
     .min(7, 'El número de teléfono es demasiado corto')
@@ -64,7 +68,7 @@ const CustomInput = ({
 }: any) => {
   return (
     <div
-      className={`rounded-lg bg-gray-100 p-4 shadow-lg text-xs ${className}`}
+      className={`rounded-lg bg-gray-100 p-4 shadow-lg text-xs md:text-base ${className}`}
     >
       <div className='flex gap-1 w-full flex-col'>
         <label className='text-slate-500' htmlFor={name}>
@@ -100,6 +104,7 @@ const ShippingAddressForm = () => {
       receiverPhone: values.receiverPhone,
       recipientName: values.recipientName,
       senderPhone: values.senderPhone,
+      senderName: values.senderName,
     }
 
     localStorage.setItem('general-info', JSON.stringify(generalInfo))
@@ -140,6 +145,7 @@ const ShippingAddressForm = () => {
             recipientName: '',
             senderPhone: '',
             receiverPhone: '',
+            senderName: '',
           }}
           validationSchema={shippingAddressSchema}
           onSubmit={handleSubmitShippingAddressForm}
@@ -212,6 +218,25 @@ const ShippingAddressForm = () => {
                 Información general
               </h2>
 
+              <div>
+                <CustomInput
+                  label='Tu nombre'
+                  name='senderName'
+                  className='w-full'
+                  fieldProps={{}}
+                  error={errors.senderName}
+                  touched={touched.senderName}
+                />
+                <CustomInput
+                  label='Nombre de quien recibe'
+                  name='recipientName'
+                  className='w-full'
+                  fieldProps={{}}
+                  error={errors.recipientName}
+                  touched={touched.recipientName}
+                />
+              </div>
+
               <div className='flex gap-4'>
                 <CustomInput
                   label='Tu telefono'
@@ -230,14 +255,7 @@ const ShippingAddressForm = () => {
                   touched={touched.receiverPhone}
                 />
               </div>
-              <CustomInput
-                label='Nombre de quien recibe'
-                name='recipientName'
-                className='w-full'
-                fieldProps={{}}
-                error={errors.recipientName}
-                touched={touched.recipientName}
-              />
+
               <button
                 type='submit'
                 className='bg-slate-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-300'

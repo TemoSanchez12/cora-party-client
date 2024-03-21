@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import MailServiceRequest from '@/interfaces/mailing/MailServiceRequest'
 import MailTypes from '@/interfaces/mailing/MailTypes'
-import noticeOrderBuilder from '@/utils/emailBuilders/noticeOrderBuilder'
+import noticeOrderSellerBuilder from '@/utils/emailBuilders/noticeOrderSellerBuilder'
 
 type MailServiceResponse = {
   success: boolean
@@ -19,13 +19,13 @@ export const POST = async (req: NextRequest) => {
     )
 
     if (mailRequest.type == MailTypes.noticeOrder) {
-      const emailOptions = noticeOrderBuilder(mailRequest.payload)
+      const emailSellerOptions = noticeOrderSellerBuilder(mailRequest.payload)
 
       const { data, error } = await resend.emails.send({
         from: process.env.EMAIL_NOTIFICATION_SENDER || '',
-        to: emailOptions.receivers,
-        subject: emailOptions.subject,
-        react: emailOptions.react,
+        to: emailSellerOptions.receivers,
+        subject: emailSellerOptions.subject,
+        react: emailSellerOptions.react,
       })
     }
 

@@ -138,7 +138,7 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
 
               <Link
                 href='/datos-envio'
-                className={`bg-slate-500 p-2 mt-2 w-full text-center text-white rounded-lg flex justify-center ${poppins.className}`}
+                className={`bg-slate-500 p-3 text-xl my-4 w-full text-center text-white rounded-lg flex justify-center ${poppins.className}`}
               >
                 Proceder al pago
               </Link>
