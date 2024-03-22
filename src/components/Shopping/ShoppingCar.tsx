@@ -24,7 +24,6 @@ interface ShoppingCarProps {
 }
 
 const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
-  const [shippingPrice, setShippingPrice] = useState(0)
   const { shoppingCarState, dispatchShoppingCarAction } =
     useContext(ShoppingCarContext)
 
@@ -36,12 +35,14 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
       const response = await fetch('/api/shipping-price').then(res =>
         res.ok ? res.json() : Promise.reject()
       )
-
-      setShippingPrice(response.data)
+      dispatchShoppingCarAction({
+        type: ShoppingCarAction.SET_SHIPPING_PRICE,
+        payload: response.data,
+      })
     }
 
     fetchShippingPrice()
-  }, [])
+  }, [dispatchShoppingCarAction])
 
   // Save shopping car state to local storage when it changes
   useEffect(() => {
@@ -122,7 +123,7 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
                     {new Intl.NumberFormat('es-MX', {
                       style: 'currency',
                       currency: 'MXN',
-                    }).format(shippingPrice)}
+                    }).format(shoppingCarState.shippingPrice)}
                   </span>
                 </p>
                 <p className='flex justify-between text-slate-500 text-sm border-b border-slate-400 p-2 pt-0'>
@@ -131,7 +132,10 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
                     {new Intl.NumberFormat('es-MX', {
                       style: 'currency',
                       currency: 'MXN',
-                    }).format(shoppingCarState.totalPrice + shippingPrice)}
+                    }).format(
+                      shoppingCarState.totalPrice +
+                        shoppingCarState.shippingPrice
+                    )}
                   </span>
                 </p>
               </div>

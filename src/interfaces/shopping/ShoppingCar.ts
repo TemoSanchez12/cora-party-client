@@ -5,6 +5,7 @@ export interface ShoppingCar {
   products: ProductWrapper[]
   totalPrice: number
   totalProducts: number
+  shippingPrice: number
 }
 
 export interface ProductWrapper {

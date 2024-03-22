@@ -56,8 +56,6 @@ export default function Return() {
       localStorage.getItem('shopping-car') || '{}'
     )
 
-    console.log(shoppingCar)
-
     const shippingAddress: ShippingAddress = JSON.parse(
       localStorage.getItem('shipping-address') || '{}'
     )

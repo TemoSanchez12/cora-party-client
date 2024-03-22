@@ -21,6 +21,8 @@ interface BalloonColorsPickerProps {
 const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
   const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
 
+  console.log(JSON.stringify(product) + ' aqui mero desde colores')
+
   const id = product.id.split('-')[1]
   const [colors, setColors] = useState<ProductColor[]>([])
   const [selectedColors, setSelectedColors] = useState<{

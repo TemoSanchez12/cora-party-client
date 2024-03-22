@@ -10,7 +10,7 @@ const ItemsList = ({ shoppingCar }: ItemsListProps) => {
 
   return (
     <div>
-      <ul>
+      <ul className='flex flex-col gap-10 my-10'>
         {shoppingCar &&
           shoppingCar.products.map(productWrapper => (
             <ProductItem

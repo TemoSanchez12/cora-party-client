@@ -16,7 +16,7 @@ const ProductItem = ({ productWrapper }: ProductItemProps) => {
       key={productWrapper.product.id}
       className='flex flex-col gap-2 shadow-xl p-2 rounded-xl justify-between border border-gray-100'
     >
-      <div className='flex gap-2'>
+      <div className='flex gap-4'>
         <div className='h-44 w-1/3 rounded-lg overflow-hidden'>
           <Image
             className='object-cover w-full h-full'

@@ -2,7 +2,7 @@
 import ProductFonts, { SampleFontImage } from '@/interfaces/domain/ProductFonts'
 
 const mapSampleImageFont = (font: any): SampleFontImage => ({
-  url: font.url,
+  url: `${process.env.STRAPI_URL}${font.url}`,
   height: font.height,
   mime: font.mime,
   name: font.name,

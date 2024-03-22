@@ -13,6 +13,7 @@ import {
   removeComplement,
   updateQuantityProduct,
   setShoppingCar,
+  setShippingPrice,
 } from './shoppingCarFunctions'
 
 // Shopping car actions
@@ -23,6 +24,7 @@ export enum ShoppingCarAction {
   REMOVE_COMPLEMENT = 'REMOVE_COMPLEMENT',
   UPDATE_QUANTITY_PRODUCT = 'UPDATE_QUANTITY_PRODUCT',
   SET_SHOPPING_CAR = 'SET_SHOPPING_CAR',
+  SET_SHIPPING_PRICE = 'SET_SHIPPING_PRICE',
 }
 
 // Shopping car functions dictionary
@@ -36,6 +38,7 @@ const shoppingCarFunctions: Record<
   [ShoppingCarAction.REMOVE_COMPLEMENT]: removeComplement,
   [ShoppingCarAction.UPDATE_QUANTITY_PRODUCT]: updateQuantityProduct,
   [ShoppingCarAction.SET_SHOPPING_CAR]: setShoppingCar,
+  [ShoppingCarAction.SET_SHIPPING_PRICE]: setShippingPrice,
 }
 
 // Function reducer
@@ -60,6 +63,7 @@ export const ShoppingCarContextProvider = ({ children }: any) => {
       products: [],
       totalPrice: 0,
       totalProducts: 0,
+      shippingPrice: 0,
     })
 
   return (

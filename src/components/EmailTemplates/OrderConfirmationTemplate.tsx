@@ -66,6 +66,8 @@ const OrderConfirmationTemplate = ({
     return total
   }
 
+  console.log(shoppingCar.shippingPrice + ' ' + shoppingCar.totalPrice)
+
   const filteredProductSpecs = orderSpecs.productSpecs.filter(spec =>
     shoppingCar.products.some(product => product.product.id === spec.id)
   )
@@ -109,6 +111,7 @@ const OrderConfirmationTemplate = ({
         <h3>Información del Comprador:</h3>
         <p>Nombre: {generalInfo.senderName}</p>
         <p>Teléfono: {generalInfo.senderName}</p>
+        <p>Email: {senderEmail}</p>
       </div>
 
       <div style={styles.section}>
@@ -151,7 +154,10 @@ const OrderConfirmationTemplate = ({
         <h3>Total:</h3>
         <p>Subtotal: ${shoppingCar.totalPrice.toFixed(2)}</p>
         {/* <p>Costo de Envío: ${shippingPrice.toFixed(2)}</p> */}
-        <p>Total a Pagar: ${shoppingCar.totalPrice.toFixed(2)}</p>
+        <p>
+          Total a Pagar: $
+          {(shoppingCar.totalPrice + shoppingCar.shippingPrice).toFixed(2)}
+        </p>
       </div>
     </div>
   )

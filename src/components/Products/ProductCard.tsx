@@ -17,6 +17,8 @@ import OrderSpecsContext, {
 import { Montserrat, Poppins } from 'next/font/google'
 import Link from 'next/link'
 import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
+import ProductDetailsModal from './ProductDetailsModal'
+import PenIcon from '../Icons/PenIcon'
 
 const montserrat = Montserrat({
   weight: ['900', '300', '400'],
@@ -41,12 +43,19 @@ const typesForCategoryTypes: typesForCategoryTypes = {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const [showModalDetail, setShowModalDetail] = useState(false)
   const [type, id] = product.id.split('-')
   const [productAdded, setProductAdded] = useState(false)
   const shoppingCarContext = useContext(ShoppingCarContext)
   const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
 
+  const onCloseShowModal = () => {
+    setShowModalDetail(false)
+  }
+
   const handleAddProductToCar = (product: Product) => {
+    setShowModalDetail(true)
+
     const productWrapper: ProductWrapper = {
       product,
       quantity: 1,
@@ -81,6 +90,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <div className='w-40 h-full flex flex-col'>
+      <ProductDetailsModal
+        isOpen={showModalDetail}
+        onClose={onCloseShowModal}
+        product={product}
+      />
       <div>
         <div className='w-36 h-52 relative md:w-44 md:h-64'>
           <Image
@@ -109,17 +123,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
             }}
           >
             <span
-              className={`text-white font-light text-xs ${poppins.className}`}
+              className={`text-white font-light text-xs ${poppins.className} flex justify-between items-center py-1`}
             >
-              <Link
-                href={`/${type}/${
-                  product.categories
-                    ? product.categories[0].slug
-                    : 'sin-categoria'
-                }/${product.slug}`}
-              >
-                ver más
-              </Link>
+              {productAdded ? (
+                <Link
+                  href={`/${type}/${
+                    product.categories
+                      ? product.categories[0].slug
+                      : 'sin-categoria'
+                  }/${product.slug}`}
+                  className='flex gap-2 items-center'
+                >
+                  <PenIcon width='15' height='15' /> <p>Personalizar</p>
+                </Link>
+              ) : (
+                <Link
+                  href={`/${type}/${
+                    product.categories
+                      ? product.categories[0].slug
+                      : 'sin-categoria'
+                  }/${product.slug}`}
+                >
+                  ver más
+                </Link>
+              )}
             </span>
           </div>
         </div>

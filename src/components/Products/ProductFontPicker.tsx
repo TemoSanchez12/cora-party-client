@@ -1,6 +1,10 @@
 import Product from '@/interfaces/domain/Product'
 import ProductFonts from '@/interfaces/domain/ProductFonts'
 import { useState, useEffect, useContext } from 'react'
+import { Montserrat } from 'next/font/google'
+import Image from 'next/image'
+
+const montserrat = Montserrat({ weight: ['400', '800'], subsets: ['latin'] })
 
 import OrderSpecsContext, {
   OrderSpecsAction,
@@ -55,14 +59,15 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
   }
 
   return (
-    <div className=''>
+    <div className={montserrat.className}>
       <p className='text-sm text-gray-600 font-bold mb-4'>
         Seleccione una fuente:
       </p>
+
       <ul className='pl-2'>
         {fonts &&
           fonts.map(font => (
-            <li key={font.id} className='flex items-center mb-2'>
+            <li key={font.id} className='flex  mb-2 items-center'>
               <input
                 type='radio'
                 id={font.name}
