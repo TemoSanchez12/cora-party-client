@@ -19,7 +19,8 @@ interface BalloonColorsPickerProps {
 }
 
 const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
-  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+  const { dispatchOrderSpecsAction, orderSpecsState } =
+    useContext(OrderSpecsContext)
 
   console.log(JSON.stringify(product) + ' aqui mero desde colores')
 
@@ -40,8 +41,20 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
       setColors(colors)
     }
 
+    const productSpec = orderSpecsState.productSpecs.find(
+      spec => spec.id === product.id
+    )
+    if (productSpec) {
+      productSpec.specs.forEach(spec => {
+        setSelectedColors(prevState => ({
+          ...prevState,
+          [spec.name]: spec.value,
+        }))
+      })
+    }
+
     fetchColor()
-  }, [id])
+  }, [id, orderSpecsState, product.id])
 
   const handleColorSelect = (requiredColor: string, colorValue: string) => {
     setSelectedColors(prevState => ({

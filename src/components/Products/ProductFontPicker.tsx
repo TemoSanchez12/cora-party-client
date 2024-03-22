@@ -18,7 +18,8 @@ interface ProductFontPickerProps {
 const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
   const [type, id] = product.id.split('-')
   const [fonts, setFonts] = useState<ProductFonts[]>()
-  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+  const { dispatchOrderSpecsAction, orderSpecsState } =
+    useContext(OrderSpecsContext)
   const [selectedFont, setSelectedFont] = useState<string>('')
 
   useEffect(() => {
@@ -30,10 +31,22 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
       const fontsResponse = response.data
 
       setFonts(fontsResponse)
+
+      const productSpec = orderSpecsState.productSpecs.find(
+        spec => spec.id === product.id
+      )
+      if (productSpec) {
+        const fontSpec = productSpec.specs.find(
+          spec => spec.name === 'Fuente para textos'
+        )
+        if (fontSpec) {
+          setSelectedFont(fontSpec.value)
+        }
+      }
     }
 
     fetchFonts()
-  }, [id, type])
+  }, [id, type, product.id, orderSpecsState])
 
   const handleFontSelect = (fontId: string) => {
     const fontSelected = fonts?.find(font => font.id == fontId)
