@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Import graphql client
 import client from '@/apollo-client'
-import ProductFonts from '@/interfaces/domain/ProductFonts'
+import ProductFonts from '@/interfaces/domain/ProductFont'
 
 // Import queries
 import { getFontsQuery } from '@/queries/fontQueries'

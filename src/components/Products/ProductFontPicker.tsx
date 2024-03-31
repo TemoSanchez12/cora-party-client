@@ -1,5 +1,5 @@
 import Product from '@/interfaces/domain/Product'
-import ProductFonts from '@/interfaces/domain/ProductFonts'
+import ProductFonts from '@/interfaces/domain/ProductFont'
 import { useState, useEffect, useContext } from 'react'
 import { Montserrat } from 'next/font/google'
 import Image from 'next/image'

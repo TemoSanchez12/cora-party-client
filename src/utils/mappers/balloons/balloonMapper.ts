@@ -47,7 +47,7 @@ const mapSingleBalloon = (data: any) => {
     isFeatured: Destacado,
     slug: Slug,
     images,
-    categories: mapCategoriesToDefinition(Categorias_Globo.data),
+    // categories: mapCategoriesToDefinition(Categorias_Globo.data),
     requiredColors,
   }
 

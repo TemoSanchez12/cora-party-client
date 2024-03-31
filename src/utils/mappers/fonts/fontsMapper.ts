@@ -1,5 +1,5 @@
 // Import interface
-import ProductFonts, { SampleFontImage } from '@/interfaces/domain/ProductFonts'
+import ProductFonts, { SampleFontImage } from '@/interfaces/domain/ProductFont'
 
 const mapSampleImageFont = (font: any): SampleFontImage => ({
   url: `${process.env.STRAPI_URL}${font.url}`,
