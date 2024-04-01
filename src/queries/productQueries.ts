@@ -11,7 +11,6 @@ const productTypes: productTypesType = {
 }
 
 export const getProductsByTypeQuery = (productType: ProductTypes) => gql`
-  # Write your query or mutation here
   {
     productos(filters: { Tipo_Producto: { eq: "${productTypes[productType]}" } }) {
       data {
@@ -25,6 +24,33 @@ export const getProductsByTypeQuery = (productType: ProductTypes) => gql`
           Tiempo_Minimo_Premium
           Textos_Requeridos
           Colores_Requeridos
+          Variantes_Producto {
+            data {
+              id
+              attributes {
+                Nombre
+                Producto {
+                  data {
+                    id
+                    attributes {
+                      Nombre
+                      Slug
+                    }
+                  }
+                }
+                Image {
+                  data {
+                    id
+                    attributes {
+                      name
+                      formats
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
           Imagenes {
             data {
               id
@@ -75,28 +101,6 @@ export const getProductsByTypeQuery = (productType: ProductTypes) => gql`
               }
             }
           }
-          Complementos {
-            data {
-              id
-              attributes {
-                Nombre
-                Descripcion
-                Fotos {
-                  data {
-                    id
-                    attributes {
-                      name
-                      formats
-                      url
-                    }
-                  }
-                }
-                Precio
-                Activo
-                Slug
-              }
-            }
-          }
           Colores {
             data {
               id
@@ -125,11 +129,6 @@ export const getProductsByTypeQuery = (productType: ProductTypes) => gql`
             }
           }
           Destacado
-          Variantes_Producto {
-            data {
-              id
-            }
-          }
           Tipo_Producto
           Colores_Fuente {
             data {
@@ -150,6 +149,9 @@ export const getProductsByTypeQuery = (productType: ProductTypes) => gql`
                 Producto {
                   data {
                     id
+                    attributes {
+                        Slug
+                    }
                   }
                 }
               }

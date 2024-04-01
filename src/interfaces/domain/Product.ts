@@ -21,8 +21,7 @@ interface Product {
   isFeatured: boolean
   slug?: string
   complements?: ComplementProduct[]
-  categoriesBalloon?: ProductCategory[]
-  categoriesFlower?: ProductCategory[]
+  categories?: ProductCategory[]
   requiredTexts: string[]
   minimumPremiumTime: number
   colors?: ProductColor[]
@@ -31,23 +30,29 @@ interface Product {
   show: boolean
   type: ProductTypes
   showTextTypes: boolean
-  variants: ProductVariant
+  variants: ProductVariant[]
   productSizes: ProductSize[]
   fontColors: ProductColor[]
 }
 
-interface ProductVariant {
+export interface ProductIdentifier {
+  id: string
+  name: string
+  slug: string
+}
+
+export interface ProductVariant {
   id: string
   name: string
   image: ImageProduct
-  product: Product
+  product: ProductIdentifier
 }
 
-interface ProductSize {
+export interface ProductSize {
   id: string
   name: string
   size: string
-  product: Product
+  product: ProductIdentifier
 }
 
 export default Product

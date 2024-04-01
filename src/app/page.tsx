@@ -12,6 +12,8 @@ import MainLayout from '../layouts/MainLayout'
 import Hero from '@/components/Layout/Hero/Hero'
 import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import SimpleProductList from '@/components/Products/ProductList'
+import { getProductsByType } from '@/retrivers/products'
+import { ProductTypes } from '@/interfaces/domain/Product'
 
 const montserrat = Montserrat({ weight: ['500'], subsets: ['latin'] })
 
@@ -29,6 +31,8 @@ export default async function Home() {
   const balloonsFeatured: BalloonProduct[] = response.data.filter(
     (balloon: BalloonProduct) => balloon.isFeatured && balloon.isActive
   )
+
+  const productsByType = getProductsByType(ProductTypes.Balloon)
 
   return (
     <MainLayout>
