@@ -10,8 +10,6 @@ export const getProductsByType = async (
     query: getProductsByTypeQuery(productType),
   })
 
-  console.log(data)
-
   const products: Product[] = mapProductsToDefinition(data, productType)
 
   return products

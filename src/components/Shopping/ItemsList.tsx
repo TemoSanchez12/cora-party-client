@@ -6,8 +6,6 @@ interface ItemsListProps {
 }
 
 const ItemsList = ({ shoppingCar }: ItemsListProps) => {
-  console.log(shoppingCar)
-
   return (
     <div>
       <ul className='flex flex-col gap-10 my-10'>

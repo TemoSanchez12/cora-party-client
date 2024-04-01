@@ -10,7 +10,6 @@ import { Montserrat } from 'next/font/google'
 // Import components
 import MainLayout from '../layouts/MainLayout'
 import Hero from '@/components/Layout/Hero/Hero'
-import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import SimpleProductList from '@/components/Products/ProductList'
 import { getProductsByType } from '@/retrivers/products'
 import { ProductTypes } from '@/interfaces/domain/Product'
@@ -24,15 +23,9 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const response = await fetch(process.env.BASE_URL + '/api/balloons').then(
-    res => (res.ok ? res.json() : Promise.reject())
-  )
-
-  const balloonsFeatured: BalloonProduct[] = response.data.filter(
-    (balloon: BalloonProduct) => balloon.isFeatured && balloon.isActive
-  )
-
-  const productsByType = getProductsByType(ProductTypes.Balloon)
+  const balloonsFeatured = (
+    await getProductsByType(ProductTypes.Balloon)
+  ).filter(balloon => balloon.isFeatured)
 
   return (
     <MainLayout>

@@ -6,8 +6,10 @@ import FeaturedCategoriesList from '@/components/Categories/FeaturedCategoriesLi
 import { Montserrat } from 'next/font/google'
 
 import SimpleProductList from '@/components/Products/ProductList'
-import Product from '@/interfaces/domain/Product'
+import Product, { ProductTypes } from '@/interfaces/domain/Product'
 import SimpleCategoriesList from '@/components/Categories/SimpleCategoriesList'
+import { getProductsByType } from '@/retrivers/products'
+import { getCategoryForType } from '@/retrivers/categories'
 
 const montserrat = Montserrat({
   weight: ['400', '500'],
@@ -21,50 +23,32 @@ interface CategoriesResponse {
 }
 
 type typesForProducts = {
-  globos: string
-  flores: string
-  [key: string]: string
-}
-
-const productCategoryTypes: typesForProducts = {
-  globos: 'balloon',
-  flores: 'flower',
+  globos: ProductTypes.Balloon
+  flores: ProductTypes.Flower
+  [key: string]: ProductTypes
 }
 
 const productTypes: typesForProducts = {
-  globos: 'balloons',
-  flores: 'floweres',
+  globos: ProductTypes.Balloon,
+  flores: ProductTypes.Flower,
 }
 
 const ProductTypePage = async ({ params }: any) => {
-  const response: CategoriesResponse = await fetch(
-    `${process.env.BASE_URL}/api/categories?type${
-      productCategoryTypes[params.productType]
-    }`,
-    {
-      cache: 'no-cache',
-    }
-  ).then(res => (res.ok ? res.json() : Promise.reject()))
+  const productFeatured = (
+    await getProductsByType(productTypes[params.productType])
+  ).filter((product: Product) => product.isFeatured)
 
-  const responseProduct = await fetch(
-    `${process.env.BASE_URL}/api/${productTypes[params.productType]}`
-  ).then(res => (res.ok ? res.json() : Promise.reject()))
+  const categories = await getCategoryForType(productTypes[params.productType])
 
-  const productFeatured: Product[] = responseProduct.data.filter(
-    (balloon: Product) => balloon.isFeatured && balloon.isActive
-  )
-
-  const featuredCategories = response.data?.filter(
-    category => category.featured
-  )
-  const simpleCategories = response.data?.filter(category => !category.featured)
+  const featuredCategories = categories.filter(category => category.featured)
+  const simpleCategories = categories.filter(category => !category.featured)
 
   return (
     <MainLayout>
       <div className='mx-auto w-global-container'>
         <h4 className='text-3xl text-slate-600 font-medium w-full text-center mt-10 '>
           Explora nuestras{' '}
-          <span className='text-dark-blue'>
+          <span className='text-dark-blue capitalize'>
             categorias en {params.productType}
           </span>
         </h4>

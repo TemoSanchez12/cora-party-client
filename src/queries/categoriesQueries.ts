@@ -82,7 +82,7 @@ export const getCategoryForTypeQuery = (type: string) => gql`
   }
 `
 
-export const getCategoryBySlug = (type: string, slug: string) => gql`
+export const getCategoryBySlugQuery = (type: string, slug: string) => gql`
   {
     ${paramForCategoryTypeQuery[type]} (filters: {Slug: {eq: "${slug}"}}) {
       data {

@@ -66,8 +66,6 @@ const OrderConfirmationTemplate = ({
     return total
   }
 
-  console.log(shoppingCar.shippingPrice + ' ' + shoppingCar.totalPrice)
-
   const filteredProductSpecs = orderSpecs.productSpecs.filter(spec =>
     shoppingCar.products.some(product => product.product.id === spec.id)
   )

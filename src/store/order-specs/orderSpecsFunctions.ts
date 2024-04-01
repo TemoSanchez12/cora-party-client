@@ -58,10 +58,6 @@ export const removeProductSpecs = (
     specs => specs.id !== payload.id
   )
 
-  console.log(state)
-
-  console.log(stateUpdated)
-
   stateUpdated.productSpecs = productUpdated
 
   return stateUpdated

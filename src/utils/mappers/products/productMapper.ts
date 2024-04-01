@@ -61,8 +61,7 @@ const mapSize = (data: any): ProductSize => {
     },
   }
 }
-
-const mapProduct = (data: any, productType: ProductTypes): Product => {
+export const mapProduct = (data: any): Product => {
   const {
     id,
     attributes: {
@@ -79,7 +78,6 @@ const mapProduct = (data: any, productType: ProductTypes): Product => {
       Mostrar,
       Categorias_Globos,
       Categorias_Flores,
-      Complementos,
       Colores,
       Fuentes,
       Destacado,
@@ -94,16 +92,14 @@ const mapProduct = (data: any, productType: ProductTypes): Product => {
     mapResponseImage(imageData)
   )
 
-  let categories: ProductCategory[] = []
-  if (productType === ProductTypes.Balloon) {
-    categories = Categorias_Globos.data.map((categoryData: any) =>
+  const categories: ProductCategory[] = [
+    ...Categorias_Globos.data.map((categoryData: any) =>
       mapCategory(categoryData)
-    )
-  } else {
-    categories = Categorias_Flores.data.map((categoryData: any) =>
+    ),
+    ...Categorias_Flores.data.map((categoryData: any) =>
       mapCategory(categoryData)
-    )
-  }
+    ),
+  ]
 
   const colors: ProductColor[] = Colores.data.map((colorData: any) =>
     mapColor(colorData)
@@ -147,9 +143,9 @@ const mapProduct = (data: any, productType: ProductTypes): Product => {
     requiredColors,
     fonts,
     show: Mostrar,
-    type: productType,
+    type: ProductTypes.Balloon, // Assuming default product type as Balloon
     showTextTypes: Mostrar_Tipos_Texto,
-    variants: variants,
+    variants,
     productSizes: sizes,
     fontColors: Colores_Fuente.data.map((colorData: any) =>
       mapColor(colorData)
@@ -157,19 +153,12 @@ const mapProduct = (data: any, productType: ProductTypes): Product => {
   }
 }
 
-export const mapProductsToDefinition = (
-  { data }: any,
-  productType: ProductTypes
-): Product[] => {
-  console.log('aqui mero es donde se va a ver ' + JSON.stringify(data))
-
+export const mapProductsToDefinition = ({ data }: any): Product[] => {
   if (!data || !data.productos || !data.productos.data) {
     throw new Error(
       'Error mapping product data: Unable to retrieve required information.'
     )
   }
 
-  return data.productos.data.map((productData: any) =>
-    mapProduct(productData, productType)
-  )
+  return data.productos.data.map((productData: any) => mapProduct(productData))
 }

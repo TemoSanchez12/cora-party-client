@@ -4,8 +4,10 @@ import ProductCategory from '@/interfaces/domain/ProductCategory'
 // Import mappers
 import mapResponseImage from '../images/imageMapper'
 
-export const mapCategoriesToDefinition = (data: any): ProductCategory[] =>
-  data.map(
+export const mapCategoriesToDefinition = (data: any): ProductCategory[] => {
+  console.log('aqui mero es donde se hace ')
+
+  return data.map(
     (category: any): ProductCategory => ({
       id: category.id,
       name: category.attributes.Nombre,
@@ -14,6 +16,7 @@ export const mapCategoriesToDefinition = (data: any): ProductCategory[] =>
       featured: category.attributes.Destacado,
     })
   )
+}
 
 export const mapCategoryToDefinition = (data: any): ProductCategory => ({
   id: data.id,
