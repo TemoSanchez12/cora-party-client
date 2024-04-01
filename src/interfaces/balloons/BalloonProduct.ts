@@ -1,5 +1,5 @@
 import Product from '../domain/Product'
-import ProductFonts from '../domain/ProductFonts'
+import ProductFonts from '../domain/ProductFont'
 import ProductColor from '../domain/ProductColor'
 
 interface BalloonProduct extends Product {

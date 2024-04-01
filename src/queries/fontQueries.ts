@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-export const getFontsQuery = (productId: number, type: string) => gql`
+export const getFontsQuery = (productId: number) => gql`
   {
-    ${type} (id: ${productId}) {
+    producto (id: ${productId}) {
       data {
         attributes {
           Fuentes {

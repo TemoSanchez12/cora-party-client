@@ -56,9 +56,7 @@ export default function Return() {
       localStorage.getItem('shopping-car') || '{}'
     )
 
-    console.log(shoppingCar)
-
-    const shippingInfo: ShippingAddress = JSON.parse(
+    const shippingAddress: ShippingAddress = JSON.parse(
       localStorage.getItem('shipping-address') || '{}'
     )
 
@@ -74,22 +72,11 @@ export default function Return() {
       const mailRequest: MailServieRequest = {
         type: MailTypes.noticeOrder,
         payload: {
-          shoppingCar: shoppingCar,
+          shoppingCar,
           clientEmail: customerEmail,
-          generalInfo: {
-            receiverPhone: generalInfo.receiverPhone,
-            recipientName: generalInfo.recipientName,
-            senderPhone: generalInfo.senderPhone,
-          },
-          shippingAddress: {
-            avenue: shippingInfo.avenue,
-            city: shippingInfo.city,
-            interiorNumber: shippingInfo.interiorNumber,
-            exteriorNumber: shippingInfo.exteriorNumber,
-            postalCode: shippingInfo.postalCode,
-            references: shippingInfo.references,
-            street: shippingInfo.street,
-          },
+          generalInfo,
+          orderSpecs,
+          shippingAddress,
         },
       }
 
@@ -99,7 +86,7 @@ export default function Return() {
       console.log(err)
     }
 
-    localStorage.clear()
+    // localStorage.clear()
   }, [status, customerEmail])
 
   if (status === 'open') {

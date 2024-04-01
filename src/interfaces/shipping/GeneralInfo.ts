@@ -1,4 +1,5 @@
 interface GeneralInfo {
+  senderName: string
   recipientName: string
   senderPhone: string
   receiverPhone: string

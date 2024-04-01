@@ -49,12 +49,9 @@ const CategoryPage = ({ params }: any) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response: ProductResponse = await fetch(
-        '/api/' + productTypes[productType],
-        {
-          cache: 'no-cache',
-        }
-      ).then(res => (res.ok ? res.json() : Promise.reject()))
+      const response: ProductResponse = await fetch('/api/products', {
+        cache: 'no-cache',
+      }).then(res => (res.ok ? res.json() : Promise.reject()))
 
       const products = response.data?.filter((product: Product) => {
         for (const category of product.categories || []) {
@@ -89,14 +86,16 @@ const CategoryPage = ({ params }: any) => {
   return (
     <MainLayout>
       <div className='w-full h-96'>
-        <Image
-          className='w-full h-full object-cover'
-          src={category?.cover.formats.medium?.url ?? ''}
-          alt={category?.name ?? ''}
-          width={1920}
-          height={1080}
-          priority={true}
-        />
+        {category && (
+          <Image
+            className='w-full h-full object-cover'
+            src={category?.cover.formats.medium?.url ?? ''}
+            alt={category?.name ?? ''}
+            width={1920}
+            height={1080}
+            priority={true}
+          />
+        )}
       </div>
       <div>
         <h1 className='text-3xl text-slate-600 font-medium w-full text-center mt-36'>

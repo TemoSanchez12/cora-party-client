@@ -14,7 +14,7 @@ import {
 import {
   getCategoriesForProductQuery,
   getCategoryForTypeQuery,
-  getCategoryBySlug,
+  getCategoryBySlugQuery,
 } from '@/queries/categoriesQueries'
 
 // Import interfaces
@@ -72,7 +72,7 @@ const handleGetCategoryForType = async (type: string) => {
 
 const handleGetCategoryBySlug = async (type: string, slug: string) => {
   const { data } = await client.query({
-    query: getCategoryBySlug(type, slug),
+    query: getCategoryBySlugQuery(type, slug),
   })
 
   const categoryType = responseCategoryTypeMap[type]

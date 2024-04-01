@@ -1,4 +1,4 @@
-interface ProductFonts {
+interface ProductFont {
   id: string
   name: string
   sampleFontImage: SampleFontImage
@@ -12,4 +12,4 @@ export interface SampleFontImage {
   mime: string
 }
 
-export default ProductFonts
+export default ProductFont

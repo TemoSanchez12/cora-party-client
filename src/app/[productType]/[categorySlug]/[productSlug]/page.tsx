@@ -12,24 +12,13 @@ import MainLayout from '@/layouts/MainLayout'
 // import componentes
 import ProductDetail from '@/components/Products/ProductDetail'
 
-type typesForProducts = {
-  globos: string
-  flores: string
-  [key: string]: string
-}
-
-const productTypes: typesForProducts = {
-  globos: 'balloons',
-  flores: 'flower',
-}
-
 const ProductDetailPage = ({ params }: any) => {
   const [product, setProduct] = useState<Product | undefined>(undefined)
 
   useEffect(() => {
     const fetchProduct = async () => {
       const productResponse = await fetch(
-        `/api/${productTypes[params.productType]}?slug=${params.productSlug}`
+        `/api/products?slug=${params.productSlug}`
       ).then(res => (res.ok ? res.json() : Promise.reject()))
 
       const product: Product = productResponse.data[0]

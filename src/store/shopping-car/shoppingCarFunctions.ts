@@ -57,6 +57,7 @@ export const addProduct = (
     products: [...state.products],
     totalPrice: state.totalPrice,
     totalProducts: state.totalProducts,
+    shippingPrice: state.shippingPrice,
   }
 
   if (!checkProductInShoppingCar(stateUpdated.products, payload)) {
@@ -78,6 +79,7 @@ export const addComplement = (
     products: [...state.products],
     totalPrice: state.totalPrice,
     totalProducts: state.totalProducts,
+    shippingPrice: state.shippingPrice,
   }
 
   const productWrapper = state.products.find(
@@ -111,6 +113,7 @@ export const removeProduct = (
     products: [...state.products],
     totalPrice: state.totalPrice,
     totalProducts: state.totalProducts,
+    shippingPrice: state.shippingPrice,
   }
 
   stateUpdated.products = state.products.filter(
@@ -135,6 +138,7 @@ export const removeComplement = (
     products: [...state.products],
     totalPrice: state.totalPrice,
     totalProducts: state.totalProducts,
+    shippingPrice: state.shippingPrice,
   }
 
   const productWrapper = stateUpdated.products.find(
@@ -161,6 +165,7 @@ export const updateQuantityProduct = (
     products: [...state.products],
     totalPrice: state.totalPrice,
     totalProducts: state.totalProducts,
+    shippingPrice: state.shippingPrice,
   }
 
   if (payload.quantity <= 0) {
@@ -184,4 +189,15 @@ export const updateQuantityProduct = (
 
 export const setShoppingCar = (state: ShoppingCar, payload: ShoppingCar) => {
   return payload
+}
+
+export const setShippingPrice = (state: ShoppingCar, payload: number) => {
+  const stateUpdated: ShoppingCar = {
+    products: [...state.products],
+    totalPrice: state.totalPrice,
+    totalProducts: state.totalProducts,
+    shippingPrice: payload,
+  }
+
+  return stateUpdated
 }

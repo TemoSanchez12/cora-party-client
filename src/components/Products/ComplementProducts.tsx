@@ -30,7 +30,6 @@ interface ComplementProductsPickerProps {
 const ComplementProductsPicker = ({
   product,
 }: ComplementProductsPickerProps) => {
-  const [type, id] = product.id.split('-')
   const [complements, setComplements] = useState<ComplementProduct[]>([])
   const { dispatchShoppingCarAction, shoppingCarState } =
     useContext(ShoppingCarContext)
@@ -38,7 +37,7 @@ const ComplementProductsPicker = ({
   useEffect(() => {
     const fetchComplements = async () => {
       const response = await fetch(
-        `/api/complements?type=${typesForComplements[type]}&productId=${id}`
+        `/api/complements?productId=${product.id}`
       ).then(res => (res.ok ? res.json() : Promise.reject()))
 
       const complements: ComplementProduct[] = response.data
@@ -47,7 +46,7 @@ const ComplementProductsPicker = ({
     }
 
     fetchComplements()
-  }, [id, type])
+  }, [product.id])
 
   const handleAddComplement = (complement: ComplementProduct) => {
     dispatchShoppingCarAction({

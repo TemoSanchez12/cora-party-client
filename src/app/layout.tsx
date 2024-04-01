@@ -10,7 +10,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className='pt-[120px]'>{children}</body>
+      <body className='pt-[120px]'>
+        <div id='modal'></div>
+        {children}
+      </body>
     </html>
   )
 }

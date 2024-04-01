@@ -1,6 +1,9 @@
 import Product from '@/interfaces/domain/Product'
-import ProductFonts from '@/interfaces/domain/ProductFonts'
+import ProductFonts from '@/interfaces/domain/ProductFont'
 import { useState, useEffect, useContext } from 'react'
+import { Montserrat } from 'next/font/google'
+
+const montserrat = Montserrat({ weight: ['400', '800'], subsets: ['latin'] })
 
 import OrderSpecsContext, {
   OrderSpecsAction,
@@ -12,24 +15,36 @@ interface ProductFontPickerProps {
 }
 
 const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
-  const [type, id] = product.id.split('-')
   const [fonts, setFonts] = useState<ProductFonts[]>()
-  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+  const { dispatchOrderSpecsAction, orderSpecsState } =
+    useContext(OrderSpecsContext)
   const [selectedFont, setSelectedFont] = useState<string>('')
 
   useEffect(() => {
     const fetchFonts = async () => {
-      const response = await fetch(
-        `/api/fonts?type=${type}&productId=${id}`
-      ).then(res => (res.ok ? res.json() : Promise.reject()))
+      const response = await fetch(`/api/fonts?productId=${product.id}`).then(
+        res => (res.ok ? res.json() : Promise.reject())
+      )
 
       const fontsResponse = response.data
 
       setFonts(fontsResponse)
+
+      const productSpec = orderSpecsState.productSpecs.find(
+        spec => spec.id === product.id
+      )
+      if (productSpec) {
+        const fontSpec = productSpec.specs.find(
+          spec => spec.name === 'Fuente para textos'
+        )
+        if (fontSpec) {
+          setSelectedFont(fontSpec.value)
+        }
+      }
     }
 
     fetchFonts()
-  }, [id, type])
+  }, [product.id, orderSpecsState])
 
   const handleFontSelect = (fontId: string) => {
     const fontSelected = fonts?.find(font => font.id == fontId)
@@ -55,14 +70,15 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
   }
 
   return (
-    <div className=''>
+    <div className={montserrat.className}>
       <p className='text-sm text-gray-600 font-bold mb-4'>
         Seleccione una fuente:
       </p>
+
       <ul className='pl-2'>
         {fonts &&
           fonts.map(font => (
-            <li key={font.id} className='flex items-center mb-2'>
+            <li key={font.id} className='flex  mb-2 items-center'>
               <input
                 type='radio'
                 id={font.name}

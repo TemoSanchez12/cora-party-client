@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import { Montserrat } from 'next/font/google'
 
@@ -6,7 +6,6 @@ import OrderSpecsContext, {
   OrderSpecsAction,
 } from '@/store/order-specs/order-specs'
 import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
-import ProductCard from './ProductCard'
 import Product from '@/interfaces/domain/Product'
 
 const montserrat = Montserrat({
@@ -23,7 +22,8 @@ const RequiredTextsPicker = ({
   requiredTexts,
   product,
 }: RequiredTextsPickerProps) => {
-  const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
+  const { dispatchOrderSpecsAction, orderSpecsState } =
+    useContext(OrderSpecsContext)
 
   const [textInputs, setTextInputs] = useState<{ [key: string]: string }>({})
 
@@ -44,6 +44,21 @@ const RequiredTextsPicker = ({
       payload: productSpec,
     })
   }
+
+  useEffect(() => {
+    // Set text inputs from orderSpecsState if available
+    const productSpec = orderSpecsState.productSpecs.find(
+      spec => spec.id === product.id
+    )
+    if (productSpec) {
+      productSpec.specs.forEach(spec => {
+        setTextInputs(prevState => ({
+          ...prevState,
+          [spec.name]: spec.value,
+        }))
+      })
+    }
+  }, [orderSpecsState, product.id])
 
   return (
     <div className={`${montserrat.className}`}>

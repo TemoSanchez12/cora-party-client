@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-export const getComplementForProduct = (productId: number, type: string) => gql`
+export const getComplementForProduct = (productId: number) => gql`
   {
-    ${type} (id: ${productId}) {
+    producto (id: ${productId}) {
       data {
         id
         attributes {
