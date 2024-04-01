@@ -2,7 +2,6 @@ import Product from '@/interfaces/domain/Product'
 import ProductFonts from '@/interfaces/domain/ProductFont'
 import { useState, useEffect, useContext } from 'react'
 import { Montserrat } from 'next/font/google'
-import Image from 'next/image'
 
 const montserrat = Montserrat({ weight: ['400', '800'], subsets: ['latin'] })
 
@@ -16,7 +15,6 @@ interface ProductFontPickerProps {
 }
 
 const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
-  const [type, id] = product.id.split('-')
   const [fonts, setFonts] = useState<ProductFonts[]>()
   const { dispatchOrderSpecsAction, orderSpecsState } =
     useContext(OrderSpecsContext)
@@ -24,9 +22,9 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
 
   useEffect(() => {
     const fetchFonts = async () => {
-      const response = await fetch(
-        `/api/fonts?type=${type}&productId=${id}`
-      ).then(res => (res.ok ? res.json() : Promise.reject()))
+      const response = await fetch(`/api/fonts?productId=${product.id}`).then(
+        res => (res.ok ? res.json() : Promise.reject())
+      )
 
       const fontsResponse = response.data
 
@@ -46,7 +44,7 @@ const ProductFontPicker = ({ product }: ProductFontPickerProps) => {
     }
 
     fetchFonts()
-  }, [id, type, product.id, orderSpecsState])
+  }, [product.id, orderSpecsState])
 
   const handleFontSelect = (fontId: string) => {
     const fontSelected = fonts?.find(font => font.id == fontId)

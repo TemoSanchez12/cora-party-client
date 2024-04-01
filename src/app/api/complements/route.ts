@@ -13,43 +13,29 @@ import { getComplementForProduct } from '@/queries/complementQueries'
 // Import interfaces
 import ComplementProduct from '@/interfaces/domain/ComplementProduct'
 
-type typesForComplementsTypes = {
-  balloon: string
-  flower: string
-  [key: string]: string
-}
-
-const typesForComplements: typesForComplementsTypes = {
-  balloon: 'globo',
-  flower: 'arregloFlores',
-}
-
 interface ProductComplementResponse {
   success: boolean
   data?: ComplementProduct[]
   message: string
 }
 
-const handleGetComplementsById = async (id: string, type: string) => {
-  const data = await client.query({
-    query: getComplementForProduct(parseInt(id), type),
+const handleGetComplementsById = async (id: string) => {
+  const { data } = await client.query({
+    query: getComplementForProduct(parseInt(id)),
   })
-  return mapListComplements(data.data[type].data.attributes)
+
+  return mapListComplements(data.producto.data.attributes)
 }
 
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const type: string = urlRequest.searchParams.get('type') || 'balloon'
     const productId = urlRequest.searchParams.get('productId')
 
     let response: ComplementProduct[]
 
     if (productId) {
-      response = await handleGetComplementsById(
-        productId ?? '1',
-        typesForComplements[type]
-      )
+      response = await handleGetComplementsById(productId ?? '1')
     } else {
       throw new Error(
         'Error: Please provide a valid ID to fetch related complements.'

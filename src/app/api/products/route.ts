@@ -11,6 +11,7 @@ import {
   getProductsByTypeQuery,
   getProductsByIdQuery,
   getAllProductsQuery,
+  getProductBySlugQuery,
 } from '@/queries/productQueries'
 
 //Import mappers
@@ -49,6 +50,16 @@ const handleGetProductById = async (id: string) => {
   return products
 }
 
+const handleGetProductBySlug = async (slug: string) => {
+  const data = await client.query({
+    query: getProductBySlugQuery(slug),
+  })
+
+  const products: Product[] = mapProductsToDefinition(data)
+
+  return products
+}
+
 const handleGetAllProducts = async () => {
   const data = await client.query({
     query: getAllProductsQuery(),
@@ -63,7 +74,8 @@ export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
     const productId = urlRequest.searchParams.get('productId')
-    const productType = urlRequest.searchParams.get('productId')
+    const productType = urlRequest.searchParams.get('productType')
+    const productSlug = urlRequest.searchParams.get('productSlug')
 
     let response: Product[] = []
 
@@ -71,6 +83,8 @@ export const GET = async (req: NextRequest) => {
       response = await handleGetProductById(productId)
     } else if (productType) {
       response = await handleGetProductByType(productType)
+    } else if (productSlug) {
+      response = await handleGetProductBySlug(productSlug)
     } else {
       response = await handleGetAllProducts()
     }

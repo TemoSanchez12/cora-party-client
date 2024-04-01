@@ -28,24 +28,23 @@ interface FontProductResponse {
   message: string
 }
 
-const handleGetFontsById = async (id: string, type: string) => {
+const handleGetFontsById = async (id: string) => {
   const { data } = await client.query({
-    query: getFontsQuery(parseInt(id), type),
+    query: getFontsQuery(parseInt(id)),
   })
 
-  return mapFontToDefiniton(data[type].data.attributes.Fuentes.data)
+  return mapFontToDefiniton(data.producto.data.attributes.Fuentes.data)
 }
 
 export const GET = async (req: NextRequest) => {
   try {
     const urlRequest = new URL(req.url)
-    const type: string = urlRequest.searchParams.get('type') || 'globos'
     const productId = urlRequest.searchParams.get('productId')
 
     let response: ProductFonts[] = []
 
     if (productId) {
-      response = await handleGetFontsById(productId ?? '1', typesForFonts[type])
+      response = await handleGetFontsById(productId ?? '1')
     }
 
     return NextResponse.json<FontProductResponse>({

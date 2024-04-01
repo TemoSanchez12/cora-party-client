@@ -22,7 +22,6 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
   const { dispatchOrderSpecsAction, orderSpecsState } =
     useContext(OrderSpecsContext)
 
-  const id = product.id.split('-')[1]
   const [colors, setColors] = useState<ProductColor[]>([])
   const [selectedColors, setSelectedColors] = useState<{
     [key: string]: string
@@ -30,8 +29,8 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
 
   useEffect(() => {
     const fetchColor = async () => {
-      const response = await fetch(`/api/colors?productId=${id}`).then(res =>
-        res.ok ? res.json() : Promise.reject()
+      const response = await fetch(`/api/colors?productId=${product.id}`).then(
+        res => (res.ok ? res.json() : Promise.reject())
       )
 
       const colors: ProductColor[] = response.data
@@ -52,7 +51,7 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
     }
 
     fetchColor()
-  }, [id, orderSpecsState, product.id])
+  }, [orderSpecsState, product.id])
 
   const handleColorSelect = (requiredColor: string, colorValue: string) => {
     setSelectedColors(prevState => ({

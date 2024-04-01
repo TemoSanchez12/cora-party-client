@@ -1,4 +1,4 @@
-import Product from '@/interfaces/domain/Product'
+import Product, { ProductTypes } from '@/interfaces/domain/Product'
 import ProductDetailImages from './ProductDetailImages'
 import React, { useState, useContext, useEffect } from 'react'
 
@@ -19,7 +19,7 @@ import ShippingDatePicker from './ShippingDatePicker'
 import { Montserrat } from 'next/font/google'
 import ComplementProductsPicker from './ComplementProducts'
 import Link from 'next/link'
-import BalloonDetail from '../Balloons/BalloonDetail'
+import BalloonDetail from './ProductDetails'
 
 const montserrat = Montserrat({
   weight: ['800', '400', '500'],
@@ -30,8 +30,13 @@ interface ProductDetailProps {
   product: Product
 }
 
+const productTypes = {
+  [ProductTypes.Balloon]: 'globos',
+  [ProductTypes.Flower]: 'flores',
+}
+
 const ProductDetail = ({ product }: ProductDetailProps) => {
-  const [type, id] = product.id.split('-')
+  const type = productTypes[product.type]
 
   const { dispatchShoppingCarAction, shoppingCarState } =
     useContext(ShoppingCarContext)
