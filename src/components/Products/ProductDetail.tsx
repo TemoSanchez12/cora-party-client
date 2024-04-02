@@ -19,7 +19,9 @@ import ShippingDatePicker from './ShippingDatePicker'
 import { Montserrat } from 'next/font/google'
 import ComplementProductsPicker from './ComplementProducts'
 import Link from 'next/link'
-import BalloonDetail from './ProductDetails'
+import ProductDetails from './ProductDetails'
+import ProductVariants from './ProductVariants'
+import ProductSizes from './ProductSizes'
 
 const montserrat = Montserrat({
   weight: ['800', '400', '500'],
@@ -142,11 +144,25 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
             setSelectedDate={setSelectedDate}
           />
 
+          <div>
+            <ProductSizes product={product} />
+          </div>
+
+          <div>
+            <ProductVariants product={product} />
+          </div>
+
           <ComplementProductsPicker product={product} />
         </div>
       </div>
 
-      <div>{type == 'globos' && <BalloonDetail product={product} />}</div>
+      <div>
+        <ProductDetails product={product} />
+      </div>
+
+      <div className='mt-16'>
+        <p>{product.description}</p>
+      </div>
     </section>
   )
 }

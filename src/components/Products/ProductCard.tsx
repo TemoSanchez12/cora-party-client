@@ -3,7 +3,10 @@
 import { useContext, useEffect, useState } from 'react'
 
 import Image from 'next/image'
-import Product from '@/interfaces/domain/Product'
+import Product, {
+  ProductTypes,
+  ProductVariant,
+} from '@/interfaces/domain/Product'
 import { ProductWrapper } from '@/interfaces/shopping/ShoppingCar'
 
 import ShoppingCarContext, {
@@ -19,6 +22,7 @@ import Link from 'next/link'
 import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
 import ProductDetailsModal from './ProductDetailsModal'
 import PenIcon from '../Icons/PenIcon'
+import { validate } from 'graphql'
 
 const montserrat = Montserrat({
   weight: ['900', '300', '400'],
@@ -42,9 +46,14 @@ const typesForCategoryTypes: typesForCategoryTypes = {
   flower: 'flores',
 }
 
+const typesForProductTypes = {
+  [ProductTypes.Balloon]: 'globos',
+  [ProductTypes.Flower]: 'flores',
+}
+
 const ProductCard = ({ product }: ProductCardProps) => {
   const [showModalDetail, setShowModalDetail] = useState(false)
-  const [type, id] = product.id.split('-')
+  const type = typesForProductTypes[product.type]
   const [productAdded, setProductAdded] = useState(false)
   const shoppingCarContext = useContext(ShoppingCarContext)
   const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
@@ -156,6 +165,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         className={`${montserrat.className} font-normal text-sm md:text-sm mt-2 flex flex-col justify-between h-full`}
       >
         <p>{product.name}</p>
+
         <button
           className={`text-dark-blue mt-1 text-left ${
             productAdded && 'text-slate-500 italic'
@@ -164,6 +174,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
           {productAdded ? 'Producto agregado' : 'Agregar al carrito'}
         </button>
+      </div>
+
+      <div>
+        <ul className='flex gap-1 items-center mt-1 flex-wrap'>
+          {product.variants.map((variant: ProductVariant) => (
+            <li key={variant.id}>
+              <Link
+                href={`/${type}/${
+                  product.categories
+                    ? product.categories[0].slug
+                    : 'sin-categoria'
+                }/${variant.product.slug}`}
+              >
+                <div className='w-8 h-8 overflow-hidden rounded-full'>
+                  <Image
+                    src={variant.image.url}
+                    alt={variant.name}
+                    width={40}
+                    height={40}
+                    className='w-full h-full object-cover object-center'
+                  />
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   )
