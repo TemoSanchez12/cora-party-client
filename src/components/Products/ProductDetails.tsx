@@ -4,6 +4,7 @@ import Product from '@/interfaces/domain/Product'
 import ProductColorsPicker from './ProductColorsPicker'
 import RequiredTextsPicker from './ProductRequiredTexts'
 import ProductFontPicker from './ProductFontPicker'
+import ProductTextType from './ProductTextType'
 
 interface ProductDetailsProps {
   product: Product
@@ -27,7 +28,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       )}
 
-      <div>{<ProductFontPicker product={product} />}</div>
+      {product.showTextTypes && <ProductTextType product={product} />}
     </div>
   )
 }

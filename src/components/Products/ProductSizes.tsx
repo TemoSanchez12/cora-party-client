@@ -14,7 +14,6 @@ const typesForProductTypes = {
 }
 
 const ProductSizes = ({ product }: ProductSizesProps) => {
-  console.log(product)
   const type = typesForProductTypes[product.type]
   return (
     <div className='mt-12'>

@@ -22,7 +22,7 @@ import Link from 'next/link'
 import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
 import ProductDetailsModal from './ProductDetailsModal'
 import PenIcon from '../Icons/PenIcon'
-import { validate } from 'graphql'
+import CustomIconIndicator from './CustomIconsIndicator'
 
 const montserrat = Montserrat({
   weight: ['900', '300', '400'],
@@ -98,14 +98,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }, [shoppingCarContext.shoppingCarState.products, product.id])
 
   return (
-    <div className='w-40 h-full flex flex-col'>
+    <div className='w-56 h-full flex flex-col'>
       <ProductDetailsModal
         isOpen={showModalDetail}
         onClose={onCloseShowModal}
         product={product}
       />
       <div>
-        <div className='w-36 h-52 relative md:w-44 md:h-64'>
+        <div className='w-full h-80 relative'>
           <Image
             src={product.images[0].url || ''}
             alt={product.name}
@@ -166,14 +166,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
       >
         <p>{product.name}</p>
 
-        <button
-          className={`text-dark-blue mt-1 text-left ${
-            productAdded && 'text-slate-500 italic'
-          }`}
-          onClick={() => handleAddProductToCar(product)}
-        >
-          {productAdded ? 'Producto agregado' : 'Agregar al carrito'}
-        </button>
+        <div className='w-full flex justify-between items-center'>
+          <button
+            className={`text-dark-blue mt-1 text-left ${
+              productAdded && 'text-slate-500 italic'
+            }`}
+            onClick={() => handleAddProductToCar(product)}
+          >
+            {productAdded ? 'Producto agregado' : 'Agregar al carrito'}
+          </button>
+
+          <CustomIconIndicator product={product} />
+        </div>
       </div>
 
       <div>
