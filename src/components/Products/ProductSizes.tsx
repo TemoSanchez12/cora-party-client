@@ -2,19 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import Product, { ProductSize } from '@/interfaces/domain/Product'
-import { ProductTypes } from '@/interfaces/domain/Product'
+import { productTypeToUrlParam } from '@/utils/productTypes/productTypes'
 
 interface ProductSizesProps {
   product: Product
 }
 
-const typesForProductTypes = {
-  [ProductTypes.Balloon]: 'globos',
-  [ProductTypes.Flower]: 'flores',
-}
-
 const ProductSizes = ({ product }: ProductSizesProps) => {
-  const type = typesForProductTypes[product.type]
+  const type = productTypeToUrlParam(product.type)
   return (
     <div className='mt-12'>
       <h3 className='text-xs mb-2 text-slate-600'>Diferentes tamanos</h3>

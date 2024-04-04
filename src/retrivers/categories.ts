@@ -50,7 +50,8 @@ export const getCategoriesByProduct = async (
   const categoryTypeName = queryCategoryMap[type]
 
   return mapCategoriesToDefinition(
-    data[categoryType].data.attributes[categoryTypeName].data
+    data[categoryType].data.attributes[categoryTypeName].data,
+    type
   )
 }
 
@@ -64,7 +65,7 @@ export const getCategoryBySlug = async (
 
   const categoryType = responseCategoryTypeMap[type]
 
-  return mapCategoryToDefinition(data[categoryType].data[0])
+  return mapCategoryToDefinition(data[categoryType].data[0], type)
 }
 
 export const getCategoryForType = async (
@@ -76,5 +77,5 @@ export const getCategoryForType = async (
 
   const categoryType = responseCategoryTypeMap[type]
 
-  return mapCategoriesToDefinition(data[categoryType].data)
+  return mapCategoriesToDefinition(data[categoryType].data, type)
 }

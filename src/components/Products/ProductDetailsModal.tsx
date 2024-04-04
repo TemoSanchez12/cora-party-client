@@ -14,8 +14,6 @@ const ProductDetailsModal = ({
   onClose,
   product,
 }: ProductDetailsModalProps) => {
-  const [type, id] = product.id.split('-')
-
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <div className='flex flex-col items-center'>

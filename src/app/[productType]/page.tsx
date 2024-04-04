@@ -16,12 +16,6 @@ const montserrat = Montserrat({
   subsets: ['latin'],
 })
 
-interface CategoriesResponse {
-  success: boolean
-  data?: ProductCategory[]
-  message: string
-}
-
 type typesForProducts = {
   globos: ProductTypes.Balloon
   flores: ProductTypes.Flower
@@ -53,7 +47,7 @@ const ProductTypePage = async ({ params }: any) => {
           </span>
         </h4>
 
-        <div className='py-10'>
+        <div className='py-10 mt-10'>
           <p
             className={`${montserrat.className} text-center  text-slate-600 mb-5 border-b border-slate-400 px-10 mx-auto font-medium`}
           >

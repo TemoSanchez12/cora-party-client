@@ -23,6 +23,7 @@ import { ProductSpecs } from '@/interfaces/orderSpecs/OrderSpecs'
 import ProductDetailsModal from './ProductDetailsModal'
 import PenIcon from '../Icons/PenIcon'
 import CustomIconIndicator from './CustomIconsIndicator'
+import { productTypeToUrlParam } from '@/utils/productTypes/productTypes'
 
 const montserrat = Montserrat({
   weight: ['900', '300', '400'],
@@ -35,25 +36,9 @@ interface ProductCardProps {
   product: Product
 }
 
-type typesForCategoryTypes = {
-  balloon: string
-  flower: string
-  [key: string]: string
-}
-
-const typesForCategoryTypes: typesForCategoryTypes = {
-  balloon: 'globos',
-  flower: 'flores',
-}
-
-const typesForProductTypes = {
-  [ProductTypes.Balloon]: 'globos',
-  [ProductTypes.Flower]: 'flores',
-}
-
 const ProductCard = ({ product }: ProductCardProps) => {
   const [showModalDetail, setShowModalDetail] = useState(false)
-  const type = typesForProductTypes[product.type]
+  const type = productTypeToUrlParam(product.type)
   const [productAdded, setProductAdded] = useState(false)
   const shoppingCarContext = useContext(ShoppingCarContext)
   const { dispatchOrderSpecsAction } = useContext(OrderSpecsContext)
@@ -113,9 +98,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
             height={200}
             className='object-cover w-full h-full'
           />
-          <div className='w-16 h-16 rounded-full bg-white absolute flex border border-slate-100 justify-center items-center top-0 right-0 translate-x-1/3 shadow-2xl'>
+          <div className='w-20 h-20 rounded-full bg-white absolute flex border border-slate-100 justify-center items-center top-0 right-0 translate-x-1/3 shadow-2xl'>
             <span
-              className={`${poppins.className} font-black text-xs text-slate-700 `}
+              className={`${poppins.className} font-black text-sm text-slate-700 `}
             >
               {new Intl.NumberFormat('es-MX', {
                 style: 'currency',
@@ -164,7 +149,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div
         className={`${montserrat.className} font-normal text-sm md:text-sm mt-2 flex flex-col justify-between h-full`}
       >
-        <p>{product.name}</p>
+        <p className='text-base truncate'>{product.name}</p>
 
         <div className='w-full flex justify-between items-center'>
           <button

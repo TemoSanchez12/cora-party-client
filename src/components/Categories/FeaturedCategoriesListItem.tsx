@@ -3,20 +3,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Poppins } from 'next/font/google'
+import { productTypeToUrlParam } from '@/utils/productTypes/productTypes'
 
 const poppins = Poppins({ weight: '500', subsets: ['latin'] })
 
 interface FeaturedCategoriesListItemProps {
   category: ProductCategory
-  type: string
 }
 
 const FeaturedCategoriesListItem = ({
   category,
-  type,
 }: FeaturedCategoriesListItemProps) => {
   return (
-    <Link href={`/${type}/${category.slug}`}>
+    <Link href={`/${productTypeToUrlParam(category.type)}/${category.slug}`}>
       <div className=''>
         <div className='w-56 aspect-square'>
           <Image

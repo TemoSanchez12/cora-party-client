@@ -22,6 +22,7 @@ import Link from 'next/link'
 import ProductDetails from './ProductDetails'
 import ProductVariants from './ProductVariants'
 import ProductSizes from './ProductSizes'
+import { productTypeToUrlParam } from '@/utils/productTypes/productTypes'
 
 const montserrat = Montserrat({
   weight: ['800', '400', '500'],
@@ -32,13 +33,8 @@ interface ProductDetailProps {
   product: Product
 }
 
-const productTypes = {
-  [ProductTypes.Balloon]: 'globos',
-  [ProductTypes.Flower]: 'flores',
-}
-
 const ProductDetail = ({ product }: ProductDetailProps) => {
-  const type = productTypes[product.type]
+  const type = productTypeToUrlParam(product.type)
 
   const { dispatchShoppingCarAction, shoppingCarState } =
     useContext(ShoppingCarContext)

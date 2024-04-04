@@ -3,18 +3,14 @@ import Link from 'next/link'
 
 import Product, { ProductVariant } from '@/interfaces/domain/Product'
 import { ProductTypes } from '@/interfaces/domain/Product'
+import { productTypeToUrlParam } from '@/utils/productTypes/productTypes'
 
 interface ProductVariantsProps {
   product: Product
 }
 
-const typesForProductTypes = {
-  [ProductTypes.Balloon]: 'globos',
-  [ProductTypes.Flower]: 'flores',
-}
-
 const ProductVariants = ({ product }: ProductVariantsProps) => {
-  const type = typesForProductTypes[product.type]
+  const type = productTypeToUrlParam(product.type)
   return (
     <div className='mt-12'>
       <h3 className='text-xs mb-2 text-slate-600'>Mas opciones</h3>

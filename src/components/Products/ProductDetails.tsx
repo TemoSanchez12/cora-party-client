@@ -3,7 +3,6 @@
 import Product from '@/interfaces/domain/Product'
 import ProductColorsPicker from './ProductColorsPicker'
 import RequiredTextsPicker from './ProductRequiredTexts'
-import ProductFontPicker from './ProductFontPicker'
 import ProductTextType from './ProductTextType'
 
 interface ProductDetailsProps {
