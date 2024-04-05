@@ -1,17 +1,15 @@
 'use client'
 
+import { useState, Dispatch, SetStateAction } from 'react'
+
 import ShippingAddress from '@/interfaces/shipping/ShippingAddress'
-import { useRouter } from 'next/navigation'
 
-import { Formik, Form, Field } from 'formik'
-import Image from 'next/image'
+import { Formik, Form } from 'formik'
+
 import * as Yup from 'yup'
-import boxesImage from '../../../public/images/domain/boxes.jpg'
 
-import { Montserrat } from 'next/font/google'
-import GeneralInfo from '@/interfaces/shipping/GeneralInfo'
-
-const montserrat = Montserrat({ weight: ['400', '600'], subsets: ['latin'] })
+import CustomInput from './CustomInput'
+import Modal from '../Layout/Modal/Modal'
 
 const shippingAddressSchema = Yup.object().shape({
   street: Yup.string()
@@ -37,57 +35,20 @@ const shippingAddressSchema = Yup.object().shape({
     .max(100, 'El nombre de la ciudad es demasiado largo')
     .required('El nombre de la ciudad es requerido'),
   refernces: Yup.string().max(200, 'Numero de caracteres maximo alcanzado'),
-  recipientName: Yup.string()
-    .min(3, 'El nombre del destinatario es demasiado corto')
-    .max(100, 'El nombre del destinatario es demasiado largo')
-    .required('El nombre del destinatario es requerido'),
-  senderName: Yup.string()
-    .min(3, 'Nombre es demasiado corto')
-    .max(100, 'Nombre es demasiado largo')
-    .required('Nombre es requerido'),
-  senderPhone: Yup.string()
-    .matches(/^[0-9]+$/, 'El número de teléfono debe contener solo números')
-    .min(7, 'El número de teléfono es demasiado corto')
-    .max(15, 'El número de teléfono es demasiado largo')
-    .required('El número de teléfono es requerido'),
-  receiverPhone: Yup.string()
-    .matches(/^[0-9]+$/, 'El número de teléfono debe contener solo números')
-    .min(7, 'El número de teléfono es demasiado corto')
-    .max(15, 'El número de teléfono es demasiado largo')
-    .required('El número de teléfono es requerido'),
 })
 
-const CustomInput = ({
-  label,
-  name,
-  className,
-  fieldProps,
-  error,
-  touched,
-  textarea,
-}: any) => {
-  return (
-    <div
-      className={`rounded-lg bg-gray-100 p-4 shadow-lg text-xs md:text-base ${className}`}
-    >
-      <div className='flex gap-1 w-full flex-col'>
-        <label className='text-slate-500' htmlFor={name}>
-          {label}
-        </label>
-        <Field
-          as={`${textarea ? 'textarea' : 'input'}`}
-          className='px-2 py-1 focus:outline-none  w-full bg-transparent border-b-2 border-slate-400'
-          name={name}
-          {...fieldProps}
-        />
-      </div>
-      {error && touched && <div className='text-red-400 mt-1'>{error}</div>}
-    </div>
-  )
+interface ShippingAddressFormProps {
+  shippingAddress: ShippingAddress | null | undefined
+  setShippingAddress: Dispatch<
+    SetStateAction<ShippingAddress | null | undefined>
+  >
 }
 
-const ShippingAddressForm = () => {
-  const router = useRouter()
+const ShippingAddressForm = ({
+  setShippingAddress,
+  shippingAddress,
+}: ShippingAddressFormProps) => {
+  const [showShippingAddressForm, setShowShippingAddressForm] = useState(false)
 
   const handleSubmitShippingAddressForm = (values: any) => {
     const shippingAddress: ShippingAddress = {
@@ -100,39 +61,53 @@ const ShippingAddressForm = () => {
       references: values.references,
     }
 
-    const generalInfo: GeneralInfo = {
-      receiverPhone: values.receiverPhone,
-      recipientName: values.recipientName,
-      senderPhone: values.senderPhone,
-      senderName: values.senderName,
-    }
+    setShippingAddress(shippingAddress)
+    setShowShippingAddressForm(false)
 
-    localStorage.setItem('general-info', JSON.stringify(generalInfo))
     localStorage.setItem('shipping-address', JSON.stringify(shippingAddress))
-
-    router.push('/checkout')
   }
 
   return (
-    <div
-      className={`${montserrat.className} w-global-container mx-auto pb-10 rounded-xl shadow-xl my-10 lg:flex lg:justify-center items-center lg:gap-10 mb-40 mt-20`}
-    >
-      <div className='h-64 md:h-96 rounded-t-xl lg:rounded-b-xl overflow-hidden lg:h-full lg:w-1/2'>
-        <Image
-          className='object-cover h-full w-full object-bottom'
-          src={boxesImage}
-          alt='Confimar datos de envio Cora Party'
-          width={700}
-          height={500}
-          priority
-        />
+    <>
+      <h1 className='text-slate-600 text-lg text-center my-4'>
+        Detalles de envío
+      </h1>
+      <div className='rounded-lg bg-gray-100 p-4 shadow-lg text-xs md:text-base'>
+        {shippingAddress ? (
+          <div className='flex flex-col gap-2 text-slate-500'>
+            <p>
+              <span className='text-slate-600 font-bold'>Calle:</span>{' '}
+              {shippingAddress.street}
+            </p>
+            <p>
+              <span className='text-slate-600 font-bold'>Numero:</span> #
+              {shippingAddress.exteriorNumber}
+            </p>
+            <p>
+              <span className='text-slate-600 font-bold'>Codigo Postal:</span>{' '}
+              {shippingAddress.postalCode}
+            </p>
+
+            <button
+              className='mt-4'
+              onClick={() => setShowShippingAddressForm(true)}
+            >
+              Cambiar dirección de envio
+            </button>
+          </div>
+        ) : (
+          <div
+            onClick={() => setShowShippingAddressForm(true)}
+            className='cursor-pointer text-slate-600'
+          >
+            Agregar dirección de envío
+          </div>
+        )}
       </div>
-
-      <div>
-        <h1 className='text-slate-600 text-lg text-center my-4'>
-          Detalles de envío
-        </h1>
-
+      <Modal
+        isOpen={showShippingAddressForm}
+        onClose={() => setShowShippingAddressForm(false)}
+      >
         <Formik
           initialValues={{
             street: '',
@@ -142,16 +117,12 @@ const ShippingAddressForm = () => {
             postalCode: '',
             city: '',
             references: '',
-            recipientName: '',
-            senderPhone: '',
-            receiverPhone: '',
-            senderName: '',
           }}
           validationSchema={shippingAddressSchema}
           onSubmit={handleSubmitShippingAddressForm}
         >
           {({ errors, touched }) => (
-            <Form className='flex flex-col gap-4 w-global-container mx-auto'>
+            <Form className='flex flex-col gap-4 mx-auto'>
               <CustomInput
                 label='Calle'
                 name='street'
@@ -213,60 +184,17 @@ const ShippingAddressForm = () => {
                 error={errors.references}
                 touched={touched.references}
               />
-
-              <h2 className='text-center text-slate-600'>
-                Información general
-              </h2>
-
-              <div>
-                <CustomInput
-                  label='Tu nombre'
-                  name='senderName'
-                  className='w-full'
-                  fieldProps={{}}
-                  error={errors.senderName}
-                  touched={touched.senderName}
-                />
-                <CustomInput
-                  label='Nombre de quien recibe'
-                  name='recipientName'
-                  className='w-full'
-                  fieldProps={{}}
-                  error={errors.recipientName}
-                  touched={touched.recipientName}
-                />
-              </div>
-
-              <div className='flex gap-4'>
-                <CustomInput
-                  label='Tu telefono'
-                  name='senderPhone'
-                  className='w-full'
-                  fieldProps={{}}
-                  error={errors.senderPhone}
-                  touched={touched.senderPhone}
-                />
-                <CustomInput
-                  label='Telefono de quien recibe'
-                  name='receiverPhone'
-                  className='w-full'
-                  fieldProps={{}}
-                  error={errors.receiverPhone}
-                  touched={touched.receiverPhone}
-                />
-              </div>
-
               <button
                 type='submit'
-                className='bg-slate-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-300'
+                className='w-full mt-5 bg-slate-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-300'
               >
                 Confirmar dirección de envío
               </button>
             </Form>
           )}
         </Formik>
-      </div>
-    </div>
+      </Modal>
+    </>
   )
 }
 

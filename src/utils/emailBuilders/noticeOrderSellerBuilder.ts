@@ -4,7 +4,7 @@ import OrderNoticeRequest from '@/interfaces/mailing/OrderNoticeRequest'
 const noticeOrderSellerBuilder = (request: OrderNoticeRequest): any => {
   return {
     receivers: [request.clientEmail],
-    subject: 'Confirmacion de pedido CoraParty',
+    subject: 'Nuevo pedido para Cora Party',
     react: OrderConfirmationTemplate({
       shoppingCar: request.shoppingCar,
       generalInfo: request.generalInfo,
