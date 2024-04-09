@@ -15,7 +15,7 @@ const SimpleCategoriesList = ({
       {categories &&
         categories.map(category => (
           <li key={category.id}>
-            <FeaturedCategoriesListItem category={category} type={type} />
+            <FeaturedCategoriesListItem category={category} />
           </li>
         ))}
     </ul>

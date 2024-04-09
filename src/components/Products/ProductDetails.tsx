@@ -3,13 +3,13 @@
 import Product from '@/interfaces/domain/Product'
 import ProductColorsPicker from './ProductColorsPicker'
 import RequiredTextsPicker from './ProductRequiredTexts'
-import ProductFontPicker from './ProductFontPicker'
+import ProductTextType from './ProductTextType'
 
-interface BalloonDetailProps {
+interface ProductDetailsProps {
   product: Product
 }
 
-const ProductDetails = ({ product }: BalloonDetailProps) => {
+const ProductDetails = ({ product }: ProductDetailsProps) => {
   return (
     <div className='flex flex-col sm:flex-row sm:justify-center mt-16 sm:flex-wrap gap-20'>
       {product.requiredColors && (
@@ -27,11 +27,7 @@ const ProductDetails = ({ product }: BalloonDetailProps) => {
         </div>
       )}
 
-      <div>{<ProductFontPicker product={product} />}</div>
-
-      <div>
-        <p>{product.description}</p>
-      </div>
+      {product.showTextTypes && <ProductTextType product={product} />}
     </div>
   )
 }

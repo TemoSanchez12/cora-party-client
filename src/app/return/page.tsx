@@ -1,8 +1,11 @@
 'use client'
 
+import { useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
+
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { redirect } from 'next/navigation'
 import MailTypes from '@/interfaces/mailing/MailTypes'
 import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
 import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
@@ -20,6 +23,7 @@ const montserrat = Montserrat({
 })
 
 export default function Return() {
+  const router = useRouter()
   const [shoppingCar, setShoppingCar] = useState<ShoppingCar>()
   const [status, setStatus] = useState(null)
   const [customerEmail, setCustomerEmail] = useState('')
@@ -29,27 +33,41 @@ export default function Return() {
     const urlParams = new URLSearchParams(queryString)
     const sessionId = urlParams.get('session_id')
 
-    fetch(`/api/checkout?session_id=${sessionId}`, {
-      method: 'GET',
-    })
-      .then(res => res.json())
-      .then(data => {
-        setStatus(data.status)
-        setCustomerEmail(data.customer_email)
-      })
-  }, [])
+    if (!sessionId) router.push('/')
 
-  const handleSendConfirmationMails = async (
-    mailRequest: MailServieRequest
-  ) => {
-    const response = await fetch('http://localhost:3000/api/mail', {
-      method: 'POST',
-      body: JSON.stringify(mailRequest),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  }
+    const fetchSessionId = async () => {
+      try {
+        const response: any = await fetch(
+          `/api/checkout?session_id=${sessionId}`
+        ).then(res => (res.ok ? res.json() : Promise.reject()))
+
+        if (response.statusCode == 404) router.push('/')
+
+        setStatus(response.status)
+        setCustomerEmail(response.customer_email)
+      } catch (err) {
+        router.replace('/')
+      }
+    }
+    fetchSessionId()
+  }, [router])
+
+  const handleSendConfirmationMails = useCallback(
+    async (mailRequest: MailServieRequest) => {
+      try {
+        const response = await fetch('/api/mail', {
+          method: 'POST',
+          body: JSON.stringify(mailRequest),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+      } catch (err) {
+        router.replace('/')
+      }
+    },
+    [router]
+  )
 
   useEffect(() => {
     const shoppingCar: ShoppingCar = JSON.parse(
@@ -87,10 +105,10 @@ export default function Return() {
     }
 
     // localStorage.clear()
-  }, [status, customerEmail])
+  }, [status, customerEmail, handleSendConfirmationMails])
 
   if (status === 'open') {
-    return redirect('/')
+    return router.replace('/')
   }
 
   if (status === 'complete') {

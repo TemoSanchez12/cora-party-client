@@ -6,15 +6,15 @@ import client from '@/apollo-client'
 
 // Import mappers
 import {
-  mapColorsForBallon,
-  mapResponseToBallonColors,
-} from '@/utils/mappers/balloons/colorsMapper'
+  mapColorsForProduct,
+  mapResponseToProductColors,
+} from '@/utils/mappers/products/colorsMapper'
 
 // Import queries
 import {
   getAllColorsQuery,
   getBalloonColorsQuery,
-} from '@/queries/balloonQueries'
+} from '@/queries/productQueries'
 
 // Import interfaces
 import ProductColor from '@/interfaces/domain/ProductColor'
@@ -29,14 +29,14 @@ const handleGetAllColors = async () => {
   const data = await client.query({
     query: getAllColorsQuery(),
   })
-  return mapResponseToBallonColors(data)
+  return mapResponseToProductColors(data)
 }
 
 const handleGetColorsForBallon = async (id: string) => {
   const data = await client.query({
     query: getBalloonColorsQuery(parseInt(id)),
   })
-  return mapColorsForBallon(data)
+  return mapColorsForProduct(data)
 }
 
 export const GET = async (req: NextRequest) => {
@@ -58,6 +58,7 @@ export const GET = async (req: NextRequest) => {
       message: 'Request successful. Retrieved ballon colors successfully.',
     })
   } catch (err) {
+    console.log(err)
     return NextResponse.json({
       success: false,
       message: 'An error occurred while processing the request.',
