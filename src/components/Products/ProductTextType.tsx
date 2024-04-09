@@ -123,7 +123,6 @@ const ProducTextType = ({ product }: ProducTextTypeProps) => {
       },
     })
     if (type === 'A mano') {
-      console.log('Entro a mano')
       setSelectedFont('')
       setSelectedColor('')
       dispatchOrderSpecsAction({

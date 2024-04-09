@@ -144,7 +144,7 @@ const ShoppingCar = ({ isOpenShoppingCar }: ShoppingCarProps) => {
                 href='/datos-envio'
                 className={`bg-slate-500 p-3 text-xl my-4 w-full text-center text-white rounded-lg flex justify-center ${poppins.className}`}
               >
-                Proceder al pago
+                Continuar
               </Link>
             </div>
           </>

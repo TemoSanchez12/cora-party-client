@@ -2,10 +2,10 @@
 
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { redirect } from 'next/navigation'
 import MailTypes from '@/interfaces/mailing/MailTypes'
 import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
 import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
@@ -41,31 +41,29 @@ export default function Return() {
           `/api/checkout?session_id=${sessionId}`
         ).then(res => (res.ok ? res.json() : Promise.reject()))
 
-        console.log(response.statusCode)
         if (response.statusCode == 404) router.push('/')
 
         setStatus(response.status)
         setCustomerEmail(response.customer_email)
       } catch (err) {
-        router.push('/')
+        router.replace('/')
       }
     }
     fetchSessionId()
-  }, [])
+  }, [router])
 
   const handleSendConfirmationMails = useCallback(
     async (mailRequest: MailServieRequest) => {
       try {
-        const response = await fetch('http://localhost:3000/api/mail', {
+        const response = await fetch('/api/mail', {
           method: 'POST',
           body: JSON.stringify(mailRequest),
           headers: {
             'Content-Type': 'application/json',
           },
         })
-        console.log(response)
       } catch (err) {
-        router.push('/')
+        router.replace('/')
       }
     },
     [router]
@@ -110,7 +108,7 @@ export default function Return() {
   }, [status, customerEmail, handleSendConfirmationMails])
 
   if (status === 'open') {
-    return redirect('/')
+    return router.replace('/')
   }
 
   if (status === 'complete') {
