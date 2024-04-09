@@ -1,11 +1,12 @@
-import OrderConfirmationTemplate from '@/components/EmailTemplates/OrderConfirmationTemplate'
+import OrderConfirmationSellerTemplate from '@/components/EmailTemplates/OrderConfirmationSellerTemplate'
+import OrderConfirmationCustomerTemplate from '@/components/EmailTemplates/OrderConfirmationCustomerTemplate'
 import OrderNoticeRequest from '@/interfaces/mailing/OrderNoticeRequest'
 
-const noticeOrderSellerBuilder = (request: OrderNoticeRequest): any => {
+export const noticeOrderSellerBuilder = (request: OrderNoticeRequest): any => {
   return {
-    receivers: [request.clientEmail],
+    receivers: process.env.SELLER_EMAIL,
     subject: 'Confirmacion de pedido CoraParty',
-    react: OrderConfirmationTemplate({
+    react: OrderConfirmationSellerTemplate({
       shoppingCar: request.shoppingCar,
       generalInfo: request.generalInfo,
       shippingAddress: request.shippingAddress,
@@ -15,4 +16,18 @@ const noticeOrderSellerBuilder = (request: OrderNoticeRequest): any => {
   }
 }
 
-export default noticeOrderSellerBuilder
+export const noticeOrderCustomerBuilder = (
+  request: OrderNoticeRequest
+): any => {
+  return {
+    receivers: [request.clientEmail],
+    subject: 'Confirmacion de pedido CoraParty',
+    react: OrderConfirmationCustomerTemplate({
+      shoppingCar: request.shoppingCar,
+      generalInfo: request.generalInfo,
+      shippingAddress: request.shippingAddress,
+      orderSpecs: request.orderSpecs,
+      senderEmail: request.clientEmail,
+    }),
+  }
+}

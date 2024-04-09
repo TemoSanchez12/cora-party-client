@@ -11,8 +11,9 @@ import { Montserrat } from 'next/font/google'
 import MainLayout from '../layouts/MainLayout'
 import Hero from '@/components/Layout/Hero/Hero'
 import SimpleProductList from '@/components/Products/ProductList'
-import { getProductsByType } from '@/retrivers/products'
+import { getProductById, getProductsByType } from '@/retrivers/products'
 import { ProductTypes } from '@/interfaces/domain/Product'
+import { getComplementById } from '@/retrivers/complements'
 
 const montserrat = Montserrat({ weight: ['500'], subsets: ['latin'] })
 

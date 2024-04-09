@@ -31,3 +31,28 @@ export const getComplementForProduct = (productId: number) => gql`
     }
   }
 `
+
+export const getComplementByIdQuery = (complementId: string) => gql`
+  {
+    complemento(id: ${complementId}) {
+      data {
+        attributes {
+          Nombre
+          Descripcion
+          Precio
+          Activo
+          Fotos {
+            data {
+              id
+              attributes {
+                name
+                formats
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
