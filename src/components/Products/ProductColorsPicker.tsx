@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import ProductColor from '@/interfaces/domain/ProductColor'
-import BalloonProduct from '@/interfaces/balloons/BalloonProduct'
 import { Montserrat } from 'next/font/google'
+import Product from '@/interfaces/domain/Product'
 
 import OrderSpecsContext, {
   OrderSpecsAction,
@@ -14,11 +14,11 @@ const montserrat = Montserrat({
   subsets: ['latin'],
 })
 
-interface BalloonColorsPickerProps {
-  product: BalloonProduct
+interface ProductColorsPickerProps {
+  product: Product
 }
 
-const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
+const ProductColorsPicker = ({ product }: ProductColorsPickerProps) => {
   const { dispatchOrderSpecsAction, orderSpecsState } =
     useContext(OrderSpecsContext)
 
@@ -76,26 +76,25 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
       </p>
       <ul className='pl-2'>
         {product.requiredColors &&
-          product.requiredColors.map(requiredColor => (
+          product.requiredColors.map((requiredColor: string) => (
             <li key={requiredColor} className=''>
               <div className='mb-2 mt-4'>
                 <p className='font-semibold text-slate-600 text-sm capitalize'>
                   {requiredColor} : {selectedColors[requiredColor]}
                 </p>
               </div>
-              <ul className='flex gap-2'>
+              <select
+                value={selectedColors[requiredColor]}
+                onChange={e => handleColorSelect(requiredColor, e.target.value)}
+                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2'
+              >
+                <option value=''>Seleccione un color</option>
                 {colors.map(color => (
-                  <li key={color.id}>
-                    <div
-                      className='w-8 border border-slate-500 h-8 rounded-full cursor-pointer'
-                      style={{ backgroundColor: `#${color.hexCode}` }}
-                      onClick={() =>
-                        handleColorSelect(requiredColor, color.name)
-                      }
-                    ></div>
-                  </li>
+                  <option key={color.id} value={color.name}>
+                    {color.name}{' '}
+                  </option>
                 ))}
-              </ul>
+              </select>
             </li>
           ))}
       </ul>
@@ -103,4 +102,4 @@ const BalloonColorsPicker = ({ product }: BalloonColorsPickerProps) => {
   )
 }
 
-export default BalloonColorsPicker
+export default ProductColorsPicker

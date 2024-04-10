@@ -19,11 +19,23 @@ import {
 
 // Import interfaces
 import ProductCategory from '@/interfaces/domain/ProductCategory'
+import { ProductTypes } from '@/interfaces/domain/Product'
 
 type typesForCategoryTypes = {
   balloon: string
   flower: string
   [key: string]: string
+}
+
+type typesForCategoryMapTypes = {
+  balloon: ProductTypes.Balloon
+  flower: ProductTypes.Flower
+  [key: string]: ProductTypes
+}
+
+const typesForCategoryMapTypes: typesForCategoryMapTypes = {
+  balloon: ProductTypes.Balloon,
+  flower: ProductTypes.Flower,
 }
 
 const typesForCategoryTypes: typesForCategoryTypes = {
@@ -56,7 +68,8 @@ const handleGetCategoryForProduct = async (id: string, type: string) => {
   const categoryTypeName = queryCategoryMap[type]
 
   return mapCategoriesToDefinition(
-    data[categoryType].data.attributes[categoryTypeName].data
+    data[categoryType].data.attributes[categoryTypeName].data,
+    typesForCategoryMapTypes[type]
   )
 }
 
@@ -67,7 +80,10 @@ const handleGetCategoryForType = async (type: string) => {
 
   const categoryType = responseCategoryTypeMap[type]
 
-  return mapCategoriesToDefinition(data[categoryType].data)
+  return mapCategoriesToDefinition(
+    data[categoryType].data,
+    typesForCategoryMapTypes[type]
+  )
 }
 
 const handleGetCategoryBySlug = async (type: string, slug: string) => {
@@ -77,7 +93,10 @@ const handleGetCategoryBySlug = async (type: string, slug: string) => {
 
   const categoryType = responseCategoryTypeMap[type]
 
-  return mapCategoryToDefinition(data[categoryType].data[0])
+  return mapCategoryToDefinition(
+    data[categoryType].data[0],
+    typesForCategoryMapTypes[type]
+  )
 }
 
 export const GET = async (req: NextRequest) => {

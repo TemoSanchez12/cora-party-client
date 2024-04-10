@@ -7,6 +7,7 @@ export const noticeOrderSellerBuilder = (request: OrderNoticeRequest): any => {
     receivers: process.env.SELLER_EMAIL,
     subject: 'Confirmacion de pedido CoraParty',
     react: OrderConfirmationSellerTemplate({
+
       shoppingCar: request.shoppingCar,
       generalInfo: request.generalInfo,
       shippingAddress: request.shippingAddress,

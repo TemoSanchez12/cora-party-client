@@ -10,6 +10,39 @@ const productTypes: productTypesType = {
   [ProductTypes.Flower]: 'Flores',
 }
 
+export const getBalloonColorsQuery = (productId: number) => gql`{
+  producto (id: ${productId}) {
+    data {
+      attributes {
+        Colores {
+          data {
+            id
+            attributes {
+              Nombre
+              Codigo_Hexadecimal
+            }
+          }
+        }
+      }
+    }
+  } 
+}
+`
+
+export const getAllColorsQuery = () => gql`
+  {
+    colores {
+      data {
+        id
+        attributes {
+          Nombre
+          Codigo_Hexadecimal
+        }
+      }
+    }
+  }
+`
+
 export const getProductsByTypeQuery = (productType: ProductTypes) => gql`
   {
     productos(filters: { Tipo_Producto: { eq: "${productTypes[productType]}" } }) {

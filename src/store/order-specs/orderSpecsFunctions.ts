@@ -30,20 +30,22 @@ export const updateProductSpecs = (
   const stateUpdated = { productSpecs: [...state.productSpecs] }
 
   const productSpecsToAdd = stateUpdated.productSpecs.find(
-    prodSpec => prodSpec.id == payload.id
+    prodSpec => prodSpec.id === payload.id
   )
 
   if (!productSpecsToAdd) return stateUpdated
 
-  const specToModify = productSpecsToAdd.specs.find(
-    spec => spec.name == payload.specs[0].name
-  )
+  payload.specs.forEach(updatedSpec => {
+    const specToModify = productSpecsToAdd.specs.find(
+      spec => spec.name === updatedSpec.name
+    )
 
-  if (specToModify) {
-    specToModify.value = payload.specs[0].value
-  } else {
-    productSpecsToAdd.specs.push(payload.specs[0])
-  }
+    if (specToModify) {
+      specToModify.value = updatedSpec.value
+    } else {
+      productSpecsToAdd.specs.push(updatedSpec)
+    }
+  })
 
   return stateUpdated
 }
