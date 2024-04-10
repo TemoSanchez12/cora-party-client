@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import MailServiceRequest from '@/interfaces/mailing/MailServiceRequest'
 import MailTypes from '@/interfaces/mailing/MailTypes'
-import noticeOrderSellerBuilder from '@/utils/emailBuilders/noticeOrderSellerBuilder'
+import {
+  noticeOrderSellerBuilder,
+  noticeOrderCustomerBuilder,
+} from '@/utils/emailBuilders/noticeOrderSellerBuilder'
 
 type MailServiceResponse = {
   success: boolean
@@ -20,13 +23,26 @@ export const POST = async (req: NextRequest) => {
 
     if (mailRequest.type == MailTypes.noticeOrder) {
       const emailSellerOptions = noticeOrderSellerBuilder(mailRequest.payload)
+      const emailCustomerOptions = noticeOrderCustomerBuilder(
+        mailRequest.payload
+      )
 
-      const { data, error } = await resend.emails.send({
-        from: process.env.EMAIL_NOTIFICATION_SENDER || '',
-        to: emailSellerOptions.receivers,
-        subject: emailSellerOptions.subject,
-        react: emailSellerOptions.react,
-      })
+      const { data: dataSeller, error: errorSeller } = await resend.emails.send(
+        {
+          from: process.env.EMAIL_NOTIFICATION_SENDER || '',
+          to: emailSellerOptions.receivers,
+          subject: emailSellerOptions.subject,
+          react: emailSellerOptions.react,
+        }
+      )
+
+      const { data: dataCustomer, error: errorCustomer } =
+        await resend.emails.send({
+          from: process.env.EMAIL_NOTIFICATION_SENDER || '',
+          to: emailCustomerOptions.receivers,
+          subject: emailCustomerOptions.subject,
+          react: emailCustomerOptions.react,
+        })
     }
 
     return NextResponse.json<MailServiceResponse>({

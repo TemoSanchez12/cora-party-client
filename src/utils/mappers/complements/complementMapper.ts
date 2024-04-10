@@ -7,28 +7,30 @@ import mapResponseImage from '../images/imageMapper'
 export const mapListComplements = (data: any): ComplementProduct[] => {
   const { data: complements } = data.Complementos
 
-  return complements.map((complement: any) => {
-    const {
-      Nombre: name,
-      Descripcion: description,
-      Precio: price,
-      Activo: isActive,
-      Fotos: images,
-    } = complement.attributes
+  return complements.map(mapComplement)
+}
 
-    const imagesMapped = images.data.map(mapResponseImage)
+export const mapComplement = (complement: any) => {
+  const {
+    Nombre: name,
+    Descripcion: description,
+    Precio: price,
+    Activo: isActive,
+    Fotos: images,
+    Slug: slug,
+  } = complement.attributes
 
-    const complementProduct: ComplementProduct = {
-      id: 'complementos-' + complement.id,
-      name,
-      description,
-      price,
-      isActive,
-      minimumTime: 0,
-      isFeatured: false,
-      images: imagesMapped,
-    }
+  const imagesMapped = images.data.map(mapResponseImage)
 
-    return complementProduct
-  })
+  const complementProduct: ComplementProduct = {
+    id: complement.id,
+    name,
+    description,
+    price,
+    isActive,
+    images: imagesMapped,
+    slug,
+  }
+
+  return complementProduct
 }

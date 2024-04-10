@@ -61,6 +61,7 @@ const mapSize = (data: any): ProductSize => {
     },
   }
 }
+
 export const mapProduct = (data: any): Product => {
   const {
     id,

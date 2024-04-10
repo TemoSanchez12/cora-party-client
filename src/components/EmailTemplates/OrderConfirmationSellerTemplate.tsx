@@ -5,13 +5,14 @@ import ShippingAddress from '@/interfaces/shipping/ShippingAddress'
 import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
 import Product from '@/interfaces/domain/Product'
 
-export interface OrderConfirmationTemplateProps {
+export interface OrderConfirmationSellerTemplateProps {
   shoppingCar: ShoppingCar
   generalInfo: GeneralInfo
   shippingAddress: ShippingAddress
   orderSpecs: OrderSpecs
   senderEmail: string
 }
+
 const styles = {
   container: {
     fontFamily: 'Arial, sans-serif',
@@ -49,13 +50,13 @@ const styles = {
   },
 }
 
-const OrderConfirmationTemplate = ({
+const OrderConfirmationSellerTemplate = ({
   shoppingCar,
   generalInfo,
   shippingAddress,
   orderSpecs,
   senderEmail,
-}: OrderConfirmationTemplateProps) => {
+}: OrderConfirmationSellerTemplateProps) => {
   const calculateTotalWithComplements = (product: Product) => {
     let total = product.price // Inicializamos con el precio base del producto
     if (product.complements) {
@@ -108,7 +109,7 @@ const OrderConfirmationTemplate = ({
       <div style={styles.section}>
         <h3>Información del Comprador:</h3>
         <p>Nombre: {generalInfo.senderName}</p>
-        <p>Teléfono: {generalInfo.senderName}</p>
+        <p>Teléfono: {generalInfo.senderPhone}</p>
         <p>Email: {senderEmail}</p>
       </div>
 
@@ -161,4 +162,4 @@ const OrderConfirmationTemplate = ({
   )
 }
 
-export default OrderConfirmationTemplate
+export default OrderConfirmationSellerTemplate

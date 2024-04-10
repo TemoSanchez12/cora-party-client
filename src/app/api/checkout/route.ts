@@ -2,11 +2,14 @@ import { ShoppingCar } from '@/interfaces/shopping/ShoppingCar'
 import { NextRequest, NextResponse } from 'next/server'
 import { Stripe } from 'stripe'
 import Product from '@/interfaces/domain/Product'
-import MailTypes from '@/interfaces/mailing/MailTypes'
+import ComplementProduct from '@/interfaces/domain/ComplementProduct'
+import { getProductById } from '@/retrivers/products'
+import { getComplementById } from '@/retrivers/complements'
 
-import MailServieRequest from '@/interfaces/mailing/MailServiceRequest'
-
-const mapProductForStripe = (product: Product, quantity: number) => ({
+const mapProductForStripe = (
+  product: Product | ComplementProduct,
+  quantity: number
+) => ({
   price_data: {
     currency: 'MXN',
     unit_amount: product.price * 100,
@@ -28,13 +31,20 @@ export const POST = async (req: NextRequest) => {
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
-    shoppingCar.products.map(product => {
-      line_items.push(mapProductForStripe(product.product, product.quantity))
+    for (const productWrapper of shoppingCar.products) {
+      const serverProduct = await getProductById(productWrapper.product.id)
 
-      product.product.complements?.map(complement => {
-        line_items.push(mapProductForStripe(complement, 1))
-      })
-    })
+      line_items.push(
+        mapProductForStripe(serverProduct, productWrapper.quantity)
+      )
+
+      if (productWrapper.product.complements) {
+        for (const complement of productWrapper.product.complements) {
+          const complementServer = await getComplementById(complement.id)
+          line_items.push(mapProductForStripe(complementServer, 1))
+        }
+      }
+    }
 
     // Create Checkout Sessions from body params.
     const stripe = new Stripe(process.env.STRIPE_KEY ?? '')

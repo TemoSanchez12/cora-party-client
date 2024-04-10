@@ -35,13 +35,15 @@ export default function App() {
   return (
     <MainLayout>
       <div id='checkout' className='my-28'>
-        {clientSecret && (
+        {clientSecret ? (
           <EmbeddedCheckoutProvider
             stripe={stripePromise}
             options={{ clientSecret }}
           >
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>
+        ) : (
+          <p>loading</p>
         )}
       </div>
     </MainLayout>
