@@ -11,7 +11,7 @@ const SimpleCategoriesList = ({
   type,
 }: SimpleCategoriesListProps) => {
   return (
-    <ul className='mx-auto w-global-container flex justify-center gap-10 flex-wrap'>
+    <ul className='mx-auto flex justify-center gap-10 flex-wrap'>
       {categories &&
         categories.map(category => (
           <li key={category.id}>

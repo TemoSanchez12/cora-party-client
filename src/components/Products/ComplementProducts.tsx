@@ -11,17 +11,7 @@ import Product from '@/interfaces/domain/Product'
 import ComplementProduct from '@/interfaces/domain/ComplementProduct'
 import PlusIcon from '../Icons/PlusIcon'
 import CheckIcon from '../Icons/CheckIcon'
-
-type typesForComplementsTypes = {
-  globos: string
-  flores: string
-  [key: string]: string
-}
-
-const typesForComplements: typesForComplementsTypes = {
-  globos: 'balloon',
-  flores: 'flower',
-}
+import Skeleton from 'react-loading-skeleton'
 
 interface ComplementProductsPickerProps {
   product: Product
@@ -65,7 +55,7 @@ const ComplementProductsPicker = ({
       </h3>
 
       <ul className='flex gap-4'>
-        {complements &&
+        {complements ? (
           complements.map(complement => (
             <li key={complement.id}>
               <div className='w-28 text-center'>
@@ -106,7 +96,18 @@ const ComplementProductsPicker = ({
                 </div>
               </div>
             </li>
-          ))}
+          ))
+        ) : (
+          <div>
+            <div className='w-1/2 mt-20'>
+              <div className='flex gap-4'>
+                <Skeleton className='w-28 h-44' />
+                <Skeleton className='w-28 h-44' />
+                <Skeleton className='w-28 h-44' />
+              </div>
+            </div>
+          </div>
+        )}
       </ul>
     </div>
   )

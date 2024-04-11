@@ -1,6 +1,5 @@
 import MainLayout from '@/layouts/MainLayout'
 
-import ProductCategory from '@/interfaces/domain/ProductCategory'
 import FeaturedCategoriesList from '@/components/Categories/FeaturedCategoriesList'
 
 import { Montserrat } from 'next/font/google'
@@ -10,29 +9,21 @@ import Product, { ProductTypes } from '@/interfaces/domain/Product'
 import SimpleCategoriesList from '@/components/Categories/SimpleCategoriesList'
 import { getProductsByType } from '@/retrivers/products'
 import { getCategoryForType } from '@/retrivers/categories'
+import { stringToProductType } from '@/utils/productTypes/productTypes'
 
 const montserrat = Montserrat({
   weight: ['400', '500'],
   subsets: ['latin'],
 })
 
-type typesForProducts = {
-  globos: ProductTypes.Balloon
-  flores: ProductTypes.Flower
-  [key: string]: ProductTypes
-}
-
-const productTypes: typesForProducts = {
-  globos: ProductTypes.Balloon,
-  flores: ProductTypes.Flower,
-}
-
 const ProductTypePage = async ({ params }: any) => {
   const productFeatured = (
-    await getProductsByType(productTypes[params.productType])
+    await getProductsByType(stringToProductType(params.productType))
   ).filter((product: Product) => product.isFeatured)
 
-  const categories = await getCategoryForType(productTypes[params.productType])
+  const categories = await getCategoryForType(
+    stringToProductType(params.productType)
+  )
 
   const featuredCategories = categories.filter(category => category.featured)
   const simpleCategories = categories.filter(category => !category.featured)

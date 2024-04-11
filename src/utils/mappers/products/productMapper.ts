@@ -23,9 +23,10 @@ const mapVariant = (data: any): ProductVariant => {
   }
 }
 
-const mapCategory = (data: any): ProductCategory => {
+const mapCategory = (data: any, productType: ProductTypes): ProductCategory => {
   return {
     id: data.id,
+    type: productType,
     name: data.attributes.Nombre,
     slug: data.attributes.Slug,
     featured: data.attributes.Destacado,
@@ -95,10 +96,10 @@ export const mapProduct = (data: any): Product => {
 
   const categories: ProductCategory[] = [
     ...Categorias_Globos.data.map((categoryData: any) =>
-      mapCategory(categoryData)
+      mapCategory(categoryData, ProductTypes.Balloon)
     ),
     ...Categorias_Flores.data.map((categoryData: any) =>
-      mapCategory(categoryData)
+      mapCategory(categoryData, ProductTypes.Flower)
     ),
   ]
 
