@@ -1,4 +1,4 @@
-import Product, { ProductTypes } from '@/interfaces/domain/Product'
+import Product from '@/interfaces/domain/Product'
 import ProductDetailImages from './ProductDetailImages'
 import React, { useState, useContext, useEffect } from 'react'
 

@@ -11,10 +11,9 @@ import { Montserrat } from 'next/font/google'
 import MainLayout from '../layouts/MainLayout'
 import Hero from '@/components/Layout/Hero/Hero'
 import SimpleProductList from '@/components/Products/ProductList'
-import { getProductById, getProductsByType } from '@/retrivers/products'
+import { getProductsByType } from '@/retrivers/products'
 import { ProductTypes } from '@/interfaces/domain/Product'
 
-import { getComplementById } from '@/retrivers/complements
 import { getCategoryForType } from '@/retrivers/categories'
 import FeaturedCategoriesList from '@/components/Categories/FeaturedCategoriesList'
 import TextCategoryList from '@/components/Categories/TextCategoryList'

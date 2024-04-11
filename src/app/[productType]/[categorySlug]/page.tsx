@@ -8,6 +8,7 @@ import ProductCategory from '@/interfaces/domain/ProductCategory'
 import SimpleProductList from '@/components/Products/ProductList'
 
 import { Montserrat } from 'next/font/google'
+import Skeleton from 'react-loading-skeleton'
 
 import MainLayout from '@/layouts/MainLayout'
 
@@ -27,11 +28,6 @@ type typesForProducts = {
   globos: string
   flores: string
   [key: string]: string
-}
-
-const productTypes: typesForProducts = {
-  globos: 'balloons',
-  flores: 'flowers',
 }
 
 const categoryType: typesForProducts = {
@@ -86,7 +82,7 @@ const CategoryPage = ({ params }: any) => {
   return (
     <MainLayout>
       <div className='w-full h-96'>
-        {category && (
+        {category ? (
           <Image
             className='w-full h-full object-cover'
             src={category?.cover.formats.medium?.url ?? ''}
@@ -95,12 +91,20 @@ const CategoryPage = ({ params }: any) => {
             height={1080}
             priority={true}
           />
+        ) : (
+          <Skeleton height={384} />
         )}
       </div>
       <div>
-        <h1 className='text-3xl text-slate-600 font-medium w-full text-center mt-36'>
-          Los mejores {productType} para {category && category.name}
-          <span className='text-dark-blue'>{}</span>
+        <h1 className='text-3xl text-slate-600 font-medium text-center mt-20 w-global-container mx-auto'>
+          {category ? (
+            <>
+              Los mejores {productType} para {category && category.name}
+              <span className='text-dark-blue'>{}</span>
+            </>
+          ) : (
+            <Skeleton height={65} />
+          )}
         </h1>
 
         <div

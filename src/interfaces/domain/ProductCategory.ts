@@ -3,10 +3,10 @@ import { ProductTypes } from './Product'
 
 interface ProductCategory {
   id: string
-  type: ProductTypes
   name: string
   slug: string
   cover: ImageProduct
+  type: ProductTypes
   featured: boolean
 }
 
