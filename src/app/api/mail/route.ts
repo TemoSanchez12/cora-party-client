@@ -6,6 +6,10 @@ import {
   noticeOrderSellerBuilder,
   noticeOrderCustomerBuilder,
 } from '@/utils/emailBuilders/noticeOrderSellerBuilder'
+import ContactEmailTemplate from '@/components/EmailTemplates/ContactEmailTemplate'
+
+import ContactEmailRequest from '@/interfaces/mailing/ContactEmailRequest'
+import OrderNoticeRequest from '@/interfaces/mailing/OrderNoticeRequest'
 
 type MailServiceResponse = {
   success: boolean
@@ -21,11 +25,31 @@ export const POST = async (req: NextRequest) => {
       await clonedRequest.text()
     )
 
+    console.log(mailRequest)
+
+    if (mailRequest.type == MailTypes.contactMail) {
+      const payloadInfo: ContactEmailRequest =
+        mailRequest.payload as ContactEmailRequest
+
+      console.log(payloadInfo)
+
+      const { data, error } = await resend.emails.send({
+        from: process.env.EMAIL_NOTIFICATION_SENDER || '',
+        to: process.env.APPALACH_MAIL || 'batemo4912@gmail.com',
+        subject: `${payloadInfo.name} quiere contactar con Cora Party`,
+        react: ContactEmailTemplate({ contactInfo: payloadInfo }),
+      })
+
+      if (error) {
+        throw new Error(`Failed to send contact email: ${error}`)
+      }
+    }
+
     if (mailRequest.type == MailTypes.noticeOrder) {
-      const emailSellerOptions = noticeOrderSellerBuilder(mailRequest.payload)
-      const emailCustomerOptions = noticeOrderCustomerBuilder(
-        mailRequest.payload
-      )
+      const payloadInfo: OrderNoticeRequest =
+        mailRequest.payload as OrderNoticeRequest
+      const emailSellerOptions = noticeOrderSellerBuilder(payloadInfo)
+      const emailCustomerOptions = noticeOrderCustomerBuilder(payloadInfo)
 
       const { data: dataSeller, error: errorSeller } = await resend.emails.send(
         {
