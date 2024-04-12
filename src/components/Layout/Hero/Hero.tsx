@@ -1,15 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import HeroBanner from '@/interfaces/domain/HeroBanner'
+import { getHeroBanner } from '@/retrivers/heroBanner'
 
 const Hero = async () => {
-  const response = await fetch(process.env.BASE_URL + '/api/heroBanner').then(
-    res => {
-      return res.ok ? res.json() : Promise.reject()
-    }
-  )
-
-  const heroBanner: HeroBanner = response.data
+  const heroBanner: HeroBanner = await getHeroBanner()
 
   return (
     <header className=''>
