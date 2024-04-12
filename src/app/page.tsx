@@ -111,3 +111,5 @@ export default async function Home() {
     </MainLayout>
   )
 }
+
+export const revalidate = 3600

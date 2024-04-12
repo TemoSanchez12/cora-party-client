@@ -64,9 +64,10 @@ export const POST = async (req: NextRequest) => {
 }
 
 export const GET = async (req: NextRequest) => {
+  const urlRequest = new URL(req.url)
+  const searchParams = req.nextUrl.searchParams
   try {
     const stripe = new Stripe(process.env.STRIPE_KEY ?? '')
-    const urlRequest = new URL(req.url)
     const session_id = urlRequest.searchParams.get('session_id')
 
     const session = await stripe.checkout.sessions.retrieve(session_id ?? '')
@@ -80,3 +81,5 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(err)
   }
 }
+
+export const dynamic = 'force-dynamic'

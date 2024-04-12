@@ -71,8 +71,10 @@ const handleGetAllProducts = async () => {
 }
 
 export const GET = async (req: NextRequest) => {
+  const urlRequest = new URL(req.url)
+  const searchParams = req.nextUrl.searchParams
+
   try {
-    const urlRequest = new URL(req.url)
     const productId = urlRequest.searchParams.get('productId')
     const productType = urlRequest.searchParams.get('productType')
     const productSlug = urlRequest.searchParams.get('productSlug')
@@ -102,3 +104,5 @@ export const GET = async (req: NextRequest) => {
     })
   }
 }
+
+export const dynamic = 'force-dynamic'

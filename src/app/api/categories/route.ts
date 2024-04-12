@@ -100,8 +100,9 @@ const handleGetCategoryBySlug = async (type: string, slug: string) => {
 }
 
 export const GET = async (req: NextRequest) => {
+  const urlRequest = new URL(req.url)
+  const searchParams = req.nextUrl.searchParams
   try {
-    const urlRequest = new URL(req.url)
     const type: string = urlRequest.searchParams.get('type') || 'balloon'
     const productId = urlRequest.searchParams.get('productId')
     const slug = urlRequest.searchParams.get('slug')
@@ -130,3 +131,5 @@ export const GET = async (req: NextRequest) => {
     })
   }
 }
+
+export const dynamic = 'force-dynamic'

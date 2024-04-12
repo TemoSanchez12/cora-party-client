@@ -85,3 +85,5 @@ const ProductTypePage = async ({ params }: any) => {
 }
 
 export default ProductTypePage
+
+export const revalidate = 3600

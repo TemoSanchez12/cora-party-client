@@ -40,8 +40,10 @@ const handleGetColorsForBallon = async (id: string) => {
 }
 
 export const GET = async (req: NextRequest) => {
+  const urlRequest = new URL(req.url)
+  const searchParams = req.nextUrl.searchParams
+
   try {
-    const urlRequest = new URL(req.url)
     const productId = urlRequest.searchParams.get('productId')
 
     let response: ProductColor[]
@@ -65,3 +67,5 @@ export const GET = async (req: NextRequest) => {
     })
   }
 }
+
+export const dynamic = 'force-dynamic'

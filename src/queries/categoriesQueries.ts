@@ -29,6 +29,7 @@ export const getCategoriesForProductQuery = (
   {
     ${typesForCategories[type]}  (id: ${productId}) {
       data {
+        id
         attributes {
           ${parameterForCategoryQueryType[type]} {
             data {
