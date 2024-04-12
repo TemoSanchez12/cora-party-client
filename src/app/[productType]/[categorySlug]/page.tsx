@@ -118,3 +118,5 @@ const CategoryPage = ({ params }: any) => {
 }
 
 export default CategoryPage
+
+export const dynamic = 'force-dynamic'

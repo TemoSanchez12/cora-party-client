@@ -23,6 +23,7 @@ const mapProductForStripe = (
 })
 
 export const POST = async (req: NextRequest) => {
+  const searchParams = req.nextUrl.searchParams
   try {
     const clonedRequest = req.clone()
     const shoppingCar: ShoppingCar = JSON.parse(

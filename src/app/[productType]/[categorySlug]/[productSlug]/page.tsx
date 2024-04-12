@@ -98,3 +98,5 @@ const ProductDetailPageSkeleton = () => {
 }
 
 export default ProductDetailPage
+
+export const dynamic = 'force-dynamic'
