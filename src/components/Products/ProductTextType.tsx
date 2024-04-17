@@ -24,7 +24,7 @@ const ProducTextType = ({ product }: ProducTextTypeProps) => {
   const [selectedFont, setSelectedFont] = useState<string>('')
   const [selectedColor, setSelectedColor] = useState<string>('')
   const [selectedType, setSelectedType] = useState<'Vinilo' | 'A mano'>(
-    'Vinilo'
+    'A mano'
   )
 
   useEffect(() => {
@@ -51,8 +51,6 @@ const ProducTextType = ({ product }: ProducTextTypeProps) => {
     }
 
     const fetchFontColors = async () => {
-      // Aquí se debe cambiar por la llamada correcta para obtener los colores de texto
-      // Replace `/api/colors` with the correct API endpoint
       const response = await fetch(`/api/colors?productId=${product.id}`).then(
         res => (res.ok ? res.json() : Promise.reject())
       )
@@ -202,14 +200,16 @@ const ProducTextType = ({ product }: ProducTextTypeProps) => {
           </ul>
 
           <p className='text-sm text-gray-600 font-bold mb-4'>
-            Seleccione un color para el texto:
+            Seleccione un color para el texto: {selectedColor}
           </p>
-          <ul className='pl-2'>
+          <ul className='pl-2 flex gap-2'>
             {fontColors &&
               fontColors.map(color => (
-                <li key={color.id} className='flex  mb-2 items-center'>
+                <li key={color.id} className='flex mb-2 items-center'>
                   <div
-                    className='w-8 h-8 rounded-full cursor-pointer'
+                    className={`w-8 h-8 rounded-full cursor-pointer border ${
+                      selectedColor === color.name ? 'border-black' : ''
+                    }`}
                     style={{ backgroundColor: `#${color.hexCode}` }}
                     onClick={() => handleColorSelect(color.id)}
                   ></div>

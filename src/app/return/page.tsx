@@ -104,7 +104,7 @@ export default function Return() {
       console.log(err)
     }
 
-    // localStorage.clear()
+    localStorage.clear()
   }, [status, customerEmail, handleSendConfirmationMails])
 
   if (status === 'open') {

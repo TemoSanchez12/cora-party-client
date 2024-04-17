@@ -145,6 +145,36 @@ const AboutUsPage = () => {
             </div>
           </div>
         </div>
+
+        <div className='w-global-container mx-auto mb-40 mt-20 flex flex-col gap-8 md:flex-row max-w-[800px] items-center'>
+          <div className='md:w-1/2'>
+            <h4 className='text-lg mb-2 text-slate-700'>Nuestra misión</h4>
+            <p className='text-slate-600'>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
+              amet perferendis quasi beatae sunt consequatur aspernatur vel
+              ullam officia? Consectetur sequi ratione dicta quidem non.
+              Molestiae nihil eos ipsum consequuntur
+            </p>
+            <p className='text-slate-600 mt-5'>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
+              amet perferendis quasi beatae sunt consequatur aspernatur vel
+              ullam officia? Consectetur sequi ratione dicta quidem non.
+              Molestiae nihil eos ipsum consequuntur
+            </p>
+          </div>
+
+          <div className='md:w-1/2'>
+            <div className='h-48'>
+              <Image
+                className='w-full h-full object-cover'
+                src={logoLab}
+                alt=''
+                width={700}
+                height={800}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </MainLayout>
   )

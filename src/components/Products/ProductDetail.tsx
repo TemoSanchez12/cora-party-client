@@ -108,7 +108,12 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
       </ul>
 
       <div className='md:flex md:gap-4 lg:gap-10'>
-        <ProductDetailImages product={product} />
+        <div className='md:w-1/2'>
+          <ProductDetailImages product={product} />
+          <div className='mt-16'>
+            <p>{product.description}</p>
+          </div>
+        </div>
         <div className='md:w-1/2'>
           <div className='mt-4 flex items-center border-b-2 border-slate-400 pb-2 justify-between'>
             <h2 className={`${montserrat.className} font-bold text-slate-700`}>
@@ -154,10 +159,6 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
 
       <div>
         <ProductDetails product={product} />
-      </div>
-
-      <div className='mt-16'>
-        <p>{product.description}</p>
       </div>
     </section>
   )

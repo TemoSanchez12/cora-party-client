@@ -13,6 +13,7 @@ import ShoppingCarButton from '../../Shopping/ShoppingCarButton'
 import NavigationLinks from './NavigationLinks'
 import ShoppingCar from '../../Shopping/ShoppingCar'
 import Link from 'next/link'
+import TiktokIcon from '@/components/Icons/TiktokIcon'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -25,7 +26,7 @@ const Navbar = () => {
           <div className='flex gap-4 h-6'>
             <InstagramIcon />
             <FacebookIcon />
-            <FacebookIcon />
+            <TiktokIcon />
           </div>
         </div>
 
