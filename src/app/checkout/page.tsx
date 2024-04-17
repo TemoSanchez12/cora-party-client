@@ -7,6 +7,7 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from '@stripe/react-stripe-js'
+import Skeleton from 'react-loading-skeleton'
 
 const stripePromise = loadStripe(
   process.env.STRIPE_PUBLISHABLE_KEY ??
@@ -43,7 +44,14 @@ export default function App() {
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>
         ) : (
-          <p>loading</p>
+          <div className='my-28 md:flex max-w-[880px] gap-8 mx-auto'>
+            <div className='md:w-1/2'>
+              <Skeleton height={700} />
+            </div>
+            <div className='md:w-1/2'>
+              <Skeleton height={700} />
+            </div>
+          </div>
         )}
       </div>
     </MainLayout>
