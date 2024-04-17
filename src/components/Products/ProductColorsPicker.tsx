@@ -80,7 +80,7 @@ const ProductColorsPicker = ({ product }: ProductColorsPickerProps) => {
             <li key={requiredColor} className=''>
               <div className='mb-2 mt-4'>
                 <p className='font-semibold text-slate-600 text-sm capitalize'>
-                  {requiredColor} : {selectedColors[requiredColor]}
+                  {requiredColor}
                 </p>
               </div>
               <select

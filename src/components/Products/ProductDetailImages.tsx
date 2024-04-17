@@ -11,7 +11,7 @@ const ProductDetailImages = ({ product }: ProductDetailImagesProps) => {
   const [activeImage, setActiveImage] = useState(product.images[0])
 
   return (
-    <div className='flex gap-2 md:w-1/2 justify-center h-96 md:h-128'>
+    <div className='flex gap-2  justify-center h-96 md:h-128'>
       <div className='w-2/12 h-full'>
         <ul className='overflow-y-scroll w-full h-full no-scrollbar'>
           {product.images.map(image => (
